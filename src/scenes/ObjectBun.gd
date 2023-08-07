@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
+const OBJECT_REACHED_DISTANCE = 8
+
 var current_direction_name = "down"
 
 var direction = Vector2.DOWN
@@ -16,6 +18,9 @@ const JOB_FARMER = 1
 const TASK_IDLING = 0
 const TASK_COLLECTING = 1
 const TASK_DROPPING_OFF = 2
+const TASK_SEEDING = 3
+const TASK_WATERING_1 = 4
+const TASK_WATERING_2 = 5
 
 var job = JOB_FARMER
 var task = TASK_IDLING
@@ -32,7 +37,10 @@ var task_animation_name = "idle"
 var task_definitions = [
 	[ 0, "idle" ],
 	[ 3, "working" ],
+	[ 0, "working" ],
+	[ 5, "hacking" ],
 	[ 3, "working" ],
+	[ 3, "watering" ],
 ]
 
 # --- needs ---
@@ -95,7 +103,7 @@ func _physics_process(_delta):
 	
 	if is_navigating:
 		if Lib.is_object_valid(target_object):
-			if Lib.dist_2d(self.global_position, target_object.global_position) < 10:
+			if Lib.dist_2d(self.global_position, target_object.global_position) < OBJECT_REACHED_DISTANCE:
 				arrived_to_target()
 			else:
 				# print("navigating...")
@@ -111,11 +119,50 @@ func _physics_process(_delta):
 
 # --- job and task related functions ---
 
+func get_plants_with_grow_state(state_min: int, state_max: int):
+	var objs = []
+	var min_generation = 99999999
+	
+	# we should priorize plants already growing before ones that need seeding
+	for obj in get_tree().get_nodes_in_group("plant"):
+		if not Lib.is_object_valid(obj):
+			continue
+		
+		if obj.is_in_group("claimed"):
+			continue
+		
+		if obj.get_generation() < min_generation:
+			min_generation = obj.get_generation()
+	
+	for obj in get_tree().get_nodes_in_group("plant"):
+		if not Lib.is_object_valid(obj):
+			continue
+		
+		if obj.is_in_group("claimed"):
+			continue
+		
+		if obj.get_generation() > min_generation:
+			continue
+		
+		if not (obj.get_grow_state() >= state_min and obj.get_grow_state() <= state_max):
+			continue
+		
+		if obj.get_was_recently_handled():
+			continue
+		
+		objs.append(obj)
+	
+	return objs
+
 func update_carry_container():
 	$CarryContainer/Tomato.hide()
+	$CarryContainer/Water.hide()
+	$CarryContainer/Wood.hide()
 	
 	if farmer_crops_held > 0:
 		$CarryContainer/Tomato.show()
+	elif farmer_water_held > 0:
+		$CarryContainer/Water.show()
 
 func arrived_to_target():
 	print("arrived_to_target()")
@@ -146,11 +193,14 @@ func set_task(new_task: int, obj: Node2D = null, claim: bool = false, secondary_
 	if secondary_claim:
 		Lib.claim_object(secondary_object)
 
-func swap_task_objects():
+func swap_task_objects(new_task):
+	task = new_task
+
 	var tmp = target_object
-	
 	target_object = secondary_object
 	secondary_object = tmp
+	target_reached = false
+	
 
 # decreases the steps left in the task and returns true if finished,
 # false otherwise
@@ -167,35 +217,86 @@ func think():
 	print("")
 	print("think()")
 	
+	var objs
 	var obj
+	var obj2
+	var handled = false
 	
 	if job == JOB_FARMER:
 		if task == TASK_IDLING:
 			if farmer_crops_held > 0:
-				obj = Lib.get_nearest_object(self, "barn", false)
+				obj = Lib.get_nearest_object_in_group(self, "barn", false)
+				
 				if obj:
 					set_task(TASK_DROPPING_OFF, obj, false)
-			else:
-				obj = Lib.get_nearest_object(self, "plant_ready", true)
+					handled = true
+			
+			if not handled:
+				obj = Lib.get_nearest_object_from_list(self, get_plants_with_grow_state(4, 4))
+				
 				if obj:
 					set_task(TASK_COLLECTING, obj, true)
-				# else:
-				# 	obj = Lib.get_nearest_object(self, "plant", true)
-				# obj = Lib.get_nearest_object(self, "plant", true)
+					handled = true
+			
+			if not handled:
+				obj = Lib.get_nearest_object_from_list(self, get_plants_with_grow_state(0, 0))
+				
+				if obj:
+					set_task(TASK_SEEDING, obj, true)
+					handled = true
+			
+			if not handled:
+				for i in range(1, 4):
+					obj = Lib.get_nearest_object_from_list(self, get_plants_with_grow_state(i, i))
+					
+					if obj:
+						obj2 = Lib.get_nearest_object_in_group(self, "well", false)
+						
+						if obj2:
+							set_task(TASK_WATERING_1, obj2, false, obj, true)
+							handled = true
+					
+					if handled:
+						break
+			
 		elif task == TASK_COLLECTING:
 			if target_reached:
 				print("collecting...")
 				if do_task_and_is_finished():
 					target_object.crop()
 					farmer_crops_held += 1
-					set_task(TASK_IDLING, null, false)
+					set_task(TASK_IDLING)
+		
 		elif task == TASK_DROPPING_OFF:
 			if target_reached:
 				print("dropping off...")
 				if do_task_and_is_finished():
 					target_object.crops_in(farmer_crops_held)
 					farmer_crops_held = 0
-					set_task(TASK_IDLING, null, false)
+					set_task(TASK_IDLING)
+		
+		elif task == TASK_SEEDING:
+			if target_reached:
+				print("seeding...")
+				if do_task_and_is_finished():
+					target_object.seed_or_water()
+					set_task(TASK_IDLING)
+		
+		elif task == TASK_WATERING_1:
+			if target_reached:
+				print("getting water...")
+				if do_task_and_is_finished():
+					farmer_water_held += 1
+					set_task(TASK_WATERING_2, secondary_object, true)
+					# swap_task_objects(TASK_WATERING_2)
+		
+		elif task == TASK_WATERING_2:
+			if target_reached:
+				print("watering...")
+				if do_task_and_is_finished():
+					farmer_water_held = 0
+					target_object.seed_or_water()
+					set_task(TASK_IDLING)
 	
 	if Lib.is_object_valid(target_object) and not target_reached:
 		nav_agent.set_target_location(target_object.global_position)

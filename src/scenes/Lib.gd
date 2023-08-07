@@ -23,7 +23,10 @@ func claim_object(obj: Node2D):
 func get_camera() -> Camera2D:
 	return get_first_group_member("cameras")
 
-func find_nearest(caller_obj: Node2D, target_objects: Array):
+func get_nearest_object_from_list(caller_obj: Node2D, target_objects: Array):
+	if not (target_objects is Array) or target_objects.size() == 0:
+		return null
+	
 	var distance = 0
 	var min_distance = 999999999
 	var min_object = null
@@ -37,23 +40,19 @@ func find_nearest(caller_obj: Node2D, target_objects: Array):
 	
 	return min_object
 
-func get_nearest_object(caller_obj: Node2D, group_name: String, only_unclaimed: bool):
-	var a = get_tree().get_nodes_in_group(group_name)
-	var b = []
+func get_nearest_object_in_group(caller_obj: Node2D, group_name: String, only_unclaimed: bool):
+	var objs = []
 	
-	if a.size() == 0:
+	for obj in get_tree().get_nodes_in_group(group_name):
+		if only_unclaimed and obj.is_in_group("claimed"):
+			continue
+		
+		objs.append(obj)
+	
+	if objs.size() == 0:
 		return null
 	
-	if only_unclaimed:
-		for obj in a:
-			if obj.is_in_group("claimed"):
-				continue
-			
-			b.append(obj)
-	else:
-		b = a
-	
-	return find_nearest(caller_obj, b)
+	return get_nearest_object_from_list(caller_obj, objs)
 
 func is_object_valid(obj):
 	if obj != null and is_instance_valid(obj) and obj.is_inside_tree():

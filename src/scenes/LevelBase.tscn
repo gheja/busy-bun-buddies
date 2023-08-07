@@ -46,9 +46,7 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( -196606, 2, 0, 7, 4, 0, 65538, 1, 0 )
 
-[node name="Objects" type="Node2D" parent="."]
-
-[node name="YSort" type="YSort" parent="Objects"]
+[node name="Objects" type="YSort" parent="."]
 
 [node name="NavigationMap" type="TileMap" parent="."]
 tile_set = ExtResource( 3 )
