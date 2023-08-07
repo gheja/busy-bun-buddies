@@ -25,7 +25,7 @@ const TASK_WATERING_1 = 4
 const TASK_WATERING_2 = 5
 const TASK_CHOPPING_TREE = 6
 
-var job = JOB_FARMER
+var job = JOB_NONE
 var task = TASK_IDLING
 var farmer_water_held = 0
 var farmer_crops_held = 0
@@ -101,6 +101,9 @@ func update_position():
 	velocity = move_and_slide(velocity)
 
 func _process(_delta):
+	if GameState.is_paused():
+		return
+	
 	update_velocity()
 	update_direction_name()
 	update_animation()
@@ -256,12 +259,19 @@ func do_drop_off_goods():
 
 func set_new_job(job2):
 	new_job = job2
+	
+	if job == new_job:
+		new_job = JOB_NO_CHANGE
 
 func start_new_job_if_any():
 	if new_job == JOB_NO_CHANGE:
 		return
 	
 	job = new_job
+	new_job = JOB_NO_CHANGE
+
+func think_free():
+	start_new_job_if_any()
 
 func think_farmer():
 	var obj
@@ -391,7 +401,9 @@ func think():
 	print("")
 	print("think()")
 	
-	if job == JOB_FARMER:
+	if job == JOB_NONE:
+		think_free()
+	elif job == JOB_FARMER:
 		think_farmer()
 	elif job == JOB_LUMBERJACK:
 		think_lumberjack()
@@ -404,3 +416,6 @@ func think():
 
 func _on_Timer_timeout():
 	think()
+
+func get_rectangle():
+	return Rect2(self.global_position.x - 6, self.global_position.y - 14, 12, 16)

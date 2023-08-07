@@ -62,3 +62,9 @@ func is_object_valid(obj):
 		return true
 	
 	return false
+
+func if2(condition, value_true, value_false):
+	if condition:
+		return value_true
+	
+	return value_false

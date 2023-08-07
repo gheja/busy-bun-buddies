@@ -1,6 +1,10 @@
 extends Control
 
 var scroll_direction = Vector2(0, 0)
+var current_bun = null
+var color_job_inactive = Color(0.8, 0.8, 0.8, 1.0)
+var color_job_current = Color(0.0, 1.0, 0.0, 1.0)
+var color_job_new = Color(0.2, 0.6, 0.2, 1.0)
 
 func _ready():
 	$ScrollTop.hide()
@@ -10,6 +14,8 @@ func _ready():
 	
 	$Menu.hide()
 	$MenuButton.show()
+	
+	$BunMenu.hide()
 	
 	$BottomBar.hide()
 	
@@ -30,7 +36,7 @@ func process_scroll_direction():
 	
 	scroll_direction = Vector2.ZERO
 	
-	if $Menu.visible:
+	if is_menu_active():
 		return
 	
 	if object_is_below_point($MenuButton, point):
@@ -52,13 +58,15 @@ func _process(_delta):
 func get_scroll_direction():
 	return scroll_direction
 
-func _on_MenuButton_pressed():
-	$Menu.show()
-	$MenuButton.hide()
+func is_menu_active():
+	if $Menu.visible or $BunMenu.visible:
+		return true
+	
+	return false
 
-func _on_ButtonBack_pressed():
-	$Menu.hide()
-	$MenuButton.show()
+func set_cursor_shape(n):
+	$MouseCursor/MouseShapePointer.visible = (n == 0)
+	$MouseCursor/MouseShapeInspect.visible = (n == 1)
 
 func set_tooltip(s):
 	if s != "":
@@ -67,6 +75,46 @@ func set_tooltip(s):
 		$BottomBar.show()
 	else:
 		$BottomBar.hide()
+
+func modulate_by_bun_job(obj, job, new_job, value):
+	if new_job == value:
+		obj.modulate = color_job_new
+	elif job == value:
+		obj.modulate = color_job_current
+	else:
+		obj.modulate = color_job_inactive
+
+func show_bun_menu(bun):
+	GameState.set_paused(true)
+	$MenuButton.hide()
+	$BunMenu.show()
+	current_bun = bun
+	modulate_by_bun_job($BunMenu/ColorRect/JobNone, bun.job, bun.new_job, 0)
+	modulate_by_bun_job($BunMenu/ColorRect/JobFarmer, bun.job, bun.new_job, 1)
+	modulate_by_bun_job($BunMenu/ColorRect/JobLumberjack, bun.job, bun.new_job, 2)
+	set_cursor_shape(0)
+
+func hide_bun_menu():
+	GameState.set_paused(false)
+	$MenuButton.show()
+	$BunMenu.hide()
+	current_bun = null
+
+func bun_set_job(job):
+	if Lib.is_object_valid(current_bun):
+		current_bun.set_new_job(job)
+	
+	hide_bun_menu()
+
+func _on_MenuButton_pressed():
+	GameState.set_paused(true)
+	$Menu.show()
+	$MenuButton.hide()
+
+func _on_ButtonBack_pressed():
+	GameState.set_paused(false)
+	$Menu.hide()
+	$MenuButton.show()
 
 func _on_ButtonBack_gui_input(event):
 	if event is InputEventMouseMotion:
@@ -79,3 +127,29 @@ func _on_MenuButton_gui_input(event):
 # it would be much nicer to hide the tooltip when leaving the object but...
 func _on_TooltipHideTimer_timeout():
 	set_tooltip("")
+
+func _on_BunMenuBack_gui_input(event):
+	set_tooltip("Back")
+
+func _on_JobNone_gui_input(event):
+	set_tooltip("job: none")
+
+func _on_JobFarmer_gui_input(event):
+	set_tooltip("job: Farmer")
+
+func _on_JobLumberjack_gui_input(event):
+	set_tooltip("job: Lumberjack")
+
+func _on_BunMenuBack_pressed():
+	hide_bun_menu()
+
+func _on_JobNone_pressed():
+	bun_set_job(0)
+
+func _on_JobFarmer_pressed():
+	bun_set_job(1)
+
+func _on_JobLumberjack_pressed():
+	bun_set_job(2)
+
+

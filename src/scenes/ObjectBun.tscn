@@ -362,4 +362,5 @@ texture = ExtResource( 6 )
 position = Vector2( 0, -3 )
 frames = SubResource( 63 )
 
+[connection signal="mouse_entered" from="." to="." method="_on_ObjectBun_mouse_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
