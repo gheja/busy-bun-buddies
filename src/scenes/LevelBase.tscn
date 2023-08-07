@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://tilesets/main_tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://scenes/LevelBase.gd" type="Script" id=2]
+[ext_resource path="res://tilesets/collision_tileset.tres" type="TileSet" id=3]
+
+[node name="LevelBase" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 0, 1, 196609, 1, 1, 196610, 2, 1, 196610, 3, 1, 196610, 4, 1, 196610, 5, 1, 196610, 6, 1, 196611, 65536, 1, 262145, 65537, 1, 262146, 65538, 1, 262146, 65539, 1, 3, 65540, 1, 262146, 65541, 1, 65537, 65542, 1, 262147, 131072, 1, 327681, 131073, 1, 262149, 131074, 1, 262146, 131075, 1, 262146, 131076, 1, 262146, 131077, 1, 262146, 131078, 1, 262147, 196609, 1, 327681, 196610, 1, 262149, 196611, 1, 65537, 196612, 1, 262146, 196613, 1, 262146, 196614, 1, 262147, 262146, 1, 327681, 262147, 1, 327682, 262148, 1, 327682, 262149, 1, 327682, 262150, 1, 327683 )
+
+[node name="TileMapDirt" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 65539, 2, 196609, 65540, 2, 131074, 65541, 2, 196610, 65542, 2, 196611, 131075, 2, 3, 131076, 2, 262146, 131077, 2, 262146, 131078, 2, 262147, 196611, 2, 327681, 196612, 2, 5, 196613, 2, 327682, 196614, 2, 327683 )
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="YSort" type="YSort" parent="Objects"]
+
+[node name="NavigationMap" type="TileMap" parent="."]
+visible = false
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 16, 16 )
+bake_navigation = true
+format = 1
