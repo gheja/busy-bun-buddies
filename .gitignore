@@ -1,0 +1,8 @@
+# based on https://www.toptal.com/developers/gitignore/api/godot
+src/.godot/
+src/.import/
+# src/export.cfg
+# src/export_presets.cfg
+src/.mono/
+
+src/export/
