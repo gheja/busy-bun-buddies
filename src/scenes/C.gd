@@ -23,3 +23,6 @@ const TASK_CHOPPING_TREE = 6
 const COLOR_JOB_INACTIVE = Color(0.8, 0.8, 0.8, 1.0)
 const COLOR_JOB_CURRENT = Color(0.0, 1.0, 0.0, 1.0)
 const COLOR_JOB_NEW = Color(0.2, 0.6, 0.2, 1.0)
+
+const COLOR_MENU_ACTIVE = Color(1.0, 1.0, 1.0, 1.0)
+const COLOR_MENU_INACTIVE = Color(0.7, 0.7, 0.7, 1.0)

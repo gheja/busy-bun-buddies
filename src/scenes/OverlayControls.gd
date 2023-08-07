@@ -15,8 +15,6 @@ func _ready():
 	$BunMenu.hide()
 	
 	$BottomBar.hide()
-	
-	# $MenuButton.connect("mouse")
 
 func object_is_below_point(obj: Control, point: Vector2):
 	return Rect2(obj.rect_global_position, obj.rect_size).has_point(point)
@@ -73,6 +71,15 @@ func set_tooltip(s):
 	else:
 		$BottomBar.hide()
 
+func set_menu_page(n):
+	$Menu/ButtonOptions.modulate =    Lib.if2(n == 0, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	$Menu/ButtonObjectives.modulate = Lib.if2(n == 1, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	$Menu/ButtonStats.modulate =      Lib.if2(n == 2, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	
+	$Menu/MenuPages/Options.visible    = (n == 0)
+	$Menu/MenuPages/Objectives.visible = (n == 1)
+	$Menu/MenuPages/Stats.visible      = (n == 2)
+
 func modulate_by_bun_job(obj, job, new_job, value):
 	if new_job == value:
 		obj.modulate = C.COLOR_JOB_NEW
@@ -105,6 +112,10 @@ func bun_set_job(job):
 
 func _on_MenuButton_pressed():
 	GameState.set_paused(true)
+	# set_menu_page(0)
+	# $Menu/ButtonOptions.grab_focus()
+	set_menu_page(2)
+	$Menu/ButtonStats.grab_focus()
 	$Menu.show()
 	$MenuButton.hide()
 
@@ -112,14 +123,6 @@ func _on_ButtonBack_pressed():
 	GameState.set_paused(false)
 	$Menu.hide()
 	$MenuButton.show()
-
-func _on_ButtonBack_gui_input(event):
-	if event is InputEventMouseMotion:
-		set_tooltip("Back to game")
-
-func _on_MenuButton_gui_input(event):
-	if event is InputEventMouse:
-		set_tooltip("Menu")
 
 # it would be much nicer to hide the tooltip when leaving the object but...
 func _on_TooltipHideTimer_timeout():
@@ -149,4 +152,29 @@ func _on_JobFarmer_pressed():
 func _on_JobLumberjack_pressed():
 	bun_set_job(C.JOB_LUMBERJACK)
 
+func _on_common_mouse_exited():
+	set_tooltip("")
 
+func _on_MenuButton_mouse_entered():
+	set_tooltip("Menu")
+
+func _on_ButtonBack_mouse_entered():
+	set_tooltip("Back to game")
+
+func _on_ButtonOptions_mouse_entered():
+	set_tooltip("Options")
+
+func _on_ButtonObjectives_mouse_entered():
+	set_tooltip("Objectives")
+
+func _on_ButtonStats_mouse_entered():
+	set_tooltip("Stats")
+
+func _on_ButtonOptions_pressed():
+	set_menu_page(0)
+
+func _on_ButtonObjectives_pressed():
+	set_menu_page(1)
+
+func _on_ButtonStats_pressed():
+	set_menu_page(2)
