@@ -13,22 +13,64 @@ gradient = SubResource( 1 )
 [node name="ObjectPlant" type="Node2D" groups=["plant"]]
 script = ExtResource( 2 )
 
-[node name="SeedSprite" type="Sprite" parent="."]
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="State0" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="SeedSprite" type="Sprite" parent="Visuals/State0"]
+position = Vector2( 0, -5 )
 texture = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="State1" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="Visuals/State1"]
+position = Vector2( 0, -5 )
 texture = ExtResource( 1 )
 hframes = 6
 vframes = 2
 frame = 7
 
+[node name="State2" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="Visuals/State2"]
+position = Vector2( 0, -5 )
+texture = ExtResource( 1 )
+hframes = 6
+vframes = 2
+frame = 8
+
+[node name="State3" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="Visuals/State3"]
+position = Vector2( 0, -5 )
+texture = ExtResource( 1 )
+hframes = 6
+vframes = 2
+frame = 9
+
+[node name="State4" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="Visuals/State4"]
+position = Vector2( 0, -5 )
+texture = ExtResource( 1 )
+hframes = 6
+vframes = 2
+frame = 10
+
+[node name="VisualsExtra" type="Node2D" parent="."]
+
+[node name="WaterSprite" type="Sprite" parent="VisualsExtra"]
+position = Vector2( 0.5, 1.5 )
+scale = Vector2( 0.109375, 0.046875 )
+texture = SubResource( 2 )
+
 [node name="RecentlyHandledTimer" type="Timer" parent="."]
 wait_time = 20.0
 one_shot = true
-
-[node name="WaterSprite" type="Sprite" parent="."]
-position = Vector2( 0.5, 6.5 )
-scale = Vector2( 0.109375, 0.046875 )
-texture = SubResource( 2 )
 
 [connection signal="timeout" from="RecentlyHandledTimer" to="." method="_on_RecentlyHandledTimer_timeout"]

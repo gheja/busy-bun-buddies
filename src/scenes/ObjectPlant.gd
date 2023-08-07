@@ -3,9 +3,8 @@ extends Node2D
 # tomato
 
 # 0: hidden, 1..4
-var grow_state = 0
-var grow_state_max = 4
-var sprites = [ -1, 7, 8, 9, 10 ]
+var state = 0
+var state_max = 4
 
 var recently_handled = false
 
@@ -13,33 +12,41 @@ var recently_handled = false
 var generation = 0
 
 func update_sprite():
-	if sprites[grow_state] == -1:
-		$Sprite.hide()
-	else:
-		$Sprite.show()
-		$Sprite.frame = sprites[grow_state]
-
-func grow():
-	if grow_state < grow_state_max:
-		grow_state += 1
+	for obj in $Visuals.get_children():
+		obj.hide()
 	
-	update_plant()
-
-func seed_or_water():
-	recently_handled = true
-	$WaterSprite.show()
-	$RecentlyHandledTimer.start()
+	# meh...
+	if state == 0:
+		$Visuals/State0.show()
+	if state == 1:
+		$Visuals/State1.show()
+	if state == 2:
+		$Visuals/State2.show()
+	if state == 3:
+		$Visuals/State3.show()
+	if state == 4:
+		$Visuals/State4.show()
 
 func update_plant():
 	update_sprite()
 
-func crop():
-	grow_state = 0
-	generation += 1
+func grow():
+	state += 1
 	update_plant()
 
-func get_grow_state():
-	return grow_state
+func interact():
+	if state == state_max:
+		state = 0
+		generation += 1
+	else:
+		recently_handled = true
+		$VisualsExtra/WaterSprite.show()
+		$RecentlyHandledTimer.start()
+	
+	update_plant()
+
+func get_state():
+	return state
 
 func get_was_recently_handled():
 	return recently_handled
@@ -48,12 +55,12 @@ func get_generation():
 	return generation
 
 func _ready():
-	$WaterSprite.hide()
-	# grow_state = 0
-	grow_state = 4
+	$VisualsExtra/WaterSprite.hide()
+	# state = 0
+	state = 4
 	update_plant()
 
 func _on_RecentlyHandledTimer_timeout():
 	grow()
-	$WaterSprite.hide()
+	$VisualsExtra/WaterSprite.hide()
 	recently_handled = false

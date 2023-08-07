@@ -1,13 +1,13 @@
 extends Node2D
 
-var crops_held = 0
+var goods = [ 0, 0 ]
 
-func crops_in(amount):
-	crops_held += amount
+func goods_in(good_type: int, amount: int):
+	goods[good_type] += amount
 
-func crops_out(amount):
-	if crops_held < amount:
+func goods_out(good_type: int, amount: int):
+	if goods[good_type] < amount:
 		return false
 	
-	crops_held -= amount
+	goods[good_type] -= amount
 	return true

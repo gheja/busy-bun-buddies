@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Objects/Basic Grass Biom things 1.png" type="Texture" id=1]
+[ext_resource path="res://scenes/ObjectTree.gd" type="Script" id=2]
+
+[node name="ObjectTree" type="Node2D" groups=["tree"]]
+script = ExtResource( 2 )
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="State0" type="Node2D" parent="Visuals"]
+
+[node name="Sprite" type="Sprite" parent="Visuals/State0"]
+position = Vector2( 0, -11 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 28 )
+
+[node name="State1" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="Sprite3" type="Sprite" parent="Visuals/State1"]
+position = Vector2( -3, 0 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 80, 32, 16, 16 )
+
+[node name="Sprite5" type="Sprite" parent="Visuals/State1"]
+position = Vector2( 0, -3 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 80, 32, 16, 16 )
+
+[node name="Sprite4" type="Sprite" parent="Visuals/State1"]
+position = Vector2( 3, 0 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 80, 32, 16, 16 )
+
+[node name="State2" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="Sprite2" type="Sprite" parent="Visuals/State2"]
+position = Vector2( 0, -3 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 48, 32, 16, 16 )
