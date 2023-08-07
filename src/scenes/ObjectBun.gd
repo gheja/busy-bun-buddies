@@ -12,6 +12,7 @@ var velocity = Vector2.ZERO
 var is_navigating = false
 
 # --- job ---
+const JOB_NO_CHANGE = -1
 const JOB_NONE = 0
 const JOB_FARMER = 1
 const JOB_LUMBERJACK = 2
@@ -24,11 +25,14 @@ const TASK_WATERING_1 = 4
 const TASK_WATERING_2 = 5
 const TASK_CHOPPING_TREE = 6
 
-var job = JOB_FARMER
+var job = JOB_NONE
 var task = TASK_IDLING
 var farmer_water_held = 0
 var farmer_crops_held = 0
 var lumberjack_wood_held = 0
+
+# when changing jobs...
+var new_job = JOB_NO_CHANGE
 
 var target_reached = false
 var target_object: Node2D = null
@@ -38,13 +42,13 @@ var task_animation_name = "idle"
 
 # [ [ time needed to finish, animation name ], ... ]
 var task_definitions = [
-	[ 0, "idle" ],
-	[ 3, "working" ],
-	[ 0, "working" ],
-	[ 5, "hacking" ],
-	[ 3, "working" ],
-	[ 3, "watering" ],
-	[ 3, "chopping" ]
+	[ 0, "idle" ],     # TASK_IDLING
+	[ 3, "working" ],  # TASK_COLLECTING
+	[ 0, "working" ],  # TASK_DROPPING_OFF
+	[ 5, "hacking" ],  # TASK_SEEDING
+	[ 3, "working" ],  # TASK_WATERING_1
+	[ 3, "watering" ], # TASK_WATERING_2
+	[ 3, "chopping" ], # TASK_CHOPPING_TREE
 ]
 
 # --- needs ---
@@ -180,6 +184,7 @@ func update_carry_container():
 	$CarryContainer/Tomato.hide()
 	$CarryContainer/Water.hide()
 	$CarryContainer/Wood.hide()
+	$CarryContainer/Thinking.hide()
 	
 	if farmer_crops_held > 0:
 		$CarryContainer/Tomato.show()
@@ -187,6 +192,9 @@ func update_carry_container():
 		$CarryContainer/Water.show()
 	elif lumberjack_wood_held > 0:
 		$CarryContainer/Wood.show()
+	elif job != JOB_NONE and task == TASK_IDLING:
+		$CarryContainer/Thinking.play("default")
+		$CarryContainer/Thinking.show()
 
 func arrived_to_target():
 	print("arrived_to_target()")
@@ -246,6 +254,14 @@ func do_drop_off_goods():
 	
 	set_task(TASK_IDLING)
 
+func set_new_job(job2):
+	new_job = job2
+
+func start_new_job_if_any():
+	if new_job == JOB_NO_CHANGE:
+		return
+	
+	job = new_job
 
 func think_farmer():
 	var obj
@@ -301,6 +317,7 @@ func think_farmer():
 			print("dropping off...")
 			if do_task_and_is_finished():
 				do_drop_off_goods()
+				start_new_job_if_any()
 	
 	elif task == TASK_SEEDING:
 		if target_reached:
@@ -308,6 +325,7 @@ func think_farmer():
 			if do_task_and_is_finished():
 				target_object.interact()
 				set_task(TASK_IDLING)
+				start_new_job_if_any()
 	
 	elif task == TASK_WATERING_1:
 		if target_reached:
@@ -324,10 +342,10 @@ func think_farmer():
 				farmer_water_held = 0
 				target_object.interact()
 				set_task(TASK_IDLING)
+				start_new_job_if_any()
 
 func think_lumberjack():
 	var obj
-	var obj2
 	var handled = false
 	
 	if task == TASK_IDLING:
@@ -359,6 +377,7 @@ func think_lumberjack():
 			print("dropping off...")
 			if do_task_and_is_finished():
 				do_drop_off_goods()
+				start_new_job_if_any()
 	
 	elif task == TASK_CHOPPING_TREE:
 		if target_reached:
@@ -385,3 +404,7 @@ func think():
 
 func _on_Timer_timeout():
 	think()
+
+
+func _on_Timer2_timeout():
+	self.job = JOB_LUMBERJACK

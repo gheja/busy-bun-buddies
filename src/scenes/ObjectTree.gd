@@ -21,7 +21,7 @@ func update_sprite():
 func update_tree():
 	update_sprite()
 
-func chop():
+func interact():
 	if state == 0:
 		state = 1
 	
