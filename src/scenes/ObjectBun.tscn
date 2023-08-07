@@ -362,10 +362,4 @@ texture = ExtResource( 6 )
 position = Vector2( 0, -3 )
 frames = SubResource( 63 )
 
-[node name="Timer2" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
-autostart = true
-
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="timeout" from="Timer2" to="." method="_on_Timer2_timeout"]

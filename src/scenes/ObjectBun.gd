@@ -25,7 +25,7 @@ const TASK_WATERING_1 = 4
 const TASK_WATERING_2 = 5
 const TASK_CHOPPING_TREE = 6
 
-var job = JOB_NONE
+var job = JOB_FARMER
 var task = TASK_IDLING
 var farmer_water_held = 0
 var farmer_crops_held = 0
@@ -404,7 +404,3 @@ func think():
 
 func _on_Timer_timeout():
 	think()
-
-
-func _on_Timer2_timeout():
-	self.job = JOB_LUMBERJACK
