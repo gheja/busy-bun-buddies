@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Objects/Basic Plants.png" type="Texture" id=1]
+[ext_resource path="res://scenes/ObjectPlant.gd" type="Script" id=2]
+
+[node name="ObjectPlant" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 6
+vframes = 2
+frame = 10

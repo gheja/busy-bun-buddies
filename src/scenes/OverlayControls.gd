@@ -14,9 +14,9 @@ func object_is_below_point(obj: Control, point: Vector2):
 func add_scroll_direction(obj: Control, point: Vector2, vector: Vector2):
 	if object_is_below_point(obj, point):
 		scroll_direction += vector
-	#	 obj.visible = true
-	# else:
-	#	obj.visible = false
+		obj.visible = true
+	else:
+		obj.visible = false
 
 func process_scroll_direction():
 	var point = get_global_mouse_position()

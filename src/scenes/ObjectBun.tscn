@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Characters/Basic Charakter Spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Characters/Basic Charakter Actions.png" type="Texture" id=2]
@@ -228,9 +228,23 @@ animations = [ {
 "speed": 2.0
 } ]
 
-[node name="ObjectBun" type="Node2D"]
+[sub_resource type="CircleShape2D" id=36]
+radius = 5.09902
+
+[node name="ObjectBun" type="KinematicBody2D" groups=["buns"]]
 script = ExtResource( 3 )
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
 animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 36 )
+disabled = true
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
