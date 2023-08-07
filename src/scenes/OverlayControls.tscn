@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
+[ext_resource path="res://assets/graphics/cursor.png" type="Texture" id=2]
 
 [node name="OverlayControls" type="Control"]
 anchor_right = 1.0
@@ -39,3 +40,12 @@ color = Color( 0.611765, 0, 0, 0.247059 )
 visible = false
 margin_right = 37.0
 margin_bottom = 38.0
+
+[node name="MouseCursor" type="Control" parent="."]
+margin_right = 5.0
+margin_bottom = 7.0
+
+[node name="TextureRect" type="TextureRect" parent="MouseCursor"]
+margin_right = 9.0
+margin_bottom = 9.0
+texture = ExtResource( 2 )

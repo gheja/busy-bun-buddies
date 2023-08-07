@@ -14,6 +14,13 @@ func create_navigation_map():
 		
 		if cell != TileMap.INVALID_CELL:
 			$NavigationMap.set_cellv(i, 0)
+	
+	for map in [ $TileMapHouse, $TileMapHouseRoof ]:
+		for i in map.get_used_cells(): 
+			cell = map.get_cellv(i)
+			
+			if cell != TileMap.INVALID_CELL:
+				$NavigationMap.set_cellv(i, 2)
 
 func _ready():
 	create_navigation_map()

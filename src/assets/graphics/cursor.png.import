@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Free_Chicken_House.png-e27e5957cc94711e41ab23aed24b1c19.stex"
+path="res://.import/cursor.png-45ecd5a1e583fe3ca68fe559623aadce.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Objects/Free_Chicken_House.png"
-dest_files=[ "res://.import/Free_Chicken_House.png-e27e5957cc94711e41ab23aed24b1c19.stex" ]
+source_file="res://assets/graphics/cursor.png"
+dest_files=[ "res://.import/cursor.png-45ecd5a1e583fe3ca68fe559623aadce.stex" ]
 
 [params]
 

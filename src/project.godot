@@ -14,6 +14,10 @@ config/name="Buns"
 run/main_scene="res://scenes/MainScene.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Lib="*res://scenes/Lib.tscn"
+
 [display]
 
 window/size/width=64

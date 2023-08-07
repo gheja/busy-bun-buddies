@@ -1,17 +1,26 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tilesets/main_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/LevelBase.gd" type="Script" id=2]
 [ext_resource path="res://tilesets/collision_tileset.tres" type="TileSet" id=3]
+[ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Tilesets/Water.png" type="Texture" id=4]
+[ext_resource path="res://tilesets/house_tileset.tres" type="TileSet" id=5]
+[ext_resource path="res://tilesets/house_roof_tileset.tres" type="TileSet" id=6]
+[ext_resource path="res://tilesets/decoration_tileset.tres" type="TileSet" id=7]
 
 [node name="LevelBase" type="Node2D"]
 script = ExtResource( 2 )
+
+[node name="WaterSprite" type="Sprite" parent="."]
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 1000, 1000 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 0, 1, 196609, 1, 1, 196610, 2, 1, 196610, 3, 1, 196610, 4, 1, 196610, 5, 1, 196610, 6, 1, 196611, 65536, 1, 262145, 65537, 1, 262146, 65538, 1, 262146, 65539, 1, 3, 65540, 1, 262146, 65541, 1, 65537, 65542, 1, 262147, 131072, 1, 327681, 131073, 1, 262149, 131074, 1, 262146, 131075, 1, 262146, 131076, 1, 262146, 131077, 1, 262146, 131078, 1, 262147, 196609, 1, 327681, 196610, 1, 262149, 196611, 1, 65537, 196612, 1, 262146, 196613, 1, 262146, 196614, 1, 262147, 262146, 1, 327681, 262147, 1, 327682, 262148, 1, 327682, 262149, 1, 327682, 262150, 1, 327683 )
+tile_data = PoolIntArray( -262144, 1, 196609, -262143, 1, 196610, -262142, 1, 196610, -262141, 1, 196610, -262140, 1, 196610, -262139, 1, 196610, -262138, 1, 196610, -262137, 1, 196610, -262136, 1, 196610, -262135, 1, 196611, -196608, 1, 262145, -196607, 1, 65537, -196606, 1, 262146, -196605, 1, 65539, -196604, 1, 65538, -196603, 1, 65539, -196602, 1, 3, -196601, 1, 262146, -196600, 1, 262146, -196599, 1, 262147, -131072, 1, 262145, -131071, 1, 5, -131070, 1, 262146, -131069, 1, 65536, -131068, 1, 262146, -131067, 1, 65537, -131066, 1, 5, -131065, 1, 262146, -131064, 1, 65540, -131063, 1, 262147, -65536, 1, 262145, -65535, 1, 262146, -65534, 1, 65541, -65533, 1, 262146, -65532, 1, 65541, -65531, 1, 262146, -65530, 1, 65538, -65529, 1, 5, -65528, 1, 65537, -65527, 1, 262147, 0, 1, 262145, 1, 1, 262146, 2, 1, 4, 3, 1, 65536, 4, 1, 5, 5, 1, 2, 6, 1, 262146, 7, 1, 262146, 8, 1, 5, 9, 1, 262147, 65536, 1, 262145, 65537, 1, 262146, 65538, 1, 262146, 65539, 1, 3, 65540, 1, 262146, 65541, 1, 65537, 65542, 1, 262148, 65543, 1, 327682, 65544, 1, 327682, 65545, 1, 327683, 131072, 1, 327681, 131073, 1, 262149, 131074, 1, 262146, 131075, 1, 262146, 131076, 1, 262146, 131077, 1, 262146, 131078, 1, 262147, 196609, 1, 327681, 196610, 1, 262149, 196611, 1, 65537, 196612, 1, 262146, 196613, 1, 262146, 196614, 1, 262147, 262146, 1, 327681, 262147, 1, 327682, 262148, 1, 327682, 262149, 1, 327682, 262150, 1, 327683 )
 
 [node name="TileMapDirt" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
@@ -19,12 +28,29 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 65539, 2, 196609, 65540, 2, 131074, 65541, 2, 196610, 65542, 2, 196611, 131075, 2, 3, 131076, 2, 262146, 131077, 2, 262146, 131078, 2, 262147, 196611, 2, 327681, 196612, 2, 5, 196613, 2, 327682, 196614, 2, 327683 )
 
+[node name="TileMapHouse" type="TileMap" parent="."]
+tile_set = ExtResource( 5 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -65533, 5, 0, -65532, 3, 0, -65531, 4, 0, -65530, 6, 0, -65529, 6, 0, -65528, 7, 0, 65539, 2, 196609, 65540, 2, 131074, 65541, 2, 196610, 65542, 2, 196611, 131075, 2, 3, 131076, 2, 262146, 131077, 2, 262146, 131078, 2, 262147, 196611, 2, 327681, 196612, 2, 5, 196613, 2, 327682, 196614, 2, 327683 )
+
+[node name="TileMapHouseRoof" type="TileMap" parent="."]
+tile_set = ExtResource( 6 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -262141, 0, 0, -262140, 1, 0, -262139, 1, 0, -262138, 1, 0, -262137, 1, 0, -262136, 2, 0, -196605, 3, 0, -196604, 4, 0, -196603, 4, 0, -196602, 4, 0, -196601, 4, 0, -196600, 5, 0, -131069, 6, 0, -131068, 7, 0, -131067, 7, 0, -131066, 7, 0, -131065, 7, 0, -131064, 8, 0, -65533, 12, 0, -65532, 13, 0, -65531, 13, 0, -65530, 13, 0, -65529, 13, 0, -65528, 14, 0 )
+
+[node name="TileMapDecoration" type="TileMap" parent="."]
+tile_set = ExtResource( 7 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -196606, 2, 0, 7, 4, 0, 65538, 1, 0 )
+
 [node name="Objects" type="Node2D" parent="."]
 
 [node name="YSort" type="YSort" parent="Objects"]
 
 [node name="NavigationMap" type="TileMap" parent="."]
-visible = false
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 16, 16 )
 bake_navigation = true

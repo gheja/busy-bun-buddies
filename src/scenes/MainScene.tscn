@@ -11,7 +11,7 @@ script = ExtResource( 3 )
 
 [node name="Level1" parent="LevelContainer" instance=ExtResource( 1 )]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["cameras"]]
 position = Vector2( 32, 32 )
 current = true
 
