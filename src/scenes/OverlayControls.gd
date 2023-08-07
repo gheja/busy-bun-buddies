@@ -2,9 +2,6 @@ extends Control
 
 var scroll_direction = Vector2(0, 0)
 var current_bun = null
-var color_job_inactive = Color(0.8, 0.8, 0.8, 1.0)
-var color_job_current = Color(0.0, 1.0, 0.0, 1.0)
-var color_job_new = Color(0.2, 0.6, 0.2, 1.0)
 
 func _ready():
 	$ScrollTop.hide()
@@ -65,8 +62,8 @@ func is_menu_active():
 	return false
 
 func set_cursor_shape(n):
-	$MouseCursor/MouseShapePointer.visible = (n == 0)
-	$MouseCursor/MouseShapeInspect.visible = (n == 1)
+	$MouseCursor/MouseShapePointer.visible = (n == C.CURSOR_POINTER)
+	$MouseCursor/MouseShapeInspect.visible = (n == C.CURSOR_INSPECT)
 
 func set_tooltip(s):
 	if s != "":
@@ -78,21 +75,21 @@ func set_tooltip(s):
 
 func modulate_by_bun_job(obj, job, new_job, value):
 	if new_job == value:
-		obj.modulate = color_job_new
+		obj.modulate = C.COLOR_JOB_NEW
 	elif job == value:
-		obj.modulate = color_job_current
+		obj.modulate = C.COLOR_JOB_CURRENT
 	else:
-		obj.modulate = color_job_inactive
+		obj.modulate = C.COLOR_JOB_INACTIVE
 
 func show_bun_menu(bun):
 	GameState.set_paused(true)
 	$MenuButton.hide()
 	$BunMenu.show()
 	current_bun = bun
-	modulate_by_bun_job($BunMenu/ColorRect/JobNone, bun.job, bun.new_job, 0)
-	modulate_by_bun_job($BunMenu/ColorRect/JobFarmer, bun.job, bun.new_job, 1)
-	modulate_by_bun_job($BunMenu/ColorRect/JobLumberjack, bun.job, bun.new_job, 2)
-	set_cursor_shape(0)
+	modulate_by_bun_job($BunMenu/ColorRect/JobNone,       bun.job, bun.new_job, C.JOB_NONE)
+	modulate_by_bun_job($BunMenu/ColorRect/JobFarmer,     bun.job, bun.new_job, C.JOB_FARMER)
+	modulate_by_bun_job($BunMenu/ColorRect/JobLumberjack, bun.job, bun.new_job, C.JOB_LUMBERJACK)
+	set_cursor_shape(C.CURSOR_POINTER)
 
 func hide_bun_menu():
 	GameState.set_paused(false)
@@ -144,12 +141,12 @@ func _on_BunMenuBack_pressed():
 	hide_bun_menu()
 
 func _on_JobNone_pressed():
-	bun_set_job(0)
+	bun_set_job(C.JOB_NONE)
 
 func _on_JobFarmer_pressed():
-	bun_set_job(1)
+	bun_set_job(C.JOB_FARMER)
 
 func _on_JobLumberjack_pressed():
-	bun_set_job(2)
+	bun_set_job(C.JOB_LUMBERJACK)
 
 

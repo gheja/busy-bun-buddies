@@ -22,10 +22,10 @@ func handle_bun_inspect():
 
 func update_tooltip():
 	if bun_under_cursor:
-		overlay.set_cursor_shape(1)
+		overlay.set_cursor_shape(C.CURSOR_INSPECT)
 		overlay.set_tooltip("Inspect")
 	else:
-		overlay.set_cursor_shape(0)
+		overlay.set_cursor_shape(C.CURSOR_POINTER)
 		overlay.set_tooltip("")
 
 func handle_mouse_click():

@@ -2,8 +2,6 @@ extends KinematicBody2D
 
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
-const OBJECT_REACHED_DISTANCE = 9
-
 var current_direction_name = "down"
 
 var direction = Vector2.DOWN
@@ -12,27 +10,16 @@ var velocity = Vector2.ZERO
 var is_navigating = false
 
 # --- job ---
-const JOB_NO_CHANGE = -1
-const JOB_NONE = 0
-const JOB_FARMER = 1
-const JOB_LUMBERJACK = 2
 
-const TASK_IDLING = 0
-const TASK_COLLECTING = 1
-const TASK_DROPPING_OFF = 2
-const TASK_SEEDING = 3
-const TASK_WATERING_1 = 4
-const TASK_WATERING_2 = 5
-const TASK_CHOPPING_TREE = 6
 
-var job = JOB_NONE
-var task = TASK_IDLING
+var job = C.JOB_NONE
+var task = C.TASK_IDLING
 var farmer_water_held = 0
 var farmer_crops_held = 0
 var lumberjack_wood_held = 0
 
 # when changing jobs...
-var new_job = JOB_NO_CHANGE
+var new_job = C.JOB_NO_CHANGE
 
 var target_reached = false
 var target_object: Node2D = null
@@ -114,7 +101,7 @@ func _physics_process(_delta):
 	
 	if is_navigating:
 		if Lib.is_object_valid(target_object):
-			if Lib.dist_2d(self.global_position, target_object.global_position) < OBJECT_REACHED_DISTANCE:
+			if Lib.dist_2d(self.global_position, target_object.global_position) < C.OBJECT_REACHED_DISTANCE:
 				arrived_to_target()
 			else:
 				# print("navigating...")
@@ -195,7 +182,7 @@ func update_carry_container():
 		$CarryContainer/Water.show()
 	elif lumberjack_wood_held > 0:
 		$CarryContainer/Wood.show()
-	elif job != JOB_NONE and task == TASK_IDLING:
+	elif job != C.JOB_NONE and task == C.TASK_IDLING:
 		$CarryContainer/Thinking.play("default")
 		$CarryContainer/Thinking.show()
 
@@ -255,20 +242,20 @@ func do_drop_off_goods():
 	farmer_crops_held = 0
 	lumberjack_wood_held = 0
 	
-	set_task(TASK_IDLING)
+	set_task(C.TASK_IDLING)
 
 func set_new_job(job2):
 	new_job = job2
 	
 	if job == new_job:
-		new_job = JOB_NO_CHANGE
+		new_job = C.JOB_NO_CHANGE
 
 func start_new_job_if_any():
-	if new_job == JOB_NO_CHANGE:
+	if new_job == C.JOB_NO_CHANGE:
 		return
 	
 	job = new_job
-	new_job = JOB_NO_CHANGE
+	new_job = C.JOB_NO_CHANGE
 
 func think_free():
 	start_new_job_if_any()
@@ -278,26 +265,26 @@ func think_farmer():
 	var obj2
 	var handled = false
 	
-	if task == TASK_IDLING:
+	if task == C.TASK_IDLING:
 		if farmer_crops_held > 0:
 			obj = Lib.get_nearest_object_in_group(self, "barn", false)
 			
 			if obj:
-				set_task(TASK_DROPPING_OFF, obj, false)
+				set_task(C.TASK_DROPPING_OFF, obj, false)
 				handled = true
 		
 		if not handled:
 			obj = Lib.get_nearest_object_from_list(self, get_plants_with_state(4, 4))
 			
 			if obj:
-				set_task(TASK_COLLECTING, obj, true)
+				set_task(C.TASK_COLLECTING, obj, true)
 				handled = true
 		
 		if not handled:
 			obj = Lib.get_nearest_object_from_list(self, get_plants_with_state(0, 0))
 			
 			if obj:
-				set_task(TASK_SEEDING, obj, true)
+				set_task(C.TASK_SEEDING, obj, true)
 				handled = true
 		
 		if not handled:
@@ -308,62 +295,62 @@ func think_farmer():
 					obj2 = Lib.get_nearest_object_in_group(self, "well", false)
 					
 					if obj2:
-						set_task(TASK_WATERING_1, obj2, false, obj, true)
+						set_task(C.TASK_WATERING_1, obj2, false, obj, true)
 						handled = true
 				
 				if handled:
 					break
 	
-	elif task == TASK_COLLECTING:
+	elif task == C.TASK_COLLECTING:
 		if target_reached:
 			print("collecting...")
 			if do_task_and_is_finished():
 				target_object.interact()
 				farmer_crops_held += 1
-				set_task(TASK_IDLING)
+				set_task(C.TASK_IDLING)
 	
-	elif task == TASK_DROPPING_OFF:
+	elif task == C.TASK_DROPPING_OFF:
 		if target_reached:
 			print("dropping off...")
 			if do_task_and_is_finished():
 				do_drop_off_goods()
 				start_new_job_if_any()
 	
-	elif task == TASK_SEEDING:
+	elif task == C.TASK_SEEDING:
 		if target_reached:
 			print("seeding...")
 			if do_task_and_is_finished():
 				target_object.interact()
-				set_task(TASK_IDLING)
+				set_task(C.TASK_IDLING)
 				start_new_job_if_any()
 	
-	elif task == TASK_WATERING_1:
+	elif task == C.TASK_WATERING_1:
 		if target_reached:
 			print("getting water...")
 			if do_task_and_is_finished():
 				farmer_water_held += 1
-				set_task(TASK_WATERING_2, secondary_object, true)
-				# swap_task_objects(TASK_WATERING_2)
+				set_task(C.TASK_WATERING_2, secondary_object, true)
+				# swap_task_objects(C.TASK_WATERING_2)
 	
-	elif task == TASK_WATERING_2:
+	elif task == C.TASK_WATERING_2:
 		if target_reached:
 			print("watering...")
 			if do_task_and_is_finished():
 				farmer_water_held = 0
 				target_object.interact()
-				set_task(TASK_IDLING)
+				set_task(C.TASK_IDLING)
 				start_new_job_if_any()
 
 func think_lumberjack():
 	var obj
 	var handled = false
 	
-	if task == TASK_IDLING:
+	if task == C.TASK_IDLING:
 		if lumberjack_wood_held > 0:
 			obj = Lib.get_nearest_object_in_group(self, "barn", false)
 			
 			if obj:
-				set_task(TASK_DROPPING_OFF, obj, false)
+				set_task(C.TASK_DROPPING_OFF, obj, false)
 				handled = true
 		
 		if not handled:
@@ -371,7 +358,7 @@ func think_lumberjack():
 			obj = Lib.get_nearest_object_from_list(self, get_trees_with_state(1, 1))
 			
 			if obj:
-				set_task(TASK_CHOPPING_TREE, obj, true)
+				set_task(C.TASK_CHOPPING_TREE, obj, true)
 				handled = true
 		
 		if not handled:
@@ -379,33 +366,33 @@ func think_lumberjack():
 			obj = Lib.get_nearest_object_from_list(self, get_trees_with_state(0, 0))
 			
 			if obj:
-				set_task(TASK_CHOPPING_TREE, obj, true)
+				set_task(C.TASK_CHOPPING_TREE, obj, true)
 				handled = true
 	
-	elif task == TASK_DROPPING_OFF:
+	elif task == C.TASK_DROPPING_OFF:
 		if target_reached:
 			print("dropping off...")
 			if do_task_and_is_finished():
 				do_drop_off_goods()
 				start_new_job_if_any()
 	
-	elif task == TASK_CHOPPING_TREE:
+	elif task == C.TASK_CHOPPING_TREE:
 		if target_reached:
 			print("dropping off...")
 			if do_task_and_is_finished():
 				target_object.interact()
 				lumberjack_wood_held += 1
-				set_task(TASK_IDLING)
+				set_task(C.TASK_IDLING)
 
 func think():
 	print("")
 	print("think()")
 	
-	if job == JOB_NONE:
+	if job == C.JOB_NONE:
 		think_free()
-	elif job == JOB_FARMER:
+	elif job == C.JOB_FARMER:
 		think_farmer()
-	elif job == JOB_LUMBERJACK:
+	elif job == C.JOB_LUMBERJACK:
 		think_lumberjack()
 	
 	if Lib.is_object_valid(target_object) and not target_reached:
