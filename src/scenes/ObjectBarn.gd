@@ -11,3 +11,6 @@ func goods_out(good_type: int, amount: int):
 	
 	goods[good_type] -= amount
 	return true
+
+func _ready():
+	$Sprite.hide()

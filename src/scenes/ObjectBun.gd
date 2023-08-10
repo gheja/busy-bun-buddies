@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+const MOOD_OK = 0
+const MOOD_TIRED = 1
+const MOOD_HUNGRY = 2
+
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 var current_direction_name = "down"
@@ -8,12 +12,12 @@ var direction = Vector2.DOWN
 var speed = 0
 var velocity = Vector2.ZERO
 var is_navigating = false
+var mood = MOOD_OK
 
 # --- job ---
-
-
 var job = C.JOB_NONE
 var task = C.TASK_IDLING
+var job_override = C.JOB_NO_CHANGE
 var farmer_water_held = 0
 var farmer_crops_held = 0
 var lumberjack_wood_held = 0
@@ -36,12 +40,16 @@ var task_definitions = [
 	[ 3, "working" ],  # TASK_WATERING_1
 	[ 3, "watering" ], # TASK_WATERING_2
 	[ 3, "chopping" ], # TASK_CHOPPING_TREE
+	[ 8, "sleeping" ], # TASK_SLEEPING
+	[ 3, "eating" ], # TASK_EATING
 ]
 
 # --- needs ---
 var tiredness = 0
 var hunger = 0
 
+var tiredness_increase = 0.01
+var hunger_increase = 0.015
 
 func _ready():
 	$AnimatedSprite.play("idle")
@@ -68,7 +76,9 @@ func update_animation():
 	var animation_base_name = "idle"
 	var a
 	
-	if target_reached and task_steps_left > 0:
+	if task == C.TASK_SLEEPING or task == C.TASK_EATING:
+		animation_base_name = task_animation_name
+	elif target_reached and task_steps_left > 0:
 		animation_base_name = task_animation_name
 	else:
 		if abs(velocity.x) > 0.1 or abs(velocity.y) > 0.1:
@@ -76,8 +86,8 @@ func update_animation():
 		else:
 			animation_base_name = "idle"
 	
-	if animation_base_name == "idle":
-		a = "idle"
+	if animation_base_name == "idle" or animation_base_name == "sleeping" or animation_base_name == "eating":
+		a = animation_base_name
 	else:
 		a = animation_base_name + "_" + current_direction_name
 	
@@ -169,22 +179,35 @@ func get_trees_with_state(state_min: int, state_max: int):
 	
 	return objs
 
+func show_and_play_animation(obj: AnimatedSprite, animation: String):
+	if not Lib.is_object_valid(obj):
+		return
+	
+	obj.show()
+	
+	if obj.animation != animation or not obj.playing:
+		obj.play(animation)
 
 func update_carry_container():
-	$CarryContainer/Tomato.hide()
-	$CarryContainer/Water.hide()
-	$CarryContainer/Wood.hide()
-	$CarryContainer/Thinking.hide()
+	for obj in $CarryContainer.get_children():
+		obj.hide()
 	
-	if farmer_crops_held > 0:
+	if task == C.TASK_SLEEPING:
+		show_and_play_animation($CarryContainer/Sleeping, "default")
+	elif task == C.TASK_EATING:
+		show_and_play_animation($CarryContainer/Eating, "default")
+	elif mood == MOOD_TIRED:
+		$CarryContainer/Tired.show()
+	elif mood == MOOD_HUNGRY:
+		$CarryContainer/Hungry.show()
+	elif farmer_crops_held > 0:
 		$CarryContainer/Tomato.show()
 	elif farmer_water_held > 0:
 		$CarryContainer/Water.show()
 	elif lumberjack_wood_held > 0:
 		$CarryContainer/Wood.show()
 	elif job != C.JOB_NONE and task == C.TASK_IDLING:
-		$CarryContainer/Thinking.play("default")
-		$CarryContainer/Thinking.show()
+		show_and_play_animation($CarryContainer/Thinking, "default")
 
 func arrived_to_target():
 	print("arrived_to_target()")
@@ -196,10 +219,10 @@ func arrived_to_target():
 func set_task(new_task: int, obj: Node2D = null, claim: bool = false, secondary_obj: Node2D = null, secondary_claim: bool = false):
 	print("set_task() ", [ new_task, obj, claim ])
 	
-	if target_object:
+	if Lib.is_object_valid(target_object):
 		Lib.unclaim_object(target_object)
 		
-	if secondary_object:
+	if Lib.is_object_valid(secondary_object):
 		Lib.unclaim_object(secondary_object)
 	
 	task = new_task
@@ -257,7 +280,60 @@ func start_new_job_if_any():
 	job = new_job
 	new_job = C.JOB_NO_CHANGE
 
+func update_job_override():
+	if mood == MOOD_TIRED:
+		job_override = C.JOB_SLEEPER
+	elif mood == MOOD_HUNGRY:
+		job_override = C.JOB_EATER
+	else:
+		job_override = C.JOB_NO_CHANGE
+
+func update_mood():
+	if tiredness >= 0.75:
+		mood = MOOD_TIRED
+	elif hunger >= 0.75:
+		mood = MOOD_HUNGRY
+	else:
+		mood = MOOD_OK
+
+func increase_needs():
+	tiredness += tiredness_increase
+	hunger += hunger_increase
+	
+	print("tiredness: ", tiredness, ", hunger: ", hunger)
+
+func think_sleeper():
+	if task == C.TASK_IDLING:
+		set_task(C.TASK_SLEEPING)
+	
+	elif task == C.TASK_SLEEPING:
+		if do_task_and_is_finished():
+			tiredness = 0
+			update_mood()
+			set_task(C.TASK_IDLING)
+
+func think_eater():
+	var obj
+	
+	if task == C.TASK_IDLING:
+		obj = Lib.get_nearest_object_in_group(self, "barn", false)
+		
+		if obj:
+			# not really dropping off but at the same place
+			set_task(C.TASK_DROPPING_OFF, obj, false)
+	
+	elif task == C.TASK_DROPPING_OFF:
+		if target_reached:
+			set_task(C.TASK_EATING)
+	
+	elif task == C.TASK_EATING:
+		if do_task_and_is_finished():
+			hunger = 0
+			update_mood()
+			set_task(C.TASK_IDLING)
+
 func think_free():
+	update_mood()
 	start_new_job_if_any()
 
 func think_farmer():
@@ -388,12 +464,23 @@ func think():
 	print("")
 	print("think()")
 	
-	if job == C.JOB_NONE:
-		think_free()
-	elif job == C.JOB_FARMER:
-		think_farmer()
-	elif job == C.JOB_LUMBERJACK:
-		think_lumberjack()
+	increase_needs()
+	update_mood()
+	
+	if task == C.TASK_IDLING:
+		update_job_override()
+	
+	if job_override == C.JOB_SLEEPER:
+		think_sleeper()
+	elif job_override == C.JOB_EATER:
+		think_eater()
+	else:
+		if job == C.JOB_NONE:
+			think_free()
+		elif job == C.JOB_FARMER:
+			think_farmer()
+		elif job == C.JOB_LUMBERJACK:
+			think_lumberjack()
 	
 	if Lib.is_object_valid(target_object) and not target_reached:
 		nav_agent.set_target_location(target_object.global_position)

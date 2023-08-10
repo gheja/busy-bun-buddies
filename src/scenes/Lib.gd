@@ -68,3 +68,6 @@ func if2(condition, value_true, value_false):
 		return value_true
 	
 	return value_false
+
+func get_main_scene() -> PackedScene:
+	return get_first_group_member("main_scenes")

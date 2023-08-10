@@ -1,7 +1,7 @@
 extends Control
 
 var scroll_direction = Vector2(0, 0)
-var current_bun = null
+var bun_under_cursor = null
 
 func _ready():
 	$ScrollTop.hide()
@@ -92,7 +92,7 @@ func show_bun_menu(bun):
 	GameState.set_paused(true)
 	$MenuButton.hide()
 	$BunMenu.show()
-	current_bun = bun
+	bun_under_cursor = bun
 	modulate_by_bun_job($BunMenu/ColorRect/JobNone,       bun.job, bun.new_job, C.JOB_NONE)
 	modulate_by_bun_job($BunMenu/ColorRect/JobFarmer,     bun.job, bun.new_job, C.JOB_FARMER)
 	modulate_by_bun_job($BunMenu/ColorRect/JobLumberjack, bun.job, bun.new_job, C.JOB_LUMBERJACK)
@@ -102,11 +102,11 @@ func hide_bun_menu():
 	GameState.set_paused(false)
 	$MenuButton.show()
 	$BunMenu.hide()
-	current_bun = null
+	bun_under_cursor = null
 
 func bun_set_job(job):
-	if Lib.is_object_valid(current_bun):
-		current_bun.set_new_job(job)
+	if Lib.is_object_valid(bun_under_cursor):
+		bun_under_cursor.set_new_job(job)
 	
 	hide_bun_menu()
 
