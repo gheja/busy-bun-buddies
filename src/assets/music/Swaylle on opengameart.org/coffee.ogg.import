@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/coffee.ogg-45920dc7e1e181aedde4e05f9c5f093b.oggstr"
+
+[deps]
+
+source_file="res://assets/music/Swaylle on opengameart.org/coffee.ogg"
+dest_files=[ "res://.import/coffee.ogg-45920dc7e1e181aedde4e05f9c5f093b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

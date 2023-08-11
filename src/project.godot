@@ -19,6 +19,7 @@ config/icon="res://icon.png"
 Lib="*res://scenes/Lib.tscn"
 GameState="*res://scenes/GameState.tscn"
 C="*res://scenes/C.tscn"
+AudioManager="*res://scenes/AudioManager.tscn"
 
 [display]
 
