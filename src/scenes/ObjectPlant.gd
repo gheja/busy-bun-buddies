@@ -57,7 +57,7 @@ func get_generation():
 func _ready():
 	$VisualsExtra/WaterSprite.hide()
 	# state = 0
-	state = 2
+	state = 4
 	update_plant()
 
 func _on_RecentlyHandledTimer_timeout():

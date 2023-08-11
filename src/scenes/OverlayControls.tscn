@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/cursor_pointer.png" type="Texture" id=2]
@@ -9,10 +9,11 @@
 [ext_resource path="res://assets/graphics/button_job_farmer_sprite.png" type="Texture" id=7]
 [ext_resource path="res://assets/graphics/button_job_lumberjack_sprite.png" type="Texture" id=8]
 [ext_resource path="res://assets/graphics/button_back_sprite.png" type="Texture" id=9]
-[ext_resource path="res://assets/graphics/water_drop_sprite.png" type="Texture" id=10]
+[ext_resource path="res://assets/graphics/based on Sprout Lands/wood_sprite.png" type="Texture" id=10]
 [ext_resource path="res://assets/graphics/button_options.png" type="Texture" id=11]
 [ext_resource path="res://assets/graphics/button_stock.png" type="Texture" id=12]
 [ext_resource path="res://assets/graphics/button_objectives.png" type="Texture" id=13]
+[ext_resource path="res://assets/graphics/based on Sprout Lands/crop_sprite.png" type="Texture" id=14]
 
 [node name="OverlayControls" type="Control"]
 pause_mode = 2
@@ -91,6 +92,7 @@ margin_right = 64.0
 margin_bottom = 64.0
 
 [node name="Options" type="Control" parent="Menu/MenuPages"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -122,16 +124,15 @@ before Winter
 arrives."
 
 [node name="Stats" type="Control" parent="Menu/MenuPages"]
-visible = false
 margin_right = 64.0
 margin_bottom = 56.0
 
 [node name="TextureRect" type="TextureRect" parent="Menu/MenuPages/Stats"]
-margin_left = 8.0
-margin_top = 2.0
-margin_right = 17.0
-margin_bottom = 11.0
-texture = ExtResource( 10 )
+margin_left = 7.0
+margin_top = 4.0
+margin_right = 23.0
+margin_bottom = 20.0
+texture = ExtResource( 14 )
 
 [node name="FoodCounter" type="Label" parent="Menu/MenuPages/Stats"]
 margin_left = 24.0
@@ -141,10 +142,10 @@ margin_bottom = 17.0
 text = "7 of 16"
 
 [node name="TextureRect2" type="TextureRect" parent="Menu/MenuPages/Stats"]
-margin_left = 8.0
-margin_top = 20.0
-margin_right = 24.0
-margin_bottom = 36.0
+margin_left = 7.0
+margin_top = 22.0
+margin_right = 23.0
+margin_bottom = 38.0
 texture = ExtResource( 10 )
 
 [node name="WoodCounter" type="Label" parent="Menu/MenuPages/Stats"]

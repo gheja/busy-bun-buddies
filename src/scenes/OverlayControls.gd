@@ -110,6 +110,13 @@ func bun_set_job(job):
 	
 	hide_bun_menu()
 
+func set_goods_amount_labels(amounts, amounts_needed):
+	$Menu/MenuPages/Stats/FoodCounter.text = str(amounts[Lib.GOOD_CROP]) + " of " + str(amounts_needed[Lib.GOOD_CROP])
+	$Menu/MenuPages/Stats/WoodCounter.text = str(amounts[Lib.GOOD_WOOD]) + " of " + str(amounts_needed[Lib.GOOD_WOOD])
+	
+	$Menu/MenuPages/Stats/FoodCounter.modulate = Lib.if2(amounts[Lib.GOOD_CROP] >= amounts_needed[Lib.GOOD_CROP], Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
+	$Menu/MenuPages/Stats/WoodCounter.modulate = Lib.if2(amounts[Lib.GOOD_WOOD] >= amounts_needed[Lib.GOOD_WOOD], Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
+
 func _on_MenuButton_pressed():
 	GameState.set_paused(true)
 	# set_menu_page(0)

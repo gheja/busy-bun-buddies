@@ -10,7 +10,7 @@
 [ext_resource path="res://scenes/ObjectSleepSpot.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 45, 32 )
+extents = Vector2( 45, 35.5 )
 
 [node name="Level1" type="Node2D"]
 
@@ -51,6 +51,7 @@ position = Vector2( 104, 40 )
 
 [node name="ObjectBarn" parent="LevelBase/Objects" index="7" instance=ExtResource( 4 )]
 position = Vector2( 58, -69 )
+goods = [ 5, 5 ]
 
 [node name="ObjectWell" parent="LevelBase/Objects" index="8" instance=ExtResource( 5 )]
 position = Vector2( 184, 8 )
@@ -128,22 +129,14 @@ position = Vector2( 96, -71 )
 position = Vector2( 96, -55 )
 
 [node name="TileMapHouseRoof" parent="LevelBase" index="6"]
-tile_data = PoolIntArray( -393214, 0, 0, -393213, 1, 0, -393212, 1, 0, -393211, 1, 0, -393210, 1, 0, -393209, 2, 0, -327678, 6, 0, -327677, 7, 0, -327676, 7, 0, -327675, 7, 0, -327674, 7, 0, -327673, 8, 0, -262142, 11, 0, -262141, 10, 0, -262140, 10, 0, -262139, 10, 0, -262138, 10, 0, -262137, 9, 0, -196606, 12, 0, -196605, 13, 0, -196604, 13, 0, -196603, 13, 0, -196602, 13, 0, -196601, 14, 0 )
+tile_data = PoolIntArray( -458751, 0, 0, -458750, 1, 0, -458749, 1, 0, -458748, 1, 0, -458747, 1, 0, -458746, 1, 0, -458745, 2, 0, -393215, 3, 0, -393214, 4, 0, -393213, 4, 0, -393212, 4, 0, -393211, 4, 0, -393210, 4, 0, -393209, 5, 0, -327679, 6, 0, -327678, 7, 0, -327677, 7, 0, -327676, 7, 0, -327675, 7, 0, -327674, 7, 0, -327673, 8, 0, -262143, 11, 0, -262142, 10, 0, -262141, 10, 0, -262140, 10, 0, -262139, 10, 0, -262138, 10, 0, -262137, 9, 0, -196607, 12, 0, -196606, 13, 0, -196605, 13, 0, -196604, 13, 0, -196603, 13, 0, -196602, 13, 0, -196601, 14, 0 )
 
 [node name="NavigationMap" parent="LevelBase" index="7"]
 visible = false
 tile_data = PoolIntArray( -327678, 1, 0, -327677, 1, 0, -327676, 1, 0, -327675, 1, 0, -327674, 1, 0, -327673, 1, 0, -262142, 1, 0, -262141, 0, 0, -262140, 0, 0, -262139, 0, 0, -262138, 0, 0, -262137, 1, 0, -196606, 1, 0, -196605, 1, 0, -196604, 2, 0, -196603, 1, 0, -196602, 1, 0, -196601, 1, 0 )
 
-[node name="HouseRoofHideArea" type="Area2D" parent="LevelBase"]
-position = Vector2( 74, -66 )
-collision_layer = 32768
-collision_mask = 32768
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelBase/HouseRoofHideArea"]
-position = Vector2( -2, 2 )
+[node name="CollisionShape2D" parent="LevelBase/HouseRoofHideArea" index="0"]
+position = Vector2( -2, -1.5 )
 shape = SubResource( 1 )
-
-[connection signal="mouse_entered" from="LevelBase/HouseRoofHideArea" to="LevelBase" method="_on_HouseRoofHideArea_mouse_entered"]
-[connection signal="mouse_exited" from="LevelBase/HouseRoofHideArea" to="LevelBase" method="_on_HouseRoofHideArea_mouse_exited"]
 
 [editable path="LevelBase"]

@@ -29,7 +29,6 @@ func create_navigation_map():
 func _ready():
 	create_navigation_map()
 
-
 func _on_HouseRoofHideArea_mouse_entered():
 	$TileMapHouseRoof.modulate = Color(1.0, 1.0, 1.0, 0.2)
 

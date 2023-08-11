@@ -3,6 +3,8 @@ extends Node2D
 var bun_under_cursor = null
 onready var overlay = $Camera2D/OverlayControls
 
+var total_goods = [ 0, 0 ]
+
 func handle_scroll():
 	var scroll_direction = overlay.get_scroll_direction()
 	
@@ -32,6 +34,22 @@ func handle_mouse_click():
 	if bun_under_cursor:
 		overlay.show_bun_menu(bun_under_cursor)
 
+func on_goods_amounts_changed():
+	for i in range(0, 2):
+		total_goods[i] = 0
+	
+	for obj in get_tree().get_nodes_in_group("barn"):
+		for i in range(0, 2):
+			total_goods[i] += obj.goods[i]
+	
+	overlay.set_goods_amount_labels(total_goods, [ 7, 10 ])
+
+func on_level_loaded():
+	for obj in get_tree().get_nodes_in_group("barn"):
+		obj.connect("goods_amounts_changed", self, "on_goods_amounts_changed")
+	
+	on_goods_amounts_changed()
+
 func _process(_delta):
 	if GameState.is_paused():
 		return
@@ -42,6 +60,7 @@ func _process(_delta):
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	on_level_loaded()
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:

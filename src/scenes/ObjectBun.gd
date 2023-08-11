@@ -324,11 +324,15 @@ func think_eater():
 	
 	elif task == C.TASK_DROPPING_OFF:
 		if target_reached:
-			set_task(C.TASK_EATING)
+			# keep the barn selected
+			set_task(C.TASK_EATING, target_object, false)
 	
 	elif task == C.TASK_EATING:
 		if do_task_and_is_finished():
-			hunger = 0
+			if Lib.is_object_valid(obj):
+				if obj.goods_out(Lib.GOOD_CROP, 1):
+					hunger = 0
+			
 			update_mood()
 			set_task(C.TASK_IDLING)
 
