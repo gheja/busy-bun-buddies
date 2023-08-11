@@ -128,16 +128,16 @@ func _on_ButtonBack_pressed():
 func _on_TooltipHideTimer_timeout():
 	set_tooltip("")
 
-func _on_BunMenuBack_gui_input(event):
+func _on_BunMenuBack_gui_input(_event):
 	set_tooltip("Back")
 
-func _on_JobNone_gui_input(event):
+func _on_JobNone_gui_input(_event):
 	set_tooltip("job: none")
 
-func _on_JobFarmer_gui_input(event):
+func _on_JobFarmer_gui_input(_event):
 	set_tooltip("job: Farmer")
 
-func _on_JobLumberjack_gui_input(event):
+func _on_JobLumberjack_gui_input(_event):
 	set_tooltip("job: Lumberjack")
 
 func _on_BunMenuBack_pressed():
