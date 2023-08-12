@@ -54,3 +54,4 @@ func _on_MatchTimer_timeout():
 		return
 	
 	bun.pick_up_match()
+	match_left -= 1
