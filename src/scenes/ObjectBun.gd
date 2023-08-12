@@ -86,6 +86,7 @@ func update_velocity():
 func update_animation():
 	var animation_base_name = "idle"
 	var a
+	var animations_with_no_direction = [ "idle", "sleeping", "eating", "starting_fire" ]
 	
 	if task == C.TASK_SLEEPING or task == C.TASK_EATING:
 		animation_base_name = task_animation_name
@@ -97,7 +98,7 @@ func update_animation():
 		else:
 			animation_base_name = "idle"
 	
-	if animation_base_name == "idle" or animation_base_name == "sleeping" or animation_base_name == "eating" or animation_base_name == "starting_fire":
+	if animation_base_name in animations_with_no_direction:
 		a = animation_base_name
 	else:
 		a = animation_base_name + "_" + current_direction_name
