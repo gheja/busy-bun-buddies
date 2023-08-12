@@ -14,6 +14,7 @@ const JOB_LUMBERJACK = 2
 const JOB_SLEEPER = 3 # when too tired
 const JOB_EATER = 4 # when too hungry
 const JOB_FIRESTARTER = 5 # twisted
+const JOB_FIREFIGHTER = 6 # finally...
 
 const TASK_IDLING = 0
 const TASK_COLLECTING = 1
@@ -26,6 +27,9 @@ const TASK_SLEEPING = 7
 const TASK_EATING = 8
 const TASK_STARTING_THE_FIRE = 9 # we did (not) start it...
 const TASK_FLEE = 10 # go back to safety
+const TASK_FIREFIGHTER_1 = 11
+const TASK_FIREFIGHTER_2 = 12
+
 
 const COLOR_JOB_INACTIVE = Color(0.8, 0.8, 0.8, 1.0)
 const COLOR_JOB_CURRENT = Color(0.0, 1.0, 0.0, 1.0)

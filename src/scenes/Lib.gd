@@ -77,3 +77,10 @@ func array_pick(a):
 
 func plerp(a, b, p, delta):
 	return lerp(a, b, 1 - pow(p, delta))
+
+func has_any_flames():
+	if get_tree().get_nodes_in_group("flame").size() > 0:
+		return true
+	
+	return false
+

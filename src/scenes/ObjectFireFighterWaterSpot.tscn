@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/ObjectSpot_common.gd" type="Script" id=1]
+
+[sub_resource type="StreamTexture" id=1]
+load_path = "res://.import/misc_dot_sprite.png-45a12910f3a6f156a9ec37471c7dc366.stex"
+
+[node name="ObjectFireFighterWaterSpot" type="Node2D" groups=["firefighter_water_spot"]]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0, 0.298039, 1, 1 )
+texture = SubResource( 1 )

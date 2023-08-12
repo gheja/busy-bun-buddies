@@ -8,12 +8,16 @@ onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 var current_direction_name = "down"
 
+var max_speed_walk = 20
+var max_speed_run = 35
+
 var direction = Vector2.DOWN
 var speed = 0
 var velocity = Vector2.ZERO
 var is_navigating = false
 var mood = MOOD_OK
 var has_match = false
+var has_to_fight_fire = false
 
 # --- job ---
 var job = C.JOB_NONE
@@ -22,6 +26,7 @@ var job_override = C.JOB_NO_CHANGE
 var farmer_water_held = 0
 var farmer_crops_held = 0
 var lumberjack_wood_held = 0
+var firefighter_water_amount = 0
 
 # when changing jobs...
 var new_job = C.JOB_NO_CHANGE
@@ -45,6 +50,8 @@ var task_definitions = [
 	[ 3, "eating" ],   # TASK_EATING
 	[ 3, "starting_fire" ], # TASK_STARTING_THE_FIRE
 	[ 3, "idle" ],          # TASK_FLEE
+	[ 1, "working" ],       # TASK_FIREFIGHTER_1
+	[ 1, "fighting_fire" ], # TASK_FIREFIGHTER_2
 ]
 
 # --- needs ---
@@ -129,7 +136,11 @@ func _physics_process(_delta):
 				# print("navigating...")
 				next = nav_agent.get_next_location()
 				direction = (next - self.global_position).normalized()
-				speed = 20
+				
+				if task == C.TASK_FLEE or task == C.TASK_FIREFIGHTER_1 or task == C.TASK_FIREFIGHTER_2:
+					speed = max_speed_run
+				else:
+					speed = max_speed_walk
 	else:
 		speed = 0
 	
@@ -206,6 +217,11 @@ func update_carry_container():
 	
 	if has_match:
 		show_and_play_animation($CarryContainer/Match, "default")
+	elif has_to_fight_fire:
+		if firefighter_water_amount == 0:
+			$CarryContainer/FirefighterWaterEmpty.show()
+		else:
+			$CarryContainer/FirefighterWaterFull.show()
 	elif task == C.TASK_SLEEPING:
 		show_and_play_animation($CarryContainer/Sleeping, "default")
 	elif task == C.TASK_EATING:
@@ -292,6 +308,23 @@ func take_away_match():
 	has_match = false
 	set_task(C.TASK_IDLING)
 
+func fight_the_fire():
+	if has_match:
+		# oh no...
+		return
+	
+	has_to_fight_fire = true
+	
+	# stop whatever this bun is doing
+	abort_current_task()
+
+func finished_fighting_the_fire():
+	has_to_fight_fire = false
+	firefighter_water_amount = 0
+	
+	# stop whatever this bun is doing
+	abort_current_task()
+
 func set_new_job(job2):
 	new_job = job2
 	
@@ -305,9 +338,14 @@ func start_new_job_if_any():
 	job = new_job
 	new_job = C.JOB_NO_CHANGE
 
+func abort_current_task():
+	set_task(C.TASK_IDLING)
+
 func update_job_override():
 	if has_match:
 		job_override = C.JOB_FIRESTARTER
+	elif has_to_fight_fire:
+		job_override = C.JOB_FIREFIGHTER
 	elif mood == MOOD_TIRED:
 		job_override = C.JOB_SLEEPER
 	elif mood == MOOD_HUNGRY:
@@ -367,6 +405,36 @@ func think_firestarter():
 	elif task == C.TASK_FLEE:
 		if target_reached:
 			if do_task_and_is_finished():
+				set_task(C.TASK_IDLING)
+
+func think_firefighter():
+	var obj
+	
+	if not Lib.has_any_flames():
+		finished_fighting_the_fire()
+		return
+	
+	if task == C.TASK_IDLING:
+		if firefighter_water_amount > 0:
+			obj = Lib.get_nearest_object_in_group(self, "flame", false)
+			set_task(C.TASK_FIREFIGHTER_2, obj, false)
+		else:
+			obj = Lib.get_nearest_object_in_group(self, "firefighter_water_spot", true)
+			set_task(C.TASK_FIREFIGHTER_1, obj, true)
+	
+	elif task == C.TASK_FIREFIGHTER_1:
+		if target_reached:
+			if do_task_and_is_finished():
+				firefighter_water_amount += 1
+				set_task(C.TASK_IDLING)
+	
+	elif task == C.TASK_FIREFIGHTER_2:
+		if target_reached:
+			if do_task_and_is_finished():
+				if Lib.is_object_valid(target_object):
+					target_object.shrink()
+					firefighter_water_amount = 0
+				
 				set_task(C.TASK_IDLING)
 
 func think_sleeper():
@@ -540,9 +608,12 @@ func think():
 	
 	if task == C.TASK_IDLING:
 		update_job_override()
+	
 	if job_override == C.JOB_FIRESTARTER:
 		think_firestarter()
-	if job_override == C.JOB_SLEEPER:
+	elif job_override == C.JOB_FIREFIGHTER:
+		think_firefighter()
+	elif job_override == C.JOB_SLEEPER:
 		think_sleeper()
 	elif job_override == C.JOB_EATER:
 		think_eater()

@@ -121,6 +121,9 @@ func set_stats(amounts, amounts_needed, total_trees, burned_trees, max_burned_tr
 	$Menu/MenuPages/Stats/WoodCounter.modulate = Lib.if2(amounts[Lib.GOOD_WOOD] >= amounts_needed[Lib.GOOD_WOOD], Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
 	$Menu/MenuPages/Stats/BurnedTreesCounter.modulate = Lib.if2(burned_trees < max_burned_trees, Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
 
+func set_firefighter_button_visibility(value):
+	$FireFighterButton.visible = value
+
 func _on_MenuButton_pressed():
 	GameState.set_paused(true)
 	# set_menu_page(0)
@@ -206,3 +209,8 @@ func _on_TakeAwayMatch_pressed():
 	bun_under_cursor.take_away_match()
 	hide_bun_menu()
 
+func _on_FireFighterButton_pressed():
+	Lib.get_main_scene().fight_the_fire()
+
+func _on_FireFighterButton_mouse_entered():
+	set_tooltip("Fight fire!")

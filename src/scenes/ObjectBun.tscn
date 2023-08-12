@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=98 format=2]
 
 [ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Characters/Basic Charakter Spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Characters/Basic Charakter Actions.png" type="Texture" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://assets/graphics/bun_sleeping_v2_spritesheet.png" type="Texture" id=12]
 [ext_resource path="res://assets/graphics/eating_spritesheet.png" type="Texture" id=13]
 [ext_resource path="res://assets/graphics/status_fire_spritesheet.png" type="Texture" id=14]
+[ext_resource path="res://assets/graphics/status_firefighter_bucket_empty_sprite.png" type="Texture" id=15]
+[ext_resource path="res://assets/graphics/status_firefighter_bucket_full_sprite.png" type="Texture" id=16]
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 2 )
@@ -543,6 +545,16 @@ frames = SubResource( 63 )
 visible = false
 position = Vector2( 0, -3 )
 frames = SubResource( 94 )
+
+[node name="FirefighterWaterEmpty" type="Sprite" parent="CarryContainer"]
+visible = false
+position = Vector2( 0, -1 )
+texture = ExtResource( 15 )
+
+[node name="FirefighterWaterFull" type="Sprite" parent="CarryContainer"]
+visible = false
+position = Vector2( 0, -1 )
+texture = ExtResource( 16 )
 
 [connection signal="mouse_entered" from="." to="." method="_on_ObjectBun_mouse_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

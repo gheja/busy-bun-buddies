@@ -50,10 +50,10 @@ func light_on_fire():
 	
 	var tmp = preload("res://scenes/ObjectFlame.tscn").instance()
 	self.add_child(tmp)
-	tmp.bind_to_tree(self)
 	
 	tmp.connect("fire_propagate", self, "on_fire_propagate")
 	tmp.connect("fire_died", self, "on_fire_died")
+	tmp.connect("fire_extinguished", self, "on_fire_extinguished")
 	
 	update_tree()
 
@@ -78,6 +78,11 @@ func on_fire_propagate():
 
 func on_fire_died():
 	state = 4
+	is_on_fire = 0
+	update_tree()
+	emit_signal("stats_changed")
+
+func on_fire_extinguished():
 	is_on_fire = 0
 	update_tree()
 	emit_signal("stats_changed")

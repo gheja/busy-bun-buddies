@@ -76,7 +76,6 @@ script = ExtResource( 2 )
 position = Vector2( 0, -13 )
 frames = SubResource( 5 )
 animation = "fire_high"
-frame = 1
 playing = true
 
 [node name="Timer" type="Timer" parent="."]

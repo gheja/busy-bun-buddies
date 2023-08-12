@@ -22,6 +22,10 @@ func handle_bun_inspect():
 	
 	bun_under_cursor = bun
 
+func fight_the_fire():
+	for obj in get_tree().get_nodes_in_group("buns"):
+		obj.fight_the_fire()
+
 func update_tooltip():
 	if bun_under_cursor:
 		overlay.set_cursor_shape(C.CURSOR_INSPECT)
@@ -33,6 +37,9 @@ func update_tooltip():
 func handle_mouse_click():
 	if bun_under_cursor:
 		overlay.show_bun_menu(bun_under_cursor)
+
+func update_firefighter_button():
+	overlay.set_firefighter_button_visibility(Lib.has_any_flames())
 
 func on_stats_changed():
 	for i in range(0, 2):
@@ -67,6 +74,7 @@ func _process(_delta):
 	
 	handle_scroll()
 	handle_bun_inspect()
+	update_firefighter_button()
 	update_tooltip()
 
 func _ready():

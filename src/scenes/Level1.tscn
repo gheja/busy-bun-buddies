@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/LevelBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/ObjectBun.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://scenes/ObjectDoor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/ObjectSleepSpot.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/ObjectSafeSpot.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/ObjectFireFighterWaterSpot.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 45, 35.5 )
@@ -138,6 +139,33 @@ position = Vector2( -88, 32 )
 
 [node name="ObjectSafeSpot2" parent="LevelBase/Objects" index="35" instance=ExtResource( 9 )]
 position = Vector2( 16, -112 )
+
+[node name="ObjectFireFighterWaterSpot" parent="LevelBase/Objects" index="36" instance=ExtResource( 10 )]
+position = Vector2( -40, 40 )
+
+[node name="ObjectFireFighterWaterSpot2" parent="LevelBase/Objects" index="37" instance=ExtResource( 10 )]
+position = Vector2( -24, 40 )
+
+[node name="ObjectFireFighterWaterSpot3" parent="LevelBase/Objects" index="38" instance=ExtResource( 10 )]
+position = Vector2( -8, 40 )
+
+[node name="ObjectFireFighterWaterSpot4" parent="LevelBase/Objects" index="39" instance=ExtResource( 10 )]
+position = Vector2( -72, -24 )
+
+[node name="ObjectFireFighterWaterSpot5" parent="LevelBase/Objects" index="40" instance=ExtResource( 10 )]
+position = Vector2( -72, -40 )
+
+[node name="ObjectFireFighterWaterSpot6" parent="LevelBase/Objects" index="41" instance=ExtResource( 10 )]
+position = Vector2( -72, -56 )
+
+[node name="ObjectFireFighterWaterSpot7" parent="LevelBase/Objects" index="42" instance=ExtResource( 10 )]
+position = Vector2( -72, -72 )
+
+[node name="ObjectFireFighterWaterSpot8" parent="LevelBase/Objects" index="43" instance=ExtResource( 10 )]
+position = Vector2( -72, -88 )
+
+[node name="ObjectFireFighterWaterSpot9" parent="LevelBase/Objects" index="44" instance=ExtResource( 10 )]
+position = Vector2( -56, -88 )
 
 [node name="TileMapHouseRoof" parent="LevelBase" index="6"]
 tile_data = PoolIntArray( -458751, 0, 0, -458750, 1, 0, -458749, 1, 0, -458748, 1, 0, -458747, 1, 0, -458746, 1, 0, -458745, 2, 0, -393215, 3, 0, -393214, 4, 0, -393213, 4, 0, -393212, 4, 0, -393211, 4, 0, -393210, 4, 0, -393209, 5, 0, -327679, 6, 0, -327678, 7, 0, -327677, 7, 0, -327676, 7, 0, -327675, 7, 0, -327674, 7, 0, -327673, 8, 0, -262143, 11, 0, -262142, 10, 0, -262141, 10, 0, -262140, 10, 0, -262139, 10, 0, -262138, 10, 0, -262137, 9, 0, -196607, 12, 0, -196606, 13, 0, -196605, 13, 0, -196604, 13, 0, -196603, 13, 0, -196602, 13, 0, -196601, 14, 0 )
