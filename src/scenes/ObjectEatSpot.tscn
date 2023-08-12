@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scenes/ObjectEatSpot.gd" type="Script" id=1]
+[ext_resource path="res://scenes/ObjectSpot_common.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/misc_dot_sprite.png" type="Texture" id=2]
 
 [node name="ObjectEatSpot" type="Node2D"]

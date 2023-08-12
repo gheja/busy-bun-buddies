@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scenes/ObjectSleepSpot.gd" type="Script" id=1]
+[ext_resource path="res://scenes/ObjectSpot_common.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/misc_dot_sprite.png" type="Texture" id=2]
 
 [node name="ObjectSleepSpot" type="Node2D"]
