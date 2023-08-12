@@ -329,8 +329,8 @@ func think_eater():
 	
 	elif task == C.TASK_EATING:
 		if do_task_and_is_finished():
-			if Lib.is_object_valid(obj):
-				if obj.goods_out(Lib.GOOD_CROP, 1):
+			if Lib.is_object_valid(target_object):
+				if target_object.goods_out(Lib.GOOD_CROP, 1):
 					hunger = 0
 			
 			update_mood()
