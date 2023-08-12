@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/cursor_pointer.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://assets/graphics/button_stock.png" type="Texture" id=12]
 [ext_resource path="res://assets/graphics/button_objectives.png" type="Texture" id=13]
 [ext_resource path="res://assets/graphics/based on Sprout Lands/crop_sprite.png" type="Texture" id=14]
+[ext_resource path="res://assets/graphics/based on Sprout Lands/tree_stump_burned_sprite.png" type="Texture" id=15]
 
 [node name="OverlayControls" type="Control"]
 pause_mode = 2
@@ -109,51 +110,63 @@ IIIiiiiIIjIWNQIII
 sixth line is sad"
 
 [node name="Objectives" type="Control" parent="Menu/MenuPages"]
-visible = false
 margin_right = 64.0
 margin_bottom = 56.0
 
 [node name="Label" type="Label" parent="Menu/MenuPages/Objectives"]
 margin_left = 1.0
 margin_top = 1.0
-margin_right = 64.0
+margin_right = 63.0
 margin_bottom = 48.0
-text = "Collect food
-and wood
-before Winter
-arrives."
+text = "Collect food and wood before Winter arrives."
+autowrap = true
 
 [node name="Stats" type="Control" parent="Menu/MenuPages"]
+visible = false
 margin_right = 64.0
 margin_bottom = 56.0
 
-[node name="TextureRect" type="TextureRect" parent="Menu/MenuPages/Stats"]
-margin_left = 7.0
-margin_top = 4.0
-margin_right = 23.0
-margin_bottom = 20.0
+[node name="FoodTextureRect" type="TextureRect" parent="Menu/MenuPages/Stats"]
+margin_left = 9.0
+margin_top = 1.0
+margin_right = 25.0
+margin_bottom = 17.0
 texture = ExtResource( 14 )
 
 [node name="FoodCounter" type="Label" parent="Menu/MenuPages/Stats"]
-margin_left = 24.0
-margin_top = 9.0
-margin_right = 52.0
-margin_bottom = 17.0
+margin_left = 27.0
+margin_top = 6.0
+margin_right = 55.0
+margin_bottom = 14.0
 text = "7 of 16"
 
-[node name="TextureRect2" type="TextureRect" parent="Menu/MenuPages/Stats"]
-margin_left = 7.0
-margin_top = 22.0
-margin_right = 23.0
-margin_bottom = 38.0
+[node name="WoodTextureRect" type="TextureRect" parent="Menu/MenuPages/Stats"]
+margin_left = 9.0
+margin_top = 15.0
+margin_right = 25.0
+margin_bottom = 31.0
 texture = ExtResource( 10 )
 
 [node name="WoodCounter" type="Label" parent="Menu/MenuPages/Stats"]
-margin_left = 24.0
-margin_top = 27.0
-margin_right = 52.0
-margin_bottom = 35.0
+margin_left = 27.0
+margin_top = 20.0
+margin_right = 55.0
+margin_bottom = 28.0
 text = "7 of 16"
+
+[node name="BurnedTreesTextureRect" type="TextureRect" parent="Menu/MenuPages/Stats"]
+margin_left = 9.0
+margin_top = 29.0
+margin_right = 25.0
+margin_bottom = 45.0
+texture = ExtResource( 15 )
+
+[node name="BurnedTreesCounter" type="Label" parent="Menu/MenuPages/Stats"]
+margin_left = 27.0
+margin_top = 34.0
+margin_right = 55.0
+margin_bottom = 42.0
+text = "0 of 3"
 
 [node name="BunMenu" type="Control" parent="."]
 visible = false
@@ -253,6 +266,12 @@ one_shot = true
 [connection signal="mouse_entered" from="Menu/ButtonStats" to="." method="_on_ButtonStats_mouse_entered"]
 [connection signal="mouse_exited" from="Menu/ButtonStats" to="." method="_on_common_mouse_exited"]
 [connection signal="pressed" from="Menu/ButtonStats" to="." method="_on_ButtonStats_pressed"]
+[connection signal="mouse_entered" from="Menu/MenuPages/Stats/FoodTextureRect" to="." method="_on_FoodTextureRect_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/MenuPages/Stats/FoodTextureRect" to="." method="_on_common_mouse_exited"]
+[connection signal="mouse_entered" from="Menu/MenuPages/Stats/WoodTextureRect" to="." method="_on_WoodTextureRect_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/MenuPages/Stats/WoodTextureRect" to="." method="_on_common_mouse_exited"]
+[connection signal="mouse_entered" from="Menu/MenuPages/Stats/BurnedTreesTextureRect" to="." method="_on_BurnedTreesTextureRect_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/MenuPages/Stats/BurnedTreesTextureRect" to="." method="_on_common_mouse_exited"]
 [connection signal="gui_input" from="BunMenu/ColorRect/BunMenuBack" to="." method="_on_BunMenuBack_gui_input"]
 [connection signal="pressed" from="BunMenu/ColorRect/BunMenuBack" to="." method="_on_BunMenuBack_pressed"]
 [connection signal="gui_input" from="BunMenu/ColorRect/JobNone" to="." method="_on_JobNone_gui_input"]

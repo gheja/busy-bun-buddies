@@ -1,7 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/graphics/Cup Nooble  - Sprout Lands Basic pack/Objects/Basic Grass Biom things 1.png" type="Texture" id=1]
 [ext_resource path="res://scenes/ObjectTree.gd" type="Script" id=2]
+[ext_resource path="res://assets/graphics/based on Sprout Lands/tree_stump_burned_spritesheet.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 1.0
+} ]
 
 [node name="ObjectTree" type="Node2D" groups=["tree"]]
 script = ExtResource( 2 )
@@ -9,6 +26,7 @@ script = ExtResource( 2 )
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="State0" type="Node2D" parent="Visuals"]
+visible = false
 
 [node name="Sprite" type="Sprite" parent="Visuals/State0"]
 position = Vector2( 0, -11 )
@@ -44,4 +62,16 @@ visible = false
 position = Vector2( 0, -3 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 48, 32, 16, 16 )
+region_rect = Rect2( 64, 32, 16, 16 )
+
+[node name="State3" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="State4" type="Node2D" parent="Visuals"]
+visible = false
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Visuals/State4"]
+position = Vector2( 0, -3 )
+frames = SubResource( 3 )
+frame = 1
+playing = true

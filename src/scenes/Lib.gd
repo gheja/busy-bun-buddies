@@ -71,3 +71,9 @@ func if2(condition, value_true, value_false):
 
 func get_main_scene() -> PackedScene:
 	return get_first_group_member("main_scenes")
+
+func array_pick(a):
+	return a[randi() % a.size()]
+
+func plerp(a, b, p, delta):
+	return lerp(a, b, 1 - pow(p, delta))

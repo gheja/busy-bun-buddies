@@ -34,7 +34,7 @@ func handle_mouse_click():
 	if bun_under_cursor:
 		overlay.show_bun_menu(bun_under_cursor)
 
-func on_goods_amounts_changed():
+func on_stats_changed():
 	for i in range(0, 2):
 		total_goods[i] = 0
 	
@@ -42,13 +42,24 @@ func on_goods_amounts_changed():
 		for i in range(0, 2):
 			total_goods[i] += obj.goods[i]
 	
-	overlay.set_goods_amount_labels(total_goods, [ 7, 10 ])
+	var total_trees = 0
+	var burned_trees = 0
+	for obj in get_tree().get_nodes_in_group("tree"):
+		total_trees += 1
+		
+		if obj.state == 4:
+			burned_trees += 1
+	
+	overlay.set_stats(total_goods, [ 7, 10 ], total_trees, burned_trees, 3)
 
 func on_level_loaded():
 	for obj in get_tree().get_nodes_in_group("barn"):
-		obj.connect("goods_amounts_changed", self, "on_goods_amounts_changed")
+		obj.connect("goods_amounts_changed", self, "on_stats_changed")
 	
-	on_goods_amounts_changed()
+	for obj in get_tree().get_nodes_in_group("tree"):
+		obj.connect("stats_changed", self, "on_stats_changed")
+	
+	on_stats_changed()
 
 func _process(_delta):
 	if GameState.is_paused():
