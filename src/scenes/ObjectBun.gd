@@ -60,7 +60,7 @@ func _ready():
 	nav_agent.radius = 15
 	nav_agent.avoidance_enabled = true
 	
-	start_carry_container_animations()
+	# start_carry_container_animations()
 	update_carry_container()
 
 func start_carry_container_animations():
@@ -194,7 +194,7 @@ func show_and_play_animation(obj: AnimatedSprite, animation: String):
 	if not Lib.is_object_valid(obj):
 		return
 	
-	if obj.animation != animation:
+	if obj.animation != animation or not obj.playing:
 		obj.play(animation)
 	
 	obj.show()
