@@ -259,11 +259,13 @@ func do_task_and_is_finished():
 	return false
 
 func do_drop_off_goods():
-	target_object.goods_in(Lib.GOOD_CROP, farmer_crops_held)
-	target_object.goods_in(Lib.GOOD_WOOD, lumberjack_wood_held)
+	if farmer_crops_held > 0:
+		target_object.goods_in(Lib.GOOD_CROP, farmer_crops_held)
+		farmer_crops_held = 0
 	
-	farmer_crops_held = 0
-	lumberjack_wood_held = 0
+	if lumberjack_wood_held > 0:
+		target_object.goods_in(Lib.GOOD_WOOD, lumberjack_wood_held)
+		lumberjack_wood_held = 0
 	
 	set_task(C.TASK_IDLING)
 
