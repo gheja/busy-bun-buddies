@@ -57,7 +57,15 @@ func _ready():
 	nav_agent.radius = 15
 	nav_agent.avoidance_enabled = true
 	
+	start_carry_container_animations()
 	update_carry_container()
+
+func start_carry_container_animations():
+	for obj in $CarryContainer.get_children():
+		if not obj is AnimatedSprite:
+			continue
+		
+		obj.play("default")
 
 func update_direction_name():
 	if direction.x < -0.5:
@@ -183,9 +191,7 @@ func show_and_play_animation(obj: AnimatedSprite, animation: String):
 	if not Lib.is_object_valid(obj):
 		return
 	
-	obj.show()
-	
-	if obj.animation != animation or not obj.playing:
+	if obj.animation != animation:
 		obj.play(animation)
 
 func update_carry_container():
