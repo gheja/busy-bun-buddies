@@ -13,6 +13,7 @@ var speed = 0
 var velocity = Vector2.ZERO
 var is_navigating = false
 var mood = MOOD_OK
+var has_match = false
 
 # --- job ---
 var job = C.JOB_NONE
@@ -41,7 +42,9 @@ var task_definitions = [
 	[ 3, "watering" ], # TASK_WATERING_2
 	[ 3, "chopping" ], # TASK_CHOPPING_TREE
 	[ 8, "sleeping" ], # TASK_SLEEPING
-	[ 3, "eating" ], # TASK_EATING
+	[ 3, "eating" ],   # TASK_EATING
+	[ 3, "starting_fire" ], # TASK_STARTING_THE_FIRE
+	[ 3, "idle" ],          # TASK_FLEE
 ]
 
 # --- needs ---
@@ -94,7 +97,7 @@ func update_animation():
 		else:
 			animation_base_name = "idle"
 	
-	if animation_base_name == "idle" or animation_base_name == "sleeping" or animation_base_name == "eating":
+	if animation_base_name == "idle" or animation_base_name == "sleeping" or animation_base_name == "eating" or animation_base_name == "starting_fire":
 		a = animation_base_name
 	else:
 		a = animation_base_name + "_" + current_direction_name
@@ -193,12 +196,16 @@ func show_and_play_animation(obj: AnimatedSprite, animation: String):
 	
 	if obj.animation != animation:
 		obj.play(animation)
+	
+	obj.show()
 
 func update_carry_container():
 	for obj in $CarryContainer.get_children():
 		obj.hide()
 	
-	if task == C.TASK_SLEEPING:
+	if has_match:
+		show_and_play_animation($CarryContainer/Match, "default")
+	elif task == C.TASK_SLEEPING:
 		show_and_play_animation($CarryContainer/Sleeping, "default")
 	elif task == C.TASK_EATING:
 		show_and_play_animation($CarryContainer/Eating, "default")
@@ -246,16 +253,16 @@ func set_task(new_task: int, obj: Node2D = null, claim: bool = false, secondary_
 
 func swap_task_objects(new_task):
 	task = new_task
-
+	
 	var tmp = target_object
 	target_object = secondary_object
 	secondary_object = tmp
 	target_reached = false
-	
 
 # decreases the steps left in the task and returns true if finished,
 # false otherwise
 func do_task_and_is_finished():
+	print("do_task_and_is_finished() task: ", task, ", steps left: ", task_steps_left)
 	if task_steps_left > 0:
 		task_steps_left -= 1
 	
@@ -275,6 +282,9 @@ func do_drop_off_goods():
 	
 	set_task(C.TASK_IDLING)
 
+func pick_up_match():
+	has_match = true
+
 func set_new_job(job2):
 	new_job = job2
 	
@@ -289,7 +299,9 @@ func start_new_job_if_any():
 	new_job = C.JOB_NO_CHANGE
 
 func update_job_override():
-	if mood == MOOD_TIRED:
+	if has_match:
+		job_override = C.JOB_FIRESTARTER
+	elif mood == MOOD_TIRED:
 		job_override = C.JOB_SLEEPER
 	elif mood == MOOD_HUNGRY:
 		job_override = C.JOB_EATER
@@ -309,6 +321,46 @@ func increase_needs():
 	hunger += hunger_increase
 	
 	print("tiredness: ", tiredness, ", hunger: ", hunger)
+
+func think_firestarter():
+	var obj
+	
+	if task == C.TASK_IDLING:
+		var objs = []
+		
+		# find all fully grown trees, not on fire
+		for obj2 in get_trees_with_state(0, 0):
+			if obj2.is_on_fire:
+				continue
+			
+			objs.append(obj2)
+		
+		if objs.size() > 0:
+			# # pick the nearest one
+			# obj = Lib.get_nearest_object_from_list(self, objs)
+			
+			# pick a random one
+			obj = Lib.array_pick(objs)
+			
+			if obj:
+				set_task(C.TASK_STARTING_THE_FIRE, obj, true)
+	
+	elif task == C.TASK_STARTING_THE_FIRE:
+		if target_reached:
+			if do_task_and_is_finished():
+				if Lib.is_object_valid(target_object):
+					target_object.light_on_fire()
+					has_match = false
+					
+					obj = Lib.get_nearest_object_in_group(self, "safe_spot", false)
+					
+					if obj:
+						set_task(C.TASK_FLEE, obj, false)
+	
+	elif task == C.TASK_FLEE:
+		if target_reached:
+			if do_task_and_is_finished():
+				set_task(C.TASK_IDLING)
 
 func think_sleeper():
 	if task == C.TASK_IDLING:
@@ -481,7 +533,8 @@ func think():
 	
 	if task == C.TASK_IDLING:
 		update_job_override()
-	
+	if job_override == C.JOB_FIRESTARTER:
+		think_firestarter()
 	if job_override == C.JOB_SLEEPER:
 		think_sleeper()
 	elif job_override == C.JOB_EATER:

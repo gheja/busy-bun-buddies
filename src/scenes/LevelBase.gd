@@ -1,5 +1,10 @@
 extends Node2D
 
+export var match_count = 3
+export var match_timer_interval = 10
+
+var match_left = 0
+
 # The pathfinding is not working properly with collision shapes and the
 # navigation agent seems to be handled as a single point. So when an agent
 # walks it's sprite might clip into tiles that should not be navigable. This
@@ -27,6 +32,10 @@ func create_navigation_map():
 	# 			$NavigationMap.set_cellv(i, 2)
 
 func _ready():
+	match_left = match_count
+	$MatchTimer.wait_time = match_timer_interval
+	$MatchTimer.start()
+	
 	create_navigation_map()
 
 func _on_HouseRoofHideArea_mouse_entered():
@@ -34,3 +43,14 @@ func _on_HouseRoofHideArea_mouse_entered():
 
 func _on_HouseRoofHideArea_mouse_exited():
 	$TileMapHouseRoof.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+func _on_MatchTimer_timeout():
+	if match_left == 0:
+		return
+	
+	var bun = Lib.array_pick(get_tree().get_nodes_in_group("buns"))
+	
+	if bun.has_match:
+		return
+	
+	bun.pick_up_match()
