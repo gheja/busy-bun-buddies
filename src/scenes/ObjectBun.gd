@@ -242,6 +242,7 @@ func set_task(new_task: int, obj: Node2D = null, claim: bool = false, secondary_
 	target_object = obj
 	secondary_object = secondary_obj
 	target_reached = false
+	is_navigating = false
 	task_steps_left = task_definitions[task][0]
 	task_animation_name = task_definitions[task][1]
 	
@@ -258,6 +259,7 @@ func swap_task_objects(new_task):
 	target_object = secondary_object
 	secondary_object = tmp
 	target_reached = false
+	is_navigating = false
 
 # decreases the steps left in the task and returns true if finished,
 # false otherwise
@@ -284,6 +286,10 @@ func do_drop_off_goods():
 
 func pick_up_match():
 	has_match = true
+
+func take_away_match():
+	has_match = false
+	set_task(C.TASK_IDLING)
 
 func set_new_job(job2):
 	new_job = job2

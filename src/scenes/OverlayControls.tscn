@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/cursor_pointer.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://assets/graphics/button_objectives.png" type="Texture" id=13]
 [ext_resource path="res://assets/graphics/based on Sprout Lands/crop_sprite.png" type="Texture" id=14]
 [ext_resource path="res://assets/graphics/based on Sprout Lands/tree_stump_burned_sprite.png" type="Texture" id=15]
+[ext_resource path="res://assets/graphics/button_take_away_match_sprite.png" type="Texture" id=16]
 
 [node name="OverlayControls" type="Control"]
 pause_mode = 2
@@ -207,6 +208,13 @@ margin_right = 44.0
 margin_bottom = 19.0
 icon = ExtResource( 8 )
 
+[node name="TakeAwayMatch" type="Button" parent="BunMenu/ColorRect"]
+margin_left = 48.0
+margin_top = 11.0
+margin_right = 56.0
+margin_bottom = 19.0
+icon = ExtResource( 16 )
+
 [node name="BottomBar" type="Control" parent="."]
 margin_top = 54.0
 margin_right = 64.0
@@ -280,4 +288,6 @@ one_shot = true
 [connection signal="pressed" from="BunMenu/ColorRect/JobFarmer" to="." method="_on_JobFarmer_pressed"]
 [connection signal="gui_input" from="BunMenu/ColorRect/JobLumberjack" to="." method="_on_JobLumberjack_gui_input"]
 [connection signal="pressed" from="BunMenu/ColorRect/JobLumberjack" to="." method="_on_JobLumberjack_pressed"]
+[connection signal="gui_input" from="BunMenu/ColorRect/TakeAwayMatch" to="." method="_on_TakeAwayMatch_gui_input"]
+[connection signal="pressed" from="BunMenu/ColorRect/TakeAwayMatch" to="." method="_on_TakeAwayMatch_pressed"]
 [connection signal="timeout" from="TooltipHideTimer" to="." method="_on_TooltipHideTimer_timeout"]

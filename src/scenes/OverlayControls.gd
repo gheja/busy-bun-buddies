@@ -97,6 +97,8 @@ func show_bun_menu(bun):
 	modulate_by_bun_job($BunMenu/ColorRect/JobFarmer,     bun.job, bun.new_job, C.JOB_FARMER)
 	modulate_by_bun_job($BunMenu/ColorRect/JobLumberjack, bun.job, bun.new_job, C.JOB_LUMBERJACK)
 	set_cursor_shape(C.CURSOR_POINTER)
+	
+	$BunMenu/ColorRect/TakeAwayMatch.visible = bun_under_cursor.has_match
 
 func hide_bun_menu():
 	GameState.set_paused(false)
@@ -149,6 +151,9 @@ func _on_JobFarmer_gui_input(_event):
 func _on_JobLumberjack_gui_input(_event):
 	set_tooltip("job: Lumberjack")
 
+func _on_TakeAwayMatch_gui_input(event):
+	set_tooltip("Take match")
+
 func _on_BunMenuBack_pressed():
 	hide_bun_menu()
 
@@ -196,4 +201,8 @@ func _on_ButtonObjectives_pressed():
 
 func _on_ButtonStats_pressed():
 	set_menu_page(2)
+
+func _on_TakeAwayMatch_pressed():
+	bun_under_cursor.take_away_match()
+	hide_bun_menu()
 
