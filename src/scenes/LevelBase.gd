@@ -1,7 +1,8 @@
 extends Node2D
 
-export var match_count = 3
+export var total_matches = 3
 export var match_timer_interval = 10
+export var max_burned_trees = 3
 
 var match_left = 0
 
@@ -32,7 +33,7 @@ func create_navigation_map():
 	# 			$NavigationMap.set_cellv(i, 2)
 
 func _ready():
-	match_left = match_count
+	match_left = total_matches
 	$MatchTimer.wait_time = match_timer_interval
 	$MatchTimer.start()
 	

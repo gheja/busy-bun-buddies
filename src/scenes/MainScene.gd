@@ -3,7 +3,15 @@ extends Node2D
 var bun_under_cursor = null
 onready var overlay = $Camera2D/OverlayControls
 
+var level = null
+var level_base = null
 var total_goods = [ 0, 0 ]
+var needed_goods = [ 7, 10 ]
+var matches_found = 0
+var total_matches = 0
+var max_burned_trees = 0
+
+var tutorial_level = false
 
 func handle_scroll():
 	var scroll_direction = overlay.get_scroll_direction()
@@ -38,10 +46,29 @@ func handle_mouse_click():
 	if bun_under_cursor:
 		overlay.show_bun_menu(bun_under_cursor)
 
+func do_lose():
+	print("do_lose()")
+	
+	if Lib.has_seen_this("game_ended"):
+		return
+	
+	overlay.show_level_finished(false)
+
+func do_win():
+	print("do_win()")
+	
+	if Lib.has_seen_this("game_ended"):
+		return
+	
+	overlay.show_level_finished(true)
+
 func update_firefighter_button():
 	overlay.set_firefighter_button_visibility(Lib.has_any_flames())
 
 func on_stats_changed():
+	var win_condition_met = false
+	var lose_condition_met = false
+	
 	for i in range(0, 2):
 		total_goods[i] = 0
 	
@@ -57,7 +84,20 @@ func on_stats_changed():
 		if obj.state == 4:
 			burned_trees += 1
 	
-	overlay.set_stats(total_goods, [ 7, 10 ], total_trees, burned_trees, 3)
+	overlay.set_stats(total_goods, needed_goods, total_trees, burned_trees, max_burned_trees, matches_found, total_matches)
+	
+	if burned_trees >= max_burned_trees:
+		lose_condition_met = true
+	
+	# won't check for win condition if the forest is still on fire
+	if not Lib.has_any_flames():
+		if  total_goods[Lib.GOOD_CROP] >= needed_goods[Lib.GOOD_CROP] and total_goods[Lib.GOOD_WOOD] >= needed_goods[Lib.GOOD_WOOD] and matches_found == total_matches:
+			win_condition_met = true
+	
+	if lose_condition_met:
+		do_lose()
+	elif win_condition_met:
+		do_win()
 
 func on_level_loaded():
 	for obj in get_tree().get_nodes_in_group("barn"):
@@ -70,26 +110,50 @@ func on_level_loaded():
 		obj.connect("picked_up_match", self, "on_bun_picked_up_match")
 		obj.connect("started_a_fire", self, "on_bun_started_a_fire")
 		obj.connect("finished_fighting_the_fire", self, "on_bun_finished_fighting_the_fire")
+		obj.connect("lost_match", self, "on_bun_lost_match")
 	
+	level = $LevelContainer.get_children()[0]
+	level_base = level.get_level_base()
+	
+	total_matches = level_base.total_matches
+	max_burned_trees = level_base.max_burned_trees
+	matches_found = 0
+	
+	# for now...
+	tutorial_level = true
+	
+	Lib.has_seen_this_clear()
+	overlay.set_level_finished_button_visibility(false)
 	on_stats_changed()
 
 func on_bun_picked_up_match():
-	if Lib.has_seen_this("hint:on_bun_picked_up_match"):
+	on_stats_changed()
+	
+	if not tutorial_level or Lib.has_seen_this("hint:on_bun_picked_up_match"):
 		return
 	
 	$MatchHintTimer.start()
 
 func on_bun_started_a_fire():
-	if Lib.has_seen_this("hint:on_bun_started_a_fire"):
+	on_stats_changed()
+	
+	if not tutorial_level or Lib.has_seen_this("hint:on_bun_started_a_fire"):
 		return
 	
 	$FireHintTimer.start()
 
 func on_bun_finished_fighting_the_fire():
-	if Lib.has_seen_this("hint:on_bun_finished_fighting_the_fire"):
+	on_stats_changed()
+	
+	if not tutorial_level or Lib.has_seen_this("hint:on_bun_finished_fighting_the_fire"):
 		return
 	
 	$FireExtinguishedHintTimer.start()
+
+func on_bun_lost_match():
+	matches_found += 1
+	
+	on_stats_changed()
 
 func _process(_delta):
 	if GameState.is_paused():

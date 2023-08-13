@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/LevelBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/ObjectBun.tscn" type="PackedScene" id=2]
@@ -10,11 +10,13 @@
 [ext_resource path="res://scenes/ObjectSleepSpot.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/ObjectSafeSpot.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/ObjectFireFighterWaterSpot.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/Level_common.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 45, 35.5 )
 
 [node name="Level1" type="Node2D"]
+script = ExtResource( 11 )
 
 [node name="LevelBase" parent="." instance=ExtResource( 1 )]
 match_timer_interval = 20

@@ -3,6 +3,7 @@ extends KinematicBody2D
 signal picked_up_match
 signal started_a_fire
 signal finished_fighting_the_fire
+signal lost_match
 
 const MOOD_OK = 0
 const MOOD_TIRED = 1
@@ -313,6 +314,8 @@ func pick_up_match():
 func take_away_match():
 	has_match = false
 	set_task(C.TASK_IDLING)
+	
+	emit_signal("lost_match")
 
 func fight_the_fire():
 	if has_match:
@@ -406,6 +409,7 @@ func think_firestarter():
 					has_match = false
 					
 					emit_signal("started_a_fire")
+					emit_signal("lost_match")
 					
 					obj = Lib.get_nearest_object_in_group(self, "safe_spot", false)
 					

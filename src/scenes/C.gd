@@ -31,9 +31,13 @@ const TASK_FIREFIGHTER_1 = 11
 const TASK_FIREFIGHTER_2 = 12
 
 
-const COLOR_JOB_INACTIVE = Color(0.8, 0.8, 0.8, 1.0)
+const COLOR_JOB_INACTIVE = Color(0.7, 0.7, 0.7, 1.0)
 const COLOR_JOB_CURRENT = Color(0.0, 1.0, 0.0, 1.0)
 const COLOR_JOB_NEW = Color(0.2, 0.6, 0.2, 1.0)
 
 const COLOR_MENU_ACTIVE = Color(1.0, 1.0, 1.0, 1.0)
-const COLOR_MENU_INACTIVE = Color(0.7, 0.7, 0.7, 1.0)
+const COLOR_MENU_INACTIVE = Color(0.6, 0.6, 0.6, 1.0)
+
+const COLOR_STATS_NORMAL = Color(1.0, 0.9, 0.3, 1.0)
+const COLOR_STATS_GOOD = Color(0.2, 1.0, 0.2, 1.0)
+const COLOR_STATS_BAD = Color(1.0, 0.2, 0.1, 1.0)

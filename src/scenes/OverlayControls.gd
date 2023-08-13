@@ -76,13 +76,15 @@ func set_tooltip(s):
 		$BottomBar.hide()
 
 func set_menu_page(n):
-	$Menu/ButtonOptions.modulate =    Lib.if2(n == 0, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
-	$Menu/ButtonObjectives.modulate = Lib.if2(n == 1, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
-	$Menu/ButtonStats.modulate =      Lib.if2(n == 2, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	$Menu/ButtonOptions.modulate =       Lib.if2(n == 0, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	$Menu/ButtonObjectives.modulate =    Lib.if2(n == 1, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	$Menu/ButtonStats.modulate =         Lib.if2(n == 2, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
+	$Menu/ButtonLevelFinished.modulate = Lib.if2(n == 3, C.COLOR_MENU_ACTIVE, C.COLOR_MENU_INACTIVE)
 	
-	$Menu/MenuPages/Options.visible    = (n == 0)
-	$Menu/MenuPages/Objectives.visible = (n == 1)
-	$Menu/MenuPages/Stats.visible      = (n == 2)
+	$Menu/MenuPages/Options.visible       = (n == 0)
+	$Menu/MenuPages/Objectives.visible    = (n == 1)
+	$Menu/MenuPages/Stats.visible         = (n == 2)
+	$Menu/MenuPages/LevelFinished.visible = (n == 3)
 
 func modulate_by_bun_job(obj, job, new_job, value):
 	if new_job == value:
@@ -105,10 +107,7 @@ func show_bun_menu(bun):
 	$BunMenu/ColorRect/TakeAwayMatch.visible = bun_under_cursor.has_match
 
 func hide_bun_menu():
-	GameState.set_paused(false)
-	$MenuButton.show()
-	$BunMenu.hide()
-	bun_under_cursor = null
+	hide_menu()
 
 func bun_set_job(job):
 	if Lib.is_object_valid(bun_under_cursor):
@@ -131,36 +130,70 @@ func show_hint(s):
 		hints_to_show = [ s ]
 	
 	$Hint.show()
+	$MenuButton.hide()
 	GameState.set_paused(true)
 	
 	pop_hint()
 
-
-func set_stats(amounts, amounts_needed, total_trees, burned_trees, max_burned_trees):
-	$Menu/MenuPages/Stats/FoodCounter.text = str(amounts[Lib.GOOD_CROP]) + " of " + str(amounts_needed[Lib.GOOD_CROP])
-	$Menu/MenuPages/Stats/WoodCounter.text = str(amounts[Lib.GOOD_WOOD]) + " of " + str(amounts_needed[Lib.GOOD_WOOD])
-	$Menu/MenuPages/Stats/BurnedTreesCounter.text = str(burned_trees) + " of " + str(max_burned_trees)
+func set_stats(amounts, amounts_needed, total_trees, burned_trees, max_burned_trees, matches_found, total_matches):
+	$Menu/MenuPages/Stats/FoodCounter.text =        str(amounts[Lib.GOOD_CROP]) + " / " + str(amounts_needed[Lib.GOOD_CROP])
+	$Menu/MenuPages/Stats/WoodCounter.text =        str(amounts[Lib.GOOD_WOOD]) + " / " + str(amounts_needed[Lib.GOOD_WOOD])
+	$Menu/MenuPages/Stats/BurnedTreesCounter.text = str(burned_trees)           + " / " + str(max_burned_trees)
+	$Menu/MenuPages/Stats/MatchesCounter.text =     str(matches_found)          + " / " + str(total_matches)
 	
-	$Menu/MenuPages/Stats/FoodCounter.modulate = Lib.if2(amounts[Lib.GOOD_CROP] >= amounts_needed[Lib.GOOD_CROP], Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
-	$Menu/MenuPages/Stats/WoodCounter.modulate = Lib.if2(amounts[Lib.GOOD_WOOD] >= amounts_needed[Lib.GOOD_WOOD], Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
-	$Menu/MenuPages/Stats/BurnedTreesCounter.modulate = Lib.if2(burned_trees < max_burned_trees, Color(0.3, 1.0, 0.3, 1), Color(1.0, 1.0, 1.0, 1.0))
+	$Menu/MenuPages/Stats/FoodCounter.modulate =        Lib.if2(amounts[Lib.GOOD_CROP] >= amounts_needed[Lib.GOOD_CROP], C.COLOR_STATS_GOOD, C.COLOR_STATS_NORMAL)
+	$Menu/MenuPages/Stats/WoodCounter.modulate =        Lib.if2(amounts[Lib.GOOD_WOOD] >= amounts_needed[Lib.GOOD_WOOD], C.COLOR_STATS_GOOD, C.COLOR_STATS_NORMAL)
+	$Menu/MenuPages/Stats/BurnedTreesCounter.modulate = Lib.if2(burned_trees < max_burned_trees,                         C.COLOR_STATS_GOOD, C.COLOR_STATS_BAD)
+	$Menu/MenuPages/Stats/MatchesCounter.modulate =     Lib.if2(matches_found == total_matches,                          C.COLOR_STATS_GOOD, C.COLOR_STATS_NORMAL)
 
 func set_firefighter_button_visibility(value):
 	$FireFighterButton.visible = value
 
-func _on_MenuButton_pressed():
-	GameState.set_paused(true)
+func set_level_finished_button_visibility(value):
+	$Menu/ButtonLevelFinished.visible = value
+
+func show_level_finished(won: bool):
+	$Menu/MenuPages/LevelFinished/WinText.visible = won
+	$Menu/MenuPages/LevelFinished/LevelFinishedBackButton.visible = won
+	$Menu/MenuPages/LevelFinished/LevelFinishedContinueButton.visible = won
+	
+	$Menu/MenuPages/LevelFinished/LoseText.visible = not won
+	$Menu/MenuPages/LevelFinished/LevelFinishedRetryButton.visible = not won
+	
+	show_menu()
+	set_menu_page(3)
+	
+	set_level_finished_button_visibility(true)
+	$Menu/ButtonLevelFinished.grab_focus()
+	
+	# don't allow the player to go back to the game if lost
+	$Menu/ButtonBack.visible = won
+
+func show_menu():
 	# set_menu_page(0)
 	# $Menu/ButtonOptions.grab_focus()
 	set_menu_page(2)
 	$Menu/ButtonStats.grab_focus()
 	$Menu.show()
 	$MenuButton.hide()
+	
+	GameState.set_paused(true)
+
+func hide_menu():
+	bun_under_cursor = null
+	
+	$Menu.hide()
+	$Hint.hide()
+	$BunMenu.hide()
+	$MenuButton.show()
+	
+	GameState.set_paused(false)
+
+func _on_MenuButton_pressed():
+	show_menu()
 
 func _on_ButtonBack_pressed():
-	GameState.set_paused(false)
-	$Menu.hide()
-	$MenuButton.show()
+	hide_menu()
 
 # it would be much nicer to hide the tooltip when leaving the object but...
 func _on_TooltipHideTimer_timeout():
@@ -211,6 +244,9 @@ func _on_ButtonObjectives_mouse_entered():
 func _on_ButtonStats_mouse_entered():
 	set_tooltip("Stats")
 
+func _on_ButtonLevelFinished_mouse_entered():
+	set_tooltip("Level finished")
+
 func _on_FoodTextureRect_mouse_entered():
 	set_tooltip("Food")
 
@@ -220,6 +256,9 @@ func _on_WoodTextureRect_mouse_entered():
 func _on_BurnedTreesTextureRect_mouse_entered():
 	set_tooltip("Burned trees")
 
+func _on_MatchesTextureRect_mouse_entered():
+	set_tooltip("Matches found")
+
 func _on_ButtonOptions_pressed():
 	set_menu_page(0)
 
@@ -228,6 +267,9 @@ func _on_ButtonObjectives_pressed():
 
 func _on_ButtonStats_pressed():
 	set_menu_page(2)
+
+func _on_ButtonLevelFinished_pressed():
+	set_menu_page(3)
 
 func _on_TakeAwayMatch_pressed():
 	bun_under_cursor.take_away_match()
@@ -246,5 +288,23 @@ func _on_HintContinueButton_pressed():
 	if hints_to_show.size() > 0:
 		pop_hint()
 	else:
-		$Hint.hide()
-		GameState.set_paused(false)
+		hide_menu()
+
+func _on_LevelFinishedBackButton_mouse_entered():
+	set_tooltip("Back to game")
+
+func _on_LevelFinishedContinueButton_mouse_entered():
+	set_tooltip("Next level")
+
+func _on_LevelFinishedRetryButton_mouse_entered():
+	set_tooltip("Retry level")
+
+func _on_LevelFinishedBackButton_pressed():
+	hide_menu()
+	show_hint([ "Open the menu again to continue to the next level." ])
+
+func _on_LevelFinishedContinueButton_pressed():
+	hide_menu()
+
+func _on_LevelFinishedRetryButton_pressed():
+	pass
