@@ -10,4 +10,4 @@ func _unhandled_input(event):
 		return
 	
 	if (event is InputEventMouseButton) or (event is InputEventKey):
-		get_tree().change_scene("res://scenes/MainScene.tscn")
+		var _tmp = get_tree().change_scene("res://scenes/MainScene.tscn")

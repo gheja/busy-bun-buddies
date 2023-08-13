@@ -135,7 +135,7 @@ func show_hint(s):
 	
 	pop_hint()
 
-func set_stats(amounts, amounts_needed, total_trees, burned_trees, max_burned_trees, matches_found, total_matches):
+func set_stats(amounts, amounts_needed, _total_trees, burned_trees, max_burned_trees, matches_found, total_matches):
 	$Menu/MenuPages/Stats/FoodCounter.text =        str(amounts[Lib.GOOD_CROP]) + " / " + str(amounts_needed[Lib.GOOD_CROP])
 	$Menu/MenuPages/Stats/WoodCounter.text =        str(amounts[Lib.GOOD_WOOD]) + " / " + str(amounts_needed[Lib.GOOD_WOOD])
 	$Menu/MenuPages/Stats/BurnedTreesCounter.text = str(burned_trees)           + " / " + str(max_burned_trees)
