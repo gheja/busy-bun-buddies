@@ -63,10 +63,10 @@ margin_bottom = 8.0
 icon = ExtResource( 4 )
 
 [node name="FireFighterButton" type="Button" parent="."]
-margin_left = 24.0
+margin_left = 23.0
 margin_top = 9.0
-margin_right = 40.0
-margin_bottom = 19.0
+margin_right = 41.0
+margin_bottom = 21.0
 icon = ExtResource( 17 )
 
 [node name="Menu" type="Control" parent="."]
