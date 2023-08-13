@@ -554,7 +554,10 @@ position = Vector2( 0, -1 )
 texture = ExtResource( 16 )
 
 [node name="ThinkTimer" type="Timer" parent="."]
-autostart = true
+
+[node name="ThinkStartTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="mouse_entered" from="." to="." method="_on_ObjectBun_mouse_entered"]
 [connection signal="timeout" from="ThinkTimer" to="." method="_on_ThinkTimer_timeout"]
+[connection signal="timeout" from="ThinkStartTimer" to="." method="_on_ThinkStartTimer_timeout"]

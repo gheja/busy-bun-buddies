@@ -72,8 +72,16 @@ func _ready():
 	nav_agent.radius = 15
 	nav_agent.avoidance_enabled = true
 	
+	randomize_stats()
+	
 	# start_carry_container_animations()
 	update_carry_container()
+
+func randomize_stats():
+	tiredness = randf() * 0.2
+	hunger = randf() * 0.2
+	$ThinkStartTimer.wait_time = randf()
+	$ThinkStartTimer.start()
 
 func start_carry_container_animations():
 	for obj in $CarryContainer.get_children():
@@ -650,3 +658,6 @@ func _on_ThinkTimer_timeout():
 
 func get_rectangle():
 	return Rect2(self.global_position.x - 6, self.global_position.y - 14, 12, 16)
+
+func _on_ThinkStartTimer_timeout():
+	$ThinkTimer.start()
