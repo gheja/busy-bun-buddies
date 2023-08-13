@@ -66,7 +66,30 @@ func on_level_loaded():
 	for obj in get_tree().get_nodes_in_group("tree"):
 		obj.connect("stats_changed", self, "on_stats_changed")
 	
+	for obj in get_tree().get_nodes_in_group("buns"):
+		obj.connect("picked_up_match", self, "on_bun_picked_up_match")
+		obj.connect("started_a_fire", self, "on_bun_started_a_fire")
+		obj.connect("finished_fighting_the_fire", self, "on_bun_finished_fighting_the_fire")
+	
 	on_stats_changed()
+
+func on_bun_picked_up_match():
+	if Lib.has_seen_this("hint:on_bun_picked_up_match"):
+		return
+	
+	$MatchHintTimer.start()
+
+func on_bun_started_a_fire():
+	if Lib.has_seen_this("hint:on_bun_started_a_fire"):
+		return
+	
+	$FireHintTimer.start()
+
+func on_bun_finished_fighting_the_fire():
+	if Lib.has_seen_this("hint:on_bun_finished_fighting_the_fire"):
+		return
+	
+	$FireExtinguishedHintTimer.start()
 
 func _process(_delta):
 	if GameState.is_paused():
@@ -85,3 +108,12 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
 			handle_mouse_click()
+
+func _on_MatchHintTimer_timeout():
+	overlay.show_hint([ "Oh, a bun just found a match on the ground.", "Buns are naturally curious, so...", "You might want to take the match away.", "(Click on the bun and select that action.)" ])
+
+func _on_FireHintTimer_timeout():
+	overlay.show_hint([ "Oh no! The bun just started a fire!", "Use the \"Fight fire!\" button to extinguish it!" ])
+
+func _on_FireExtinguishedHintTimer_timeout():
+	overlay.show_hint([ "Huh, that was close...", "The buns might be too curious after all..." ])

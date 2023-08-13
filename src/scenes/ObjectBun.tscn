@@ -495,9 +495,6 @@ position = Vector2( 0, -2 )
 shape = SubResource( 36 )
 disabled = true
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
-
 [node name="CarryContainer" type="Node2D" parent="."]
 position = Vector2( 0, -16 )
 
@@ -556,5 +553,8 @@ visible = false
 position = Vector2( 0, -1 )
 texture = ExtResource( 16 )
 
+[node name="ThinkTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="mouse_entered" from="." to="." method="_on_ObjectBun_mouse_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="ThinkTimer" to="." method="_on_ThinkTimer_timeout"]

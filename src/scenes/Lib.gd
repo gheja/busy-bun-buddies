@@ -84,3 +84,11 @@ func has_any_flames():
 	
 	return false
 
+var _has_seen_this_array = []
+
+func has_seen_this(s):
+	if _has_seen_this_array.find(s) != -1:
+		return true
+	
+	_has_seen_this_array.append(s)
+	return false

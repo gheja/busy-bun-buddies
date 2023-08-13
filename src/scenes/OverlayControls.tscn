@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/cursor_pointer.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/graphics/based on Sprout Lands/tree_stump_burned_sprite.png" type="Texture" id=15]
 [ext_resource path="res://assets/graphics/button_take_away_match_sprite.png" type="Texture" id=16]
 [ext_resource path="res://assets/graphics/button_firefighter.png" type="Texture" id=17]
+[ext_resource path="res://assets/graphics/button_continue.png" type="Texture" id=18]
 
 [node name="OverlayControls" type="Control"]
 pause_mode = 2
@@ -224,6 +225,33 @@ margin_right = 56.0
 margin_bottom = 19.0
 icon = ExtResource( 16 )
 
+[node name="Hint" type="Control" parent="."]
+margin_top = 54.0
+margin_right = 64.0
+margin_bottom = 64.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Hint"]
+margin_top = -46.0
+margin_right = 64.0
+margin_bottom = -5.0
+color = Color( 0.0862745, 0.0196078, 0.0196078, 0.501961 )
+
+[node name="HintLabel" type="Label" parent="Hint"]
+margin_left = 1.0
+margin_top = -46.0
+margin_right = 65.0
+margin_bottom = -36.0
+text = "Hint comes here in about four lines but jjjj no more..."
+autowrap = true
+
+[node name="HintContinueButton" type="Button" parent="Hint"]
+margin_left = 56.0
+margin_top = -13.0
+margin_right = 64.0
+margin_bottom = -5.0
+icon = ExtResource( 18 )
+
 [node name="BottomBar" type="Control" parent="."]
 margin_top = 54.0
 margin_right = 64.0
@@ -233,6 +261,7 @@ mouse_filter = 2
 [node name="ColorRect" type="ColorRect" parent="BottomBar"]
 margin_right = 64.0
 margin_bottom = 10.0
+mouse_filter = 2
 color = Color( 0.0862745, 0.0196078, 0.0196078, 0.501961 )
 
 [node name="TooltipLabel" type="Label" parent="BottomBar"]
@@ -302,4 +331,7 @@ one_shot = true
 [connection signal="pressed" from="BunMenu/ColorRect/JobLumberjack" to="." method="_on_JobLumberjack_pressed"]
 [connection signal="gui_input" from="BunMenu/ColorRect/TakeAwayMatch" to="." method="_on_TakeAwayMatch_gui_input"]
 [connection signal="pressed" from="BunMenu/ColorRect/TakeAwayMatch" to="." method="_on_TakeAwayMatch_pressed"]
+[connection signal="mouse_entered" from="Hint/HintContinueButton" to="." method="_on_HintContinueButton_mouse_entered"]
+[connection signal="mouse_exited" from="Hint/HintContinueButton" to="." method="_on_common_mouse_exited"]
+[connection signal="pressed" from="Hint/HintContinueButton" to="." method="_on_HintContinueButton_pressed"]
 [connection signal="timeout" from="TooltipHideTimer" to="." method="_on_TooltipHideTimer_timeout"]

@@ -3,6 +3,8 @@ extends Control
 var scroll_direction = Vector2(0, 0)
 var bun_under_cursor = null
 
+var hints_to_show = []
+
 func _ready():
 	$ScrollTop.hide()
 	$ScrollBottom.hide()
@@ -13,6 +15,8 @@ func _ready():
 	$MenuButton.show()
 	
 	$BunMenu.hide()
+	
+	$Hint.hide()
 	
 	$BottomBar.hide()
 
@@ -54,7 +58,7 @@ func get_scroll_direction():
 	return scroll_direction
 
 func is_menu_active():
-	if $Menu.visible or $BunMenu.visible:
+	if $Menu.visible or $BunMenu.visible or $Hint.visible:
 		return true
 	
 	return false
@@ -112,6 +116,26 @@ func bun_set_job(job):
 	
 	hide_bun_menu()
 
+func pop_hint():
+	var s
+	
+	s = hints_to_show.pop_front()
+	
+	$Hint/HintLabel.text = s
+
+
+func show_hint(s):
+	if s is Array:
+		hints_to_show = s
+	else:
+		hints_to_show = [ s ]
+	
+	$Hint.show()
+	GameState.set_paused(true)
+	
+	pop_hint()
+
+
 func set_stats(amounts, amounts_needed, total_trees, burned_trees, max_burned_trees):
 	$Menu/MenuPages/Stats/FoodCounter.text = str(amounts[Lib.GOOD_CROP]) + " of " + str(amounts_needed[Lib.GOOD_CROP])
 	$Menu/MenuPages/Stats/WoodCounter.text = str(amounts[Lib.GOOD_WOOD]) + " of " + str(amounts_needed[Lib.GOOD_WOOD])
@@ -154,7 +178,7 @@ func _on_JobFarmer_gui_input(_event):
 func _on_JobLumberjack_gui_input(_event):
 	set_tooltip("job: Lumberjack")
 
-func _on_TakeAwayMatch_gui_input(event):
+func _on_TakeAwayMatch_gui_input(_event):
 	set_tooltip("Take match")
 
 func _on_BunMenuBack_pressed():
@@ -214,3 +238,13 @@ func _on_FireFighterButton_pressed():
 
 func _on_FireFighterButton_mouse_entered():
 	set_tooltip("Fight fire!")
+
+func _on_HintContinueButton_mouse_entered():
+	set_tooltip("Continue...")
+
+func _on_HintContinueButton_pressed():
+	if hints_to_show.size() > 0:
+		pop_hint()
+	else:
+		$Hint.hide()
+		GameState.set_paused(false)

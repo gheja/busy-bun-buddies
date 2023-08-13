@@ -20,3 +20,19 @@ margin_left = -32.0
 margin_top = -32.0
 margin_right = -32.0
 margin_bottom = -32.0
+
+[node name="MatchHintTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="FireHintTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="FireExtinguishedHintTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="MatchHintTimer" to="." method="_on_MatchHintTimer_timeout"]
+[connection signal="timeout" from="FireHintTimer" to="." method="_on_FireHintTimer_timeout"]
+[connection signal="timeout" from="FireExtinguishedHintTimer" to="." method="_on_FireExtinguishedHintTimer_timeout"]

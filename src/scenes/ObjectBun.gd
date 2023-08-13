@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+signal picked_up_match
+signal started_a_fire
+signal finished_fighting_the_fire
+
 const MOOD_OK = 0
 const MOOD_TIRED = 1
 const MOOD_HUNGRY = 2
@@ -303,6 +307,8 @@ func do_drop_off_goods():
 
 func pick_up_match():
 	has_match = true
+	
+	emit_signal("picked_up_match")
 
 func take_away_match():
 	has_match = false
@@ -321,6 +327,8 @@ func fight_the_fire():
 func finished_fighting_the_fire():
 	has_to_fight_fire = false
 	firefighter_water_amount = 0
+	
+	emit_signal("finished_fighting_the_fire")
 	
 	# stop whatever this bun is doing
 	abort_current_task()
@@ -396,6 +404,8 @@ func think_firestarter():
 				if Lib.is_object_valid(target_object):
 					target_object.light_on_fire()
 					has_match = false
+					
+					emit_signal("started_a_fire")
 					
 					obj = Lib.get_nearest_object_in_group(self, "safe_spot", false)
 					
@@ -631,7 +641,7 @@ func think():
 	
 	update_carry_container()
 
-func _on_Timer_timeout():
+func _on_ThinkTimer_timeout():
 	think()
 
 func get_rectangle():
