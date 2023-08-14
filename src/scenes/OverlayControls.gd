@@ -158,6 +158,7 @@ func set_firefighter_button_visibility(value):
 
 func set_level_finished_button_visibility(value):
 	$Menu/ButtonLevelFinished.visible = value
+	$Menu/MenuPages/LevelFinished.visible = value
 
 func set_matches_visibility(value):
 	$Menu/MenuPages/Stats/MatchesTextureRect.visible = value
@@ -184,8 +185,13 @@ func show_level_finished(status: int):
 	$Menu/ButtonBack.visible = (status == C.LEVEL_FINISHED_SUCCESS)
 
 func show_menu():
-	set_menu_page(2)
-	$Menu/ButtonStats.grab_focus()
+	if $Menu/MenuPages/LevelFinished.visible:
+		set_menu_page(3)
+		$Menu/ButtonLevelFinished.grab_focus()
+	else:
+		set_menu_page(2)
+		$Menu/ButtonStats.grab_focus()
+	
 	$Menu.show()
 	$MenuButton.hide()
 	$Menu/ButtonBack.show()
