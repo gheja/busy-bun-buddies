@@ -104,3 +104,7 @@ func has_seen_this(s):
 	
 	_has_seen_this_array.append(s)
 	return false
+
+func apply_options():
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), not GameState.music_enabled)
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds"), not GameState.sounds_enabled)

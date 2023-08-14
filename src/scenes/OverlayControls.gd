@@ -178,6 +178,7 @@ func show_menu():
 	$Menu/ButtonStats.grab_focus()
 	$Menu.show()
 	$MenuButton.hide()
+	update_options_page()
 	
 	GameState.set_paused(true)
 	set_cursor_shape(C.CURSOR_POINTER)
@@ -191,6 +192,13 @@ func hide_menu():
 	$MenuButton.show()
 	
 	GameState.set_paused(false)
+
+func update_options_page():
+	$Menu/MenuPages/Options/MusicEnabled.icon = Lib.if2(GameState.music_enabled, preload("res://assets/graphics/button_music_on.png"), preload("res://assets/graphics/button_music_off.png"))
+	$Menu/MenuPages/Options/MusicLabel.text = "Music: " + Lib.if2(GameState.music_enabled, "on", "off")
+	
+	$Menu/MenuPages/Options/SoundsEnabled.icon = Lib.if2(GameState.sounds_enabled, preload("res://assets/graphics/button_sound_on.png"), preload("res://assets/graphics/button_sound_off.png"))
+	$Menu/MenuPages/Options/SoundsLabel.text = "Sounds: " + Lib.if2(GameState.sounds_enabled, "on", "off")
 
 func _on_MenuButton_pressed():
 	show_menu()
@@ -311,3 +319,14 @@ func _on_LevelFinishedContinueButton_pressed():
 
 func _on_LevelFinishedRetryButton_pressed():
 	pass
+
+
+func _on_MusicEnabled_pressed():
+	GameState.music_enabled = not GameState.music_enabled
+	Lib.apply_options()
+	update_options_page()
+
+func _on_SoundsEnabled_pressed():
+	GameState.sounds_enabled = not GameState.sounds_enabled
+	Lib.apply_options()
+	update_options_page()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/cursor_pointer.png" type="Texture" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://assets/graphics/button_back.png" type="Texture" id=20]
 [ext_resource path="res://assets/graphics/button_level_finished.png" type="Texture" id=21]
 [ext_resource path="res://assets/graphics/button_retry.png" type="Texture" id=22]
+[ext_resource path="res://assets/graphics/button_music_on.png" type="Texture" id=23]
+[ext_resource path="res://assets/graphics/button_sound_on.png" type="Texture" id=24]
 
 [node name="OverlayControls" type="Control"]
 pause_mode = 2
@@ -117,17 +119,35 @@ visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Label" type="Label" parent="Menu/MenuPages/Options"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 65.0
-margin_bottom = 58.0
-text = "Hello there
-this is really
-not a big space
-yypygjjjjgy
-IIIiiiiIIjIWNQIII
-sixth line is sad"
+[node name="MusicEnabled" type="Button" parent="Menu/MenuPages/Options"]
+margin_left = 8.0
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 12.0
+icon = ExtResource( 23 )
+
+[node name="MusicLabel" type="Label" parent="Menu/MenuPages/Options"]
+margin_left = 18.0
+margin_top = 4.0
+margin_right = 64.0
+margin_bottom = 14.0
+text = "Music: on"
+autowrap = true
+
+[node name="SoundsEnabled" type="Button" parent="Menu/MenuPages/Options"]
+margin_left = 8.0
+margin_top = 16.0
+margin_right = 16.0
+margin_bottom = 24.0
+icon = ExtResource( 24 )
+
+[node name="SoundsLabel" type="Label" parent="Menu/MenuPages/Options"]
+margin_left = 18.0
+margin_top = 16.0
+margin_right = 64.0
+margin_bottom = 26.0
+text = "Sounds: on"
+autowrap = true
 
 [node name="Objectives" type="Control" parent="Menu/MenuPages"]
 visible = false
@@ -391,6 +411,10 @@ one_shot = true
 [connection signal="mouse_entered" from="Menu/ButtonLevelFinished" to="." method="_on_ButtonLevelFinished_mouse_entered"]
 [connection signal="mouse_exited" from="Menu/ButtonLevelFinished" to="." method="_on_common_mouse_exited"]
 [connection signal="pressed" from="Menu/ButtonLevelFinished" to="." method="_on_ButtonLevelFinished_pressed"]
+[connection signal="mouse_exited" from="Menu/MenuPages/Options/MusicEnabled" to="." method="_on_common_mouse_exited"]
+[connection signal="pressed" from="Menu/MenuPages/Options/MusicEnabled" to="." method="_on_MusicEnabled_pressed"]
+[connection signal="mouse_exited" from="Menu/MenuPages/Options/SoundsEnabled" to="." method="_on_common_mouse_exited"]
+[connection signal="pressed" from="Menu/MenuPages/Options/SoundsEnabled" to="." method="_on_SoundsEnabled_pressed"]
 [connection signal="mouse_entered" from="Menu/MenuPages/Stats/FoodTextureRect" to="." method="_on_FoodTextureRect_mouse_entered"]
 [connection signal="mouse_exited" from="Menu/MenuPages/Stats/FoodTextureRect" to="." method="_on_common_mouse_exited"]
 [connection signal="mouse_entered" from="Menu/MenuPages/Stats/WoodTextureRect" to="." method="_on_WoodTextureRect_mouse_entered"]
