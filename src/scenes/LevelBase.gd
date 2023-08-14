@@ -3,6 +3,7 @@ extends Node2D
 export var total_matches = 3
 export var match_timer_interval = 10
 export var max_burned_trees = 3
+export var needed_goods = [ 5, 5 ]
 
 var match_left = 0
 

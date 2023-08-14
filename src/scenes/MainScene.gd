@@ -122,6 +122,7 @@ func on_level_loaded():
 	
 	total_matches = level_base.total_matches
 	max_burned_trees = level_base.max_burned_trees
+	needed_goods = level_base.needed_goods
 	matches_found = 0
 	
 	# for now...
