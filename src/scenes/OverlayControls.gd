@@ -113,6 +113,7 @@ func hide_bun_menu():
 func bun_set_job(job):
 	if Lib.is_object_valid(bun_under_cursor):
 		bun_under_cursor.set_new_job(job)
+		AudioManager.play_sound(3)
 	
 	hide_bun_menu()
 
@@ -122,6 +123,8 @@ func pop_hint():
 	s = hints_to_show.pop_front()
 	
 	$Hint/HintLabel.text = s
+	
+	AudioManager.play_sound(4)
 
 
 func show_hint(s):
@@ -200,11 +203,19 @@ func update_options_page():
 	$Menu/MenuPages/Options/SoundsEnabled.icon = Lib.if2(GameState.sounds_enabled, preload("res://assets/graphics/button_sound_on.png"), preload("res://assets/graphics/button_sound_off.png"))
 	$Menu/MenuPages/Options/SoundsLabel.text = "Sounds: " + Lib.if2(GameState.sounds_enabled, "on", "off")
 
+func button_pressed():
+	AudioManager.play_sound(5)
+
+func button_pressed_2():
+	AudioManager.play_sound(6)
+
 func _on_MenuButton_pressed():
 	show_menu()
+	button_pressed()
 
 func _on_ButtonBack_pressed():
 	hide_menu()
+	button_pressed()
 
 # it would be much nicer to hide the tooltip when leaving the object but...
 func _on_TooltipHideTimer_timeout():
@@ -227,6 +238,7 @@ func _on_TakeAwayMatch_gui_input(_event):
 
 func _on_BunMenuBack_pressed():
 	hide_bun_menu()
+	button_pressed()
 
 func _on_JobNone_pressed():
 	bun_set_job(C.JOB_NONE)
@@ -272,22 +284,28 @@ func _on_MatchesTextureRect_mouse_entered():
 
 func _on_ButtonOptions_pressed():
 	set_menu_page(0)
+	button_pressed_2()
 
 func _on_ButtonObjectives_pressed():
 	set_menu_page(1)
+	button_pressed_2()
 
 func _on_ButtonStats_pressed():
 	set_menu_page(2)
+	button_pressed_2()
 
 func _on_ButtonLevelFinished_pressed():
 	set_menu_page(3)
+	button_pressed_2()
 
 func _on_TakeAwayMatch_pressed():
 	bun_under_cursor.take_away_match()
 	hide_bun_menu()
+	AudioManager.play_sound(8)
 
 func _on_FireFighterButton_pressed():
 	Lib.get_main_scene().fight_the_fire()
+	AudioManager.play_sound(7)
 
 func _on_FireFighterButton_mouse_entered():
 	set_tooltip("Fight fire!")
@@ -300,6 +318,7 @@ func _on_HintContinueButton_pressed():
 		pop_hint()
 	else:
 		hide_menu()
+		button_pressed()
 
 func _on_LevelFinishedBackButton_mouse_entered():
 	set_tooltip("Back to game")
@@ -313,11 +332,14 @@ func _on_LevelFinishedRetryButton_mouse_entered():
 func _on_LevelFinishedBackButton_pressed():
 	hide_menu()
 	show_hint([ "Open the menu again to continue to the next level." ])
+	button_pressed()
 
 func _on_LevelFinishedContinueButton_pressed():
 	hide_menu()
+	button_pressed()
 
 func _on_LevelFinishedRetryButton_pressed():
+	button_pressed()
 	pass
 
 
@@ -325,8 +347,10 @@ func _on_MusicEnabled_pressed():
 	GameState.music_enabled = not GameState.music_enabled
 	Lib.apply_options()
 	update_options_page()
+	button_pressed()
 
 func _on_SoundsEnabled_pressed():
 	GameState.sounds_enabled = not GameState.sounds_enabled
 	Lib.apply_options()
 	update_options_page()
+	button_pressed()

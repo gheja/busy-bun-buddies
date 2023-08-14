@@ -8,6 +8,13 @@ var music_fade_ratio_target = 1.0
 var sounds = [
 	preload("res://assets/music/Swaylle on opengameart.org/coffee.ogg"), # 0
 	preload("res://assets/sounds/Pixabay at pixabay.com/lit-fireplace-6307.ogg"),
+	preload("res://assets/sounds/bun_select.ogg"),
+	preload("res://assets/sounds/bun_ok.ogg"),
+	preload("res://assets/sounds/hint_popup.ogg"),
+	preload("res://assets/sounds/ui_click.ogg"),
+	preload("res://assets/sounds/ui_click_2.ogg"),
+	preload("res://assets/sounds/firefighter_start.ogg"), # 7
+	preload("res://assets/sounds/bun_sad.ogg"),
 ]
 
 var volume_overrides = [
@@ -16,7 +23,7 @@ var volume_overrides = [
 func play_sound(index, pitch_shift_min: float = 1.0, pitch_shift_max: float = 1.0):
 	var tmp = AudioStreamPlayer.new()
 	tmp.stream = sounds[index]
-	tmp.bus = "SFX"
+	tmp.bus = "Misc Sounds"
 	
 	if volume_overrides.size() > index and volume_overrides[index] != null:
 		tmp.volume_db = linear2db(volume_overrides[index])
