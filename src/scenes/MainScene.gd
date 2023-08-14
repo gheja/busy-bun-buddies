@@ -11,7 +11,7 @@ var matches_found = 0
 var total_matches = 0
 var max_burned_trees = 0
 
-var tutorial_level = false
+var tutorial_hints_group = 0
 
 func handle_scroll():
 	var scroll_direction = overlay.get_scroll_direction()
@@ -127,19 +127,19 @@ func on_level_loaded():
 	max_burned_trees = level_base.max_burned_trees
 	needed_goods = level_base.needed_goods
 	matches_found = 0
+	tutorial_hints_group = level_base.tutorial_hints_group
 	
 	if level_base.total_matches == 0:
 		overlay.set_matches_visibility(false)
 	else:
 		overlay.set_matches_visibility(true)
 	
-	# for now...
-	tutorial_level = true
-	
-	if tutorial_level:
+	if tutorial_hints_group == 1:
 		$WelcomeHintTimer.start()
 		$Welcome2HintTimer.start()
 		$SwitchToLumberjackHintTimer.start()
+	elif tutorial_hints_group == 2:
+		$SecondTutorialHintTimer.start()
 	
 	Lib.has_seen_this_clear()
 	overlay.set_level_finished_button_visibility(false)
@@ -171,7 +171,7 @@ func load_next_level():
 func on_bun_picked_up_match():
 	on_stats_changed()
 	
-	if not tutorial_level or Lib.has_seen_this("hint:on_bun_picked_up_match"):
+	if tutorial_hints_group == 0 or Lib.has_seen_this("hint:on_bun_picked_up_match"):
 		return
 	
 	$MatchHintTimer.start()
@@ -179,7 +179,7 @@ func on_bun_picked_up_match():
 func on_bun_started_a_fire():
 	on_stats_changed()
 	
-	if not tutorial_level or Lib.has_seen_this("hint:on_bun_started_a_fire"):
+	if tutorial_hints_group == 0 or Lib.has_seen_this("hint:on_bun_started_a_fire"):
 		return
 	
 	$FireHintTimer.start()
@@ -187,7 +187,7 @@ func on_bun_started_a_fire():
 func on_bun_finished_fighting_the_fire():
 	on_stats_changed()
 	
-	if not tutorial_level or Lib.has_seen_this("hint:on_bun_finished_fighting_the_fire"):
+	if tutorial_hints_group == 0 or Lib.has_seen_this("hint:on_bun_finished_fighting_the_fire"):
 		return
 	
 	$FireExtinguishedHintTimer.start()
@@ -236,6 +236,13 @@ func _on_SwitchToLumberjackHintTimer_timeout():
 	$SwitchToLumberjackHintTimer.stop()
 	overlay.show_hint([ "Your bun has collected enough food for the winter.", "You can ask the bun to chop some wood.", "Click on the bun and select the new job." ])
 
+func _on_SecondTutorialHintTimer_timeout():
+	overlay.show_hint([ "These buns don't know what they should do.", "Help them by assigning jobs to them." ])
+
+func _on_ThirdTutorialHintTimer_timeout():
+	# overlay.show_hint([ "Great job!" ])
+	pass
+
 func _on_MatchHintTimer_timeout():
 	overlay.show_hint([ "Oh, a bun just found a match on the ground.", "Buns are naturally curious, so...", "You might want to take the match away.", "(Click on the bun and select that action.)" ])
 
@@ -244,3 +251,4 @@ func _on_FireHintTimer_timeout():
 
 func _on_FireExtinguishedHintTimer_timeout():
 	overlay.show_hint([ "Huh, that was close...", "The buns might be too curious after all..." ])
+
