@@ -7,6 +7,7 @@ var current_level_index = 0
 var max_level_index_unlocked = 1
 
 var levels = [
+	"res://scenes/levels/TutorialLevel1.tscn",
 	"res://scenes/levels/Level1.tscn"
 ]
 

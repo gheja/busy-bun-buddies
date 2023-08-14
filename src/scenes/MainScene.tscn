@@ -18,6 +18,14 @@ margin_top = -32.0
 margin_right = -32.0
 margin_bottom = -32.0
 
+[node name="WelcomeHintTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="Welcome2HintTimer" type="Timer" parent="."]
+wait_time = 8.5
+one_shot = true
+
 [node name="MatchHintTimer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
@@ -30,6 +38,8 @@ one_shot = true
 wait_time = 1.5
 one_shot = true
 
+[connection signal="timeout" from="WelcomeHintTimer" to="." method="_on_WelcomeHintTimer_timeout"]
+[connection signal="timeout" from="Welcome2HintTimer" to="." method="_on_Welcome2HintTimer_timeout"]
 [connection signal="timeout" from="MatchHintTimer" to="." method="_on_MatchHintTimer_timeout"]
 [connection signal="timeout" from="FireHintTimer" to="." method="_on_FireHintTimer_timeout"]
 [connection signal="timeout" from="FireExtinguishedHintTimer" to="." method="_on_FireExtinguishedHintTimer_timeout"]

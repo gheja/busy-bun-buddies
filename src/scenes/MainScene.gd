@@ -133,6 +133,10 @@ func on_level_loaded():
 	# for now...
 	tutorial_level = true
 	
+	if tutorial_level:
+		$WelcomeHintTimer.start()
+		$Welcome2HintTimer.start()
+	
 	Lib.has_seen_this_clear()
 	overlay.set_level_finished_button_visibility(false)
 	on_stats_changed()
@@ -200,6 +204,12 @@ func _unhandled_input(event):
 		if event.pressed:
 			handle_mouse_click()
 
+func _on_WelcomeHintTimer_timeout():
+	overlay.show_hint([ "Welcome to the tiny island of your bun!" ])
+
+func _on_Welcome2HintTimer_timeout():
+	overlay.show_hint([ "The buns are busy people, this one is now farming.", "Buns need food and wood for the winter.", "To check the stock, see the menu above.", "Options and objectives are also there." ])
+
 func _on_MatchHintTimer_timeout():
 	overlay.show_hint([ "Oh, a bun just found a match on the ground.", "Buns are naturally curious, so...", "You might want to take the match away.", "(Click on the bun and select that action.)" ])
 
@@ -208,3 +218,5 @@ func _on_FireHintTimer_timeout():
 
 func _on_FireExtinguishedHintTimer_timeout():
 	overlay.show_hint([ "Huh, that was close...", "The buns might be too curious after all..." ])
+
+
