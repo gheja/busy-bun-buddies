@@ -70,7 +70,7 @@ scale = Vector2( 0.109375, 0.046875 )
 texture = SubResource( 2 )
 
 [node name="RecentlyHandledTimer" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 10.0
 one_shot = true
 
 [connection signal="timeout" from="RecentlyHandledTimer" to="." method="_on_RecentlyHandledTimer_timeout"]
