@@ -113,6 +113,8 @@ func on_level_loaded():
 		obj.connect("finished_fighting_the_fire", self, "on_bun_finished_fighting_the_fire")
 		obj.connect("lost_match", self, "on_bun_lost_match")
 	
+	$Camera2D.global_position = Lib.get_first_group_member("camera_start_position").global_position
+	
 	level = $LevelContainer.get_children()[0]
 	level_base = level.get_level_base()
 	
@@ -126,6 +128,18 @@ func on_level_loaded():
 	Lib.has_seen_this_clear()
 	overlay.set_level_finished_button_visibility(false)
 	on_stats_changed()
+
+func reload_current_level():
+	for obj in $LevelContainer.get_children():
+		$LevelContainer.remove_child(obj)
+	
+	var level_scene = load(GameState.levels[GameState.current_level_index]).instance()
+	$LevelContainer.add_child(level_scene)
+	on_level_loaded()
+
+func load_level(number):
+	GameState.current_level_index = number
+	reload_current_level()
 
 func on_bun_picked_up_match():
 	on_stats_changed()
@@ -167,7 +181,7 @@ func _process(_delta):
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	on_level_loaded()
+	load_level(0)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:

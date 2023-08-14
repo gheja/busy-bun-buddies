@@ -68,6 +68,8 @@ shape = SubResource( 1 )
 
 [node name="MatchTimer" type="Timer" parent="."]
 
+[node name="CameraStartPosition" type="Position2D" parent="." groups=["camera_start_position"]]
+
 [connection signal="mouse_entered" from="HouseRoofHideArea" to="." method="_on_HouseRoofHideArea_mouse_entered"]
 [connection signal="mouse_exited" from="HouseRoofHideArea" to="." method="_on_HouseRoofHideArea_mouse_exited"]
 [connection signal="timeout" from="MatchTimer" to="." method="_on_MatchTimer_timeout"]

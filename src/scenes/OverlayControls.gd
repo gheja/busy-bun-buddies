@@ -177,12 +177,11 @@ func show_level_finished(won: bool):
 	$Menu/ButtonBack.visible = won
 
 func show_menu():
-	# set_menu_page(0)
-	# $Menu/ButtonOptions.grab_focus()
 	set_menu_page(2)
 	$Menu/ButtonStats.grab_focus()
 	$Menu.show()
 	$MenuButton.hide()
+	$Menu/ButtonBack.show()
 	update_options_page()
 	
 	GameState.set_paused(true)
@@ -342,9 +341,9 @@ func _on_LevelFinishedContinueButton_pressed():
 	button_pressed()
 
 func _on_LevelFinishedRetryButton_pressed():
+	Lib.get_main_scene().reload_current_level()
+	hide_menu()
 	button_pressed()
-	pass
-
 
 func _on_MusicEnabled_pressed():
 	GameState.music_enabled = not GameState.music_enabled
