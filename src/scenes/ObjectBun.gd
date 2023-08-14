@@ -4,10 +4,7 @@ signal picked_up_match
 signal started_a_fire
 signal finished_fighting_the_fire
 signal lost_match
-
-const MOOD_OK = 0
-const MOOD_TIRED = 1
-const MOOD_HUNGRY = 2
+signal bun_starving
 
 onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
@@ -20,7 +17,7 @@ var direction = Vector2.DOWN
 var speed = 0
 var velocity = Vector2.ZERO
 var is_navigating = false
-var mood = MOOD_OK
+var mood = C.MOOD_OK
 var has_match = false
 var has_to_fight_fire = false
 
@@ -67,7 +64,8 @@ var tiredness = 0
 var hunger = 0
 
 var tiredness_increase = 0.006
-var hunger_increase = 0.0074
+# var hunger_increase = 0.0074
+var hunger_increase = 0.1
 
 func _ready():
 	$AnimatedSprite.play("idle")
@@ -243,9 +241,9 @@ func update_carry_container():
 		show_and_play_animation($CarryContainer/Sleeping, "default")
 	elif task == C.TASK_EATING:
 		show_and_play_animation($CarryContainer/Eating, "default")
-	elif mood == MOOD_TIRED:
+	elif mood == C.MOOD_TIRED:
 		$CarryContainer/Tired.show()
-	elif mood == MOOD_HUNGRY:
+	elif mood == C.MOOD_HUNGRY:
 		$CarryContainer/Hungry.show()
 	elif farmer_crops_held > 0:
 		$CarryContainer/Tomato.show()
@@ -369,20 +367,20 @@ func update_job_override():
 		job_override = C.JOB_FIRESTARTER
 	elif has_to_fight_fire:
 		job_override = C.JOB_FIREFIGHTER
-	elif mood == MOOD_TIRED:
+	elif mood == C.MOOD_TIRED:
 		job_override = C.JOB_SLEEPER
-	elif mood == MOOD_HUNGRY:
+	elif mood == C.MOOD_HUNGRY:
 		job_override = C.JOB_EATER
 	else:
 		job_override = C.JOB_NO_CHANGE
 
 func update_mood():
 	if tiredness >= 0.75:
-		mood = MOOD_TIRED
+		mood = C.MOOD_TIRED
 	elif hunger >= 0.75:
-		mood = MOOD_HUNGRY
+		mood = C.MOOD_HUNGRY
 	else:
-		mood = MOOD_OK
+		mood = C.MOOD_OK
 
 func increase_needs():
 	tiredness += tiredness_increase
@@ -485,14 +483,19 @@ func think_eater():
 	
 	elif task == C.TASK_DROPPING_OFF:
 		if target_reached:
-			# keep the barn selected
-			set_task(C.TASK_EATING, target_object, false)
+			
+			# only eat if the barn has food and we can reduce it by 1
+			if target_object.goods_out(Lib.GOOD_CROP, 1):
+				set_task(C.TASK_EATING)
+			else:
+				emit_signal("bun_starving")
+				# and retry, as the task was not updated - except when out of
+				# food and all bunnies are hungry, then lose the level in the
+				# signal handler
 	
 	elif task == C.TASK_EATING:
 		if do_task_and_is_finished():
-			if Lib.is_object_valid(target_object):
-				if target_object.goods_out(Lib.GOOD_CROP, 1):
-					hunger = 0
+			hunger = 0
 			
 			update_mood()
 			set_task(C.TASK_IDLING)

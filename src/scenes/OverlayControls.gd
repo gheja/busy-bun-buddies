@@ -159,13 +159,14 @@ func set_firefighter_button_visibility(value):
 func set_level_finished_button_visibility(value):
 	$Menu/ButtonLevelFinished.visible = value
 
-func show_level_finished(won: bool):
-	$Menu/MenuPages/LevelFinished/WinText.visible = won
-	$Menu/MenuPages/LevelFinished/LevelFinishedBackButton.visible = won
-	$Menu/MenuPages/LevelFinished/LevelFinishedContinueButton.visible = won
+func show_level_finished(status: int):
+	$Menu/MenuPages/LevelFinished/WinText.visible = (status == C.LEVEL_FINISHED_SUCCESS)
+	$Menu/MenuPages/LevelFinished/LevelFinishedBackButton.visible = (status == C.LEVEL_FINISHED_SUCCESS)
+	$Menu/MenuPages/LevelFinished/LevelFinishedContinueButton.visible = (status == C.LEVEL_FINISHED_SUCCESS)
 	
-	$Menu/MenuPages/LevelFinished/LoseText.visible = not won
-	$Menu/MenuPages/LevelFinished/LevelFinishedRetryButton.visible = not won
+	$Menu/MenuPages/LevelFinished/LoseFireText.visible = (status == C.LEVEL_FAILED_FIRE)
+	$Menu/MenuPages/LevelFinished/LoseOutOfFoodText.visible = (status == C.LEVEL_FAILED_OUT_OF_FOOD)
+	$Menu/MenuPages/LevelFinished/LevelFinishedRetryButton.visible = (status != C.LEVEL_FINISHED_SUCCESS)
 	
 	show_menu()
 	set_menu_page(3)
@@ -174,7 +175,7 @@ func show_level_finished(won: bool):
 	$Menu/ButtonLevelFinished.grab_focus()
 	
 	# don't allow the player to go back to the game if lost
-	$Menu/ButtonBack.visible = won
+	$Menu/ButtonBack.visible = (status == C.LEVEL_FINISHED_SUCCESS)
 
 func show_menu():
 	set_menu_page(2)

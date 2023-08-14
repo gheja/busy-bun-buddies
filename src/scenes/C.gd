@@ -30,6 +30,13 @@ const TASK_FLEE = 10 # go back to safety
 const TASK_FIREFIGHTER_1 = 11
 const TASK_FIREFIGHTER_2 = 12
 
+const MOOD_OK = 0
+const MOOD_TIRED = 1
+const MOOD_HUNGRY = 2
+
+const LEVEL_FINISHED_SUCCESS = 0
+const LEVEL_FAILED_FIRE = 1
+const LEVEL_FAILED_OUT_OF_FOOD = 2
 
 const COLOR_JOB_INACTIVE = Color(0.7, 0.7, 0.7, 1.0)
 const COLOR_JOB_CURRENT = Color(0.0, 1.0, 0.0, 1.0)

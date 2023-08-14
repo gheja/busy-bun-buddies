@@ -47,29 +47,26 @@ func handle_mouse_click():
 		overlay.show_bun_menu(bun_under_cursor)
 		AudioManager.play_sound(2, bun_under_cursor.pitch_shift, bun_under_cursor.pitch_shift)
 
-func do_lose():
-	print("do_lose()")
+func level_finished(reason):
+	print("level_finished() ", reason)
 	
-	if Lib.has_seen_this("game_ended"):
+	if Lib.has_seen_this("level_finished"):
 		return
 	
-	overlay.show_level_finished(false)
+	overlay.show_level_finished(reason)
+
+func do_lose(reason):
+	print("do_lose() ", reason)
+	level_finished(reason)
 
 func do_win():
 	print("do_win()")
-	
-	if Lib.has_seen_this("game_ended"):
-		return
-	
-	overlay.show_level_finished(true)
+	level_finished(C.LEVEL_FINISHED_SUCCESS)
 
 func update_firefighter_button():
 	overlay.set_firefighter_button_visibility(Lib.has_any_flames())
 
 func on_stats_changed():
-	var win_condition_met = false
-	var lose_condition_met = false
-	
 	for i in range(0, 2):
 		total_goods[i] = 0
 	
@@ -85,20 +82,24 @@ func on_stats_changed():
 		if obj.state == 4:
 			burned_trees += 1
 	
+	var has_not_hungry_buns = false
+	for obj in get_tree().get_nodes_in_group("buns"):
+		if obj.mood != C.MOOD_HUNGRY:
+			has_not_hungry_buns = true
+			break
+	
 	overlay.set_stats(total_goods, needed_goods, total_trees, burned_trees, max_burned_trees, matches_found, total_matches)
 	
 	if burned_trees >= max_burned_trees:
-		lose_condition_met = true
+		do_lose(C.LEVEL_FAILED_FIRE)
+	
+	if total_goods[Lib.GOOD_CROP] == 0 and not has_not_hungry_buns:
+		do_lose(C.LEVEL_FAILED_OUT_OF_FOOD)
 	
 	# won't check for win condition if the forest is still on fire
 	if not Lib.has_any_flames():
-		if  total_goods[Lib.GOOD_CROP] >= needed_goods[Lib.GOOD_CROP] and total_goods[Lib.GOOD_WOOD] >= needed_goods[Lib.GOOD_WOOD] and matches_found == total_matches:
-			win_condition_met = true
-	
-	if lose_condition_met:
-		do_lose()
-	elif win_condition_met:
-		do_win()
+		if total_goods[Lib.GOOD_CROP] >= needed_goods[Lib.GOOD_CROP] and total_goods[Lib.GOOD_WOOD] >= needed_goods[Lib.GOOD_WOOD] and matches_found == total_matches:
+			do_win()
 
 func on_level_loaded():
 	for obj in get_tree().get_nodes_in_group("barn"):
@@ -112,6 +113,7 @@ func on_level_loaded():
 		obj.connect("started_a_fire", self, "on_bun_started_a_fire")
 		obj.connect("finished_fighting_the_fire", self, "on_bun_finished_fighting_the_fire")
 		obj.connect("lost_match", self, "on_bun_lost_match")
+		obj.connect("bun_starving", self, "on_bun_starving")
 	
 	$Camera2D.global_position = Lib.get_first_group_member("camera_start_position").global_position
 	
@@ -168,6 +170,10 @@ func on_bun_finished_fighting_the_fire():
 func on_bun_lost_match():
 	matches_found += 1
 	
+	on_stats_changed()
+
+func on_bun_starving():
+	# to check the lose condition
 	on_stats_changed()
 
 func _process(_delta):
