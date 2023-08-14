@@ -64,8 +64,7 @@ var tiredness = 0
 var hunger = 0
 
 var tiredness_increase = 0.006
-# var hunger_increase = 0.0074
-var hunger_increase = 0.1
+var hunger_increase = 0.0074
 
 func _ready():
 	$AnimatedSprite.play("idle")
