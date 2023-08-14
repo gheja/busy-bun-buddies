@@ -125,6 +125,11 @@ func on_level_loaded():
 	needed_goods = level_base.needed_goods
 	matches_found = 0
 	
+	if level_base.total_matches == 0:
+		overlay.set_matches_visibility(false)
+	else:
+		overlay.set_matches_visibility(true)
+	
 	# for now...
 	tutorial_level = true
 	

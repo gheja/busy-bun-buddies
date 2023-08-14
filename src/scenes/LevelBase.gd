@@ -35,8 +35,10 @@ func create_navigation_map():
 
 func _ready():
 	match_left = total_matches
-	$MatchTimer.wait_time = match_timer_interval
-	$MatchTimer.start()
+	
+	if match_left > 0:
+		$MatchTimer.wait_time = match_timer_interval
+		$MatchTimer.start()
 	
 	create_navigation_map()
 
