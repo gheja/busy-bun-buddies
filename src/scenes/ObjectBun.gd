@@ -24,6 +24,9 @@ var mood = MOOD_OK
 var has_match = false
 var has_to_fight_fire = false
 
+# for some variation in sounds
+var pitch_shift = 1.0
+
 # --- job ---
 var job = C.JOB_NONE
 var task = C.TASK_IDLING
@@ -80,6 +83,7 @@ func _ready():
 func randomize_stats():
 	tiredness = randf() * 0.2
 	hunger = randf() * 0.2
+	pitch_shift = 1.0 + (randf() - 0.5) * 0.6
 	$ThinkStartTimer.wait_time = randf()
 	$ThinkStartTimer.start()
 

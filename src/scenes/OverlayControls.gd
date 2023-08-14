@@ -6,6 +6,8 @@ var bun_under_cursor = null
 var hints_to_show = []
 
 func _ready():
+	randomize()
+	
 	$ScrollTop.hide()
 	$ScrollBottom.hide()
 	$ScrollLeft.hide()
@@ -113,7 +115,7 @@ func hide_bun_menu():
 func bun_set_job(job):
 	if Lib.is_object_valid(bun_under_cursor):
 		bun_under_cursor.set_new_job(job)
-		AudioManager.play_sound(3)
+		AudioManager.play_sound(3, bun_under_cursor.pitch_shift, bun_under_cursor.pitch_shift)
 	
 	hide_bun_menu()
 
@@ -300,8 +302,9 @@ func _on_ButtonLevelFinished_pressed():
 
 func _on_TakeAwayMatch_pressed():
 	bun_under_cursor.take_away_match()
+	AudioManager.play_sound(8, bun_under_cursor.pitch_shift, bun_under_cursor.pitch_shift)
+	
 	hide_bun_menu()
-	AudioManager.play_sound(8)
 
 func _on_FireFighterButton_pressed():
 	Lib.get_main_scene().fight_the_fire()

@@ -45,7 +45,7 @@ func update_tooltip():
 func handle_mouse_click():
 	if bun_under_cursor:
 		overlay.show_bun_menu(bun_under_cursor)
-		AudioManager.play_sound(2)
+		AudioManager.play_sound(2, bun_under_cursor.pitch_shift, bun_under_cursor.pitch_shift)
 
 func do_lose():
 	print("do_lose()")
