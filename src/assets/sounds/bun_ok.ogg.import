@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bun_ok.ogg-60f98051e6c73512a81e5a5e39aa019c.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/bun_ok.ogg"
+dest_files=[ "res://.import/bun_ok.ogg-60f98051e6c73512a81e5a5e39aa019c.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

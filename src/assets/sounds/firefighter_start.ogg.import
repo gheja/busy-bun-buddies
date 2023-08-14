@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/firefighter_start.ogg-335a5011cecb7e5bfbd603021e654502.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/firefighter_start.ogg"
+dest_files=[ "res://.import/firefighter_start.ogg-335a5011cecb7e5bfbd603021e654502.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
