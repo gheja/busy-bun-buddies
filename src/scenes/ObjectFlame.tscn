@@ -75,8 +75,7 @@ script = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -13 )
 frames = SubResource( 5 )
-animation = "fire_high"
-playing = true
+animation = "fire_low"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
