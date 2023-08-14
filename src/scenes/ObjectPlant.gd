@@ -1,5 +1,7 @@
 extends Node2D
 
+export var default_state = 0
+
 # tomato
 
 # 0: hidden, 1..4
@@ -56,8 +58,7 @@ func get_generation():
 
 func _ready():
 	$VisualsExtra/WaterSprite.hide()
-	# state = 0
-	state = 4
+	state = default_state
 	update_plant()
 
 func _on_RecentlyHandledTimer_timeout():

@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+export var default_job = C.JOB_NONE
+
 signal picked_up_match
 signal started_a_fire
 signal finished_fighting_the_fire
@@ -71,6 +73,8 @@ func _ready():
 	nav_agent.max_speed = 100
 	nav_agent.radius = 15
 	nav_agent.avoidance_enabled = true
+	
+	job = default_job
 	
 	randomize_stats()
 	
