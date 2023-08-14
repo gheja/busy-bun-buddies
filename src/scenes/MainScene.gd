@@ -53,6 +53,9 @@ func level_finished(reason):
 	if Lib.has_seen_this("level_finished"):
 		return
 	
+	if reason == C.LEVEL_FINISHED_SUCCESS:
+		unlock_next_level()
+	
 	overlay.show_level_finished(reason)
 
 func do_lose(reason):
@@ -136,6 +139,7 @@ func on_level_loaded():
 	if tutorial_level:
 		$WelcomeHintTimer.start()
 		$Welcome2HintTimer.start()
+		$SwitchToLumberjackHintTimer.start()
 	
 	Lib.has_seen_this_clear()
 	overlay.set_level_finished_button_visibility(false)
@@ -152,6 +156,17 @@ func reload_current_level():
 func load_level(number):
 	GameState.current_level_index = number
 	reload_current_level()
+
+func unlock_next_level():
+	var n = GameState.current_level_index + 1
+	if GameState.max_level_index_unlocked > n:
+		return
+	
+	GameState.max_level_index_unlocked = n
+	GameState.save_to_config()
+
+func load_next_level():
+	load_level(GameState.current_level_index + 1)
 
 func on_bun_picked_up_match():
 	on_stats_changed()
@@ -197,7 +212,10 @@ func _process(_delta):
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	load_level(0)
+	GameState.load_from_config()
+	
+	# if GameState.max_level_index_unlocked == 0:
+	load_level(GameState.max_level_index_unlocked)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -210,6 +228,14 @@ func _on_WelcomeHintTimer_timeout():
 func _on_Welcome2HintTimer_timeout():
 	overlay.show_hint([ "The buns are busy people, this one is now farming.", "Buns need food and wood for the winter.", "To check the stock, see the menu above.", "Options and objectives are also there." ])
 
+func _on_SwitchToLumberjackHintTimer_timeout():
+	if not (total_goods[Lib.GOOD_CROP] > needed_goods[Lib.GOOD_CROP]):
+		# this is not a one-shot timer
+		return
+	
+	$SwitchToLumberjackHintTimer.stop()
+	overlay.show_hint([ "Your bun has collected enough food for the winter.", "You can ask the bun to chop some wood.", "Click on the bun and select the new job." ])
+
 func _on_MatchHintTimer_timeout():
 	overlay.show_hint([ "Oh, a bun just found a match on the ground.", "Buns are naturally curious, so...", "You might want to take the match away.", "(Click on the bun and select that action.)" ])
 
@@ -218,5 +244,3 @@ func _on_FireHintTimer_timeout():
 
 func _on_FireExtinguishedHintTimer_timeout():
 	overlay.show_hint([ "Huh, that was close...", "The buns might be too curious after all..." ])
-
-

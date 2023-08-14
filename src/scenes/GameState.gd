@@ -4,7 +4,7 @@ var paused = false
 var music_enabled = true
 var sounds_enabled = true
 var current_level_index = 0
-var max_level_index_unlocked = 1
+var max_level_index_unlocked = 0
 
 var levels = [
 	"res://scenes/levels/TutorialLevel1.tscn",
@@ -17,3 +17,9 @@ func set_paused(value):
 
 func is_paused():
 	return paused
+
+func save_to_config():
+	pass
+
+func load_from_config():
+	pass

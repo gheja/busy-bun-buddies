@@ -26,6 +26,9 @@ one_shot = true
 wait_time = 8.5
 one_shot = true
 
+[node name="SwitchToLumberjackHintTimer" type="Timer" parent="."]
+wait_time = 1.5
+
 [node name="MatchHintTimer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
@@ -40,6 +43,7 @@ one_shot = true
 
 [connection signal="timeout" from="WelcomeHintTimer" to="." method="_on_WelcomeHintTimer_timeout"]
 [connection signal="timeout" from="Welcome2HintTimer" to="." method="_on_Welcome2HintTimer_timeout"]
+[connection signal="timeout" from="SwitchToLumberjackHintTimer" to="." method="_on_SwitchToLumberjackHintTimer_timeout"]
 [connection signal="timeout" from="MatchHintTimer" to="." method="_on_MatchHintTimer_timeout"]
 [connection signal="timeout" from="FireHintTimer" to="." method="_on_FireHintTimer_timeout"]
 [connection signal="timeout" from="FireExtinguishedHintTimer" to="." method="_on_FireExtinguishedHintTimer_timeout"]

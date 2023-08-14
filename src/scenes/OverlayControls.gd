@@ -350,6 +350,7 @@ func _on_LevelFinishedBackButton_pressed():
 	button_pressed()
 
 func _on_LevelFinishedContinueButton_pressed():
+	Lib.get_main_scene().load_next_level()
 	hide_menu()
 	button_pressed()
 
