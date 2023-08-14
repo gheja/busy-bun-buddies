@@ -26,7 +26,6 @@ script = ExtResource( 2 )
 [node name="Visuals" type="Node2D" parent="."]
 
 [node name="State0" type="Node2D" parent="Visuals"]
-visible = false
 
 [node name="Sprite" type="Sprite" parent="Visuals/State0"]
 position = Vector2( 0, -11 )
