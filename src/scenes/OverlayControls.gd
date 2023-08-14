@@ -96,6 +96,7 @@ func modulate_by_bun_job(obj, job, new_job, value):
 
 func show_bun_menu(bun):
 	GameState.set_paused(true)
+	set_cursor_shape(C.CURSOR_POINTER)
 	$MenuButton.hide()
 	$BunMenu.show()
 	bun_under_cursor = bun
@@ -132,6 +133,7 @@ func show_hint(s):
 	$Hint.show()
 	$MenuButton.hide()
 	GameState.set_paused(true)
+	set_cursor_shape(C.CURSOR_POINTER)
 	
 	pop_hint()
 
@@ -178,6 +180,7 @@ func show_menu():
 	$MenuButton.hide()
 	
 	GameState.set_paused(true)
+	set_cursor_shape(C.CURSOR_POINTER)
 
 func hide_menu():
 	bun_under_cursor = null
