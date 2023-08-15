@@ -19,8 +19,8 @@ extents = Vector2( 45, 35.5 )
 script = ExtResource( 11 )
 
 [node name="LevelBase" parent="." instance=ExtResource( 3 )]
-match_timer_interval = 20
-needed_goods = [ 7, 10 ]
+match_timer_interval = 45
+needed_goods = [ 7, 8 ]
 tutorial_hints_group = 2
 
 [node name="TileMap" parent="LevelBase" index="1"]
