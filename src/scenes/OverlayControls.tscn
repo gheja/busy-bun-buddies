@@ -239,6 +239,16 @@ margin_bottom = 48.0
 text = "Congrats! You have finished the level!"
 autowrap = true
 
+[node name="WinLastLevelText" type="Label" parent="Menu/MenuPages/LevelFinished"]
+visible = false
+modulate = Color( 0.2, 1, 0.2, 1 )
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 63.0
+margin_bottom = 48.0
+text = "You have finished the last level! Thank you for playing!"
+autowrap = true
+
 [node name="LoseFireText" type="Label" parent="Menu/MenuPages/LevelFinished"]
 visible = false
 modulate = Color( 1, 0.2, 0.1, 1 )

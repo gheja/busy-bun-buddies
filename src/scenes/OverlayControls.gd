@@ -175,6 +175,12 @@ func show_level_finished(status: int):
 	$Menu/MenuPages/LevelFinished/LoseOutOfFoodText.visible = (status == C.LEVEL_FAILED_OUT_OF_FOOD)
 	$Menu/MenuPages/LevelFinished/LevelFinishedRetryButton.visible = (status != C.LEVEL_FINISHED_SUCCESS)
 	
+	# some override for the last level:
+	if GameState.current_level_index == GameState.max_level_index:
+		$Menu/MenuPages/LevelFinished/LevelFinishedContinueButton.hide()
+		$Menu/MenuPages/LevelFinished/WinText.hide()
+		$Menu/MenuPages/LevelFinished/WinLastLevelText.show()
+	
 	show_menu()
 	set_menu_page(3)
 	

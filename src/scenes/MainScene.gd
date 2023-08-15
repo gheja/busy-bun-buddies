@@ -159,7 +159,11 @@ func load_level(number):
 
 func unlock_next_level():
 	var n = GameState.current_level_index + 1
+	
 	if GameState.max_level_index_unlocked > n:
+		return
+	
+	if n > GameState.max_level_index:
 		return
 	
 	GameState.max_level_index_unlocked = n
