@@ -56,7 +56,7 @@ var task_definitions = [
 	[ 3, "chopping" ], # TASK_CHOPPING_TREE
 	[ 8, "sleeping" ], # TASK_SLEEPING
 	[ 3, "eating" ],   # TASK_EATING
-	[ 3, "starting_fire" ], # TASK_STARTING_THE_FIRE
+	[ 6, "starting_fire" ], # TASK_STARTING_THE_FIRE
 	[ 3, "idle" ],          # TASK_FLEE
 	[ 1, "working" ],       # TASK_FIREFIGHTER_1
 	[ 1, "fighting_fire" ], # TASK_FIREFIGHTER_2
