@@ -84,6 +84,11 @@ func do_win():
 func update_firefighter_button():
 	overlay.set_firefighter_button_visibility(Lib.has_any_flames())
 
+func update_fire_overlay():
+	var value = float(clamp(Lib.get_flame_level(), 0, 8)) / 8.0
+	
+	overlay.set_fire_overlay(value)
+
 func on_stats_changed():
 	for i in range(0, 2):
 		total_goods[i] = 0
@@ -228,6 +233,7 @@ func _process(_delta):
 	handle_bun_inspect()
 	update_firefighter_button()
 	update_tooltip()
+	update_fire_overlay()
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN

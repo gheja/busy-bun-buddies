@@ -32,6 +32,12 @@ anchor_bottom = 1.0
 theme = ExtResource( 3 )
 script = ExtResource( 1 )
 
+[node name="FireOverlay" type="ColorRect" parent="."]
+margin_right = 64.0
+margin_bottom = 64.0
+mouse_filter = 2
+color = Color( 0.97, 0.59, 0.22, 0.4 )
+
 [node name="ScrollTop" type="ColorRect" parent="."]
 margin_right = 64.0
 margin_bottom = 8.0

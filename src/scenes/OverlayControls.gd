@@ -166,6 +166,9 @@ func set_matches_visibility(value):
 	$Menu/MenuPages/Stats/BurnedTreesTextureRect.visible = value
 	$Menu/MenuPages/Stats/BurnedTreesCounter.visible = value
 
+func set_fire_overlay(value):
+	$FireOverlay.modulate.a = value * 0.6
+
 func show_level_finished(status: int):
 	$Menu/MenuPages/LevelFinished/WinText.visible = (status == C.LEVEL_FINISHED_SUCCESS)
 	$Menu/MenuPages/LevelFinished/LevelFinishedBackButton.visible = (status == C.LEVEL_FINISHED_SUCCESS)
