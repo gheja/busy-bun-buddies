@@ -140,6 +140,42 @@ func update_animation():
 func update_position():
 	velocity = move_and_slide(velocity)
 
+func update_bun_dot():
+	var bun_pos = self.global_position
+	var camera_pos = Lib.get_camera().global_position
+	var dot_pos = camera_pos
+	var width = 58
+	var height = 58
+	
+	# the lame an brute force approach instead of knowing the proper math
+	var direction = camera_pos.direction_to(self.global_position + Vector2(0, -6)).normalized()
+	
+	for i in range(0, 200):
+		dot_pos += direction
+		
+		if dot_pos.x > camera_pos.x + width / 2:
+			dot_pos.x = camera_pos.x + width / 2
+			break
+			
+		if dot_pos.x < camera_pos.x - width / 2:
+			dot_pos.x = camera_pos.x - width / 2
+			break
+			
+		if dot_pos.y > camera_pos.y + height / 2:
+			dot_pos.y = camera_pos.y + height / 2
+			break
+			
+		if dot_pos.y < camera_pos.y - height / 2:
+			dot_pos.y = camera_pos.y - height / 2
+			break
+	
+	if bun_pos.x > camera_pos.x - 28 and bun_pos.x < camera_pos.x + 28 and bun_pos.y > camera_pos.y - 28 and bun_pos.y < camera_pos.y + 28:
+		$BunDot.visible = false
+	else:
+		$BunDot.visible = true
+	
+	$BunDot.global_position = dot_pos
+
 func _process(_delta):
 	if GameState.is_paused():
 		return
@@ -148,6 +184,7 @@ func _process(_delta):
 	update_direction_name()
 	update_animation()
 	update_position()
+	update_bun_dot()
 
 func _physics_process(_delta):
 	var next
