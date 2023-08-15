@@ -174,6 +174,11 @@ func update_bun_dot():
 	else:
 		$BunDot.visible = true
 	
+	if (task == C.TASK_STARTING_THE_FIRE and target_reached) and $BunDot.animation != "blinking":
+		$BunDot.play("blinking")
+	elif not (task == C.TASK_STARTING_THE_FIRE and target_reached) and $BunDot.animation != "default":
+		$BunDot.play("default")
+	
 	$BunDot.global_position = dot_pos
 
 func _process(_delta):
