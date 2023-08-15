@@ -10,6 +10,8 @@ script = ExtResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["cameras"]]
 position = Vector2( 32, 32 )
+z_index = 4020
+z_as_relative = false
 current = true
 
 [node name="OverlayControls" parent="Camera2D" instance=ExtResource( 2 )]

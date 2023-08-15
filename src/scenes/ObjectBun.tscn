@@ -586,6 +586,8 @@ one_shot = true
 
 [node name="BunDot" type="AnimatedSprite" parent="."]
 position = Vector2( 16, 0 )
+z_index = 4010
+z_as_relative = false
 frames = SubResource( 106 )
 
 [connection signal="mouse_entered" from="." to="." method="_on_ObjectBun_mouse_entered"]
