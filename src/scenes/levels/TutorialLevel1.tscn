@@ -35,6 +35,7 @@ tile_data = PoolIntArray( -393213, 14, 0, -262141, 6, 0, -262135, 15, 0, -196606
 [node name="ObjectBun" parent="LevelBase/Objects" index="0" instance=ExtResource( 3 )]
 position = Vector2( 48, 48 )
 default_job = 1
+fixed_pitch_shift = 1.0
 
 [node name="ObjectTree" parent="LevelBase/Objects" index="1" instance=ExtResource( 5 )]
 position = Vector2( 128, -32 )

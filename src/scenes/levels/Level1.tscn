@@ -37,10 +37,11 @@ tile_data = PoolIntArray( -393212, 21, 0, -393210, 22, 0, -327680, 7, 0, -327676
 
 [node name="ObjectBun" parent="LevelBase/Objects" index="0" instance=ExtResource( 5 )]
 position = Vector2( 30, 44 )
-default_job = 1
+fixed_pitch_shift = 1.0
 
 [node name="ObjectBun2" parent="LevelBase/Objects" index="1" instance=ExtResource( 5 )]
 position = Vector2( 40, 72 )
+fixed_pitch_shift = 1.25
 
 [node name="ObjectPlant" parent="LevelBase/Objects" index="2" instance=ExtResource( 6 )]
 position = Vector2( 88, 40 )

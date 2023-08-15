@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-export var default_job = C.JOB_NONE
+export var default_job: int = C.JOB_NONE
+export var fixed_pitch_shift: float = -1
 
 signal picked_up_match
 signal started_a_fire
@@ -84,7 +85,12 @@ func _ready():
 func randomize_stats():
 	tiredness = randf() * 0.2
 	hunger = randf() * 0.2
-	pitch_shift = 1.0 + (randf() - 0.5) * 0.6
+	
+	if fixed_pitch_shift == -1:
+		pitch_shift = 1.0 + (randf() - 0.5) * 0.6
+	else:
+		pitch_shift = fixed_pitch_shift
+	
 	$ThinkStartTimer.wait_time = randf()
 	$ThinkStartTimer.start()
 
