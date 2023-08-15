@@ -1,0 +1,202 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/levels/Level_common.gd" type="Script" id=1]
+[ext_resource path="res://scenes/LevelBase.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/ObjectDoor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/ObjectTree.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/ObjectSafeSpot.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/ObjectPlant.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/ObjectBun.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/ObjectWell.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/ObjectSleepSpot.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/ObjectBarn.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/ObjectFireFighterWaterSpot.tscn" type="PackedScene" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 45, 35.5 )
+
+[node name="TutorialLevel2" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="LevelBase" parent="." instance=ExtResource( 2 )]
+match_timer_interval = 45
+max_burned_trees = 5
+needed_goods = [ 7, 10 ]
+tutorial_hints_group = 2
+
+[node name="TileMap" parent="LevelBase" index="1"]
+tile_data = PoolIntArray( -524288, 1, 196609, -524287, 1, 196610, -524286, 1, 196610, -524285, 1, 196611, -458752, 1, 262145, -458751, 1, 262146, -458750, 1, 262146, -458749, 1, 327684, -458748, 1, 196610, -458747, 1, 196610, -458746, 1, 196610, -458745, 1, 196610, -458744, 1, 196611, -327682, 1, 196609, -327681, 1, 196610, -393216, 1, 327685, -393215, 1, 262146, -393214, 1, 262146, -393213, 1, 65539, -393212, 1, 262146, -393211, 1, 262146, -393210, 1, 2, -393209, 1, 262146, -393208, 1, 327684, -393207, 1, 196610, -393206, 1, 196610, -393205, 1, 196610, -393204, 1, 196611, -262146, 1, 262145, -262145, 1, 3, -327680, 1, 65537, -327679, 1, 3, -327678, 3, 0, -327677, 3, 0, -327676, 3, 0, -327675, 3, 0, -327674, 3, 0, -327673, 1, 65540, -327672, 1, 0, -327671, 1, 262146, -327670, 1, 65538, -327669, 1, 2, -327668, 1, 262147, -196611, 1, 196609, -196610, 1, 327685, -196609, 1, 262146, -262144, 1, 4, -262143, 1, 262146, -262142, 3, 0, -262141, 3, 0, -262140, 3, 0, -262139, 3, 0, -262138, 3, 0, -262137, 1, 262146, -262136, 1, 0, -262135, 1, 0, -262134, 1, 262146, -262133, 1, 4, -262132, 1, 262147, -131075, 1, 262145, -131074, 1, 262146, -131073, 1, 262146, -196608, 1, 1, -196607, 1, 262146, -196606, 3, 0, -196605, 3, 0, -196604, 3, 0, -196603, 3, 0, -196602, 3, 0, -196601, 1, 262146, -196600, 1, 0, -196599, 1, 262148, -196598, 1, 327682, -196597, 1, 327682, -196596, 1, 327687, -65540, 1, 196609, -65539, 1, 327685, -65538, 1, 262146, -65537, 1, 262146, -131072, 1, 65536, -131071, 1, 1, -131070, 1, 262146, -131069, 1, 262146, -131068, 1, 262146, -131067, 1, 0, -131066, 1, 0, -131065, 1, 0, -131064, 1, 0, -131063, 1, 262147, -131060, 1, 196608, -4, 1, 262145, -3, 1, 262146, -2, 1, 262146, -1, 1, 262146, -65536, 1, 262146, -65535, 1, 262146, -65534, 1, 65539, -65533, 1, 5, -65532, 1, 262146, -65531, 1, 0, -65530, 1, 0, -65529, 1, 0, -65528, 1, 0, -65527, 1, 262147, -65524, 1, 262144, 65532, 1, 327681, 65533, 1, 262149, 65534, 1, 1, 65535, 1, 262146, 0, 1, 262146, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 8, 1, 262146, 9, 1, 327684, 10, 1, 196611, 12, 1, 262144, 131069, 1, 262145, 131070, 1, 262146, 131071, 1, 262146, 65536, 1, 262146, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 262148, 65542, 1, 327682, 65543, 1, 327682, 65544, 1, 327682, 65545, 1, 327682, 65546, 1, 458754, 65547, 1, 196610, 65548, 1, 393223, 65549, 1, 196611, 196605, 1, 327681, 196606, 1, 327682, 196607, 1, 327682, 131072, 1, 327682, 131073, 1, 327682, 131074, 1, 327682, 131075, 1, 327682, 131076, 1, 327682, 131077, 1, 327683, 131082, 1, 327681, 131083, 1, 327682, 131084, 1, 327682, 131085, 1, 327683, 196615, 1, 196609, 196616, 1, 196610, 196617, 1, 196611, 262151, 1, 327681, 262152, 1, 327682, 262153, 1, 458754, 262154, 1, 196611, 327689, 1, 327681, 327690, 1, 327683 )
+
+[node name="TileMapDirt" parent="LevelBase" index="2"]
+tile_data = PoolIntArray( -65533, 2, 196609, -65532, 2, 131073, -65531, 2, 131072, -65530, 2, 131072, -65529, 2, 196610, -65528, 2, 196610, -65527, 2, 196611, 2, 2, 196609, 3, 2, 327685, 4, 2, 65536, 5, 2, 262146, 6, 2, 262146, 7, 2, 262146, 8, 2, 131076, 9, 2, 327683, 65538, 2, 65539, 65539, 2, 262146, 65540, 2, 262148, 65541, 2, 327682, 65542, 2, 6, 65543, 2, 6, 65544, 2, 327683, 131074, 2, 327681, 131075, 2, 5, 131076, 2, 327683 )
+
+[node name="TileMapHouse" parent="LevelBase" index="3"]
+tile_data = PoolIntArray( -393215, 25, 65536, -393214, 25, 65537, -393213, 26, 0, -393212, 25, 65537, -393211, 25, 65537, -393210, 25, 65537, -393209, 25, 65538, -327679, 25, 131072, -327677, 29, 0, -327673, 25, 131074, -262143, 25, 131072, -262141, 27, 0, -262137, 25, 131074, -196607, 25, 196608, -196606, 25, 196609, -196605, 25, 1, -196604, 25, 3, -196603, 25, 65537, -196602, 25, 1, -196601, 25, 196610 )
+
+[node name="TileMapDecoration" parent="LevelBase" index="4"]
+tile_data = PoolIntArray( -458756, 12, 0, -393212, 21, 0, -393210, 22, 0, -393209, 0, 0, -327680, 7, 0, -327676, 25, 0, -327675, 18, 0, -327672, 8, 0, -196612, 13, 0, -262139, 20, 0, -262133, 17, 0, -262130, 13, 0, -196607, 4, 0, -131071, 17, 0, -131065, 11, 0, -131061, 15, 0, -65523, 12, 0, 11, 14, 0, 131071, 8, 0, 65539, 1, 0, 196611, 13, 0, 196616, 3, 0, 196618, 13, 0, 327679, 12, 0, 262153, 2, 0, 458764, 13, 0 )
+
+[node name="ObjectBun" parent="LevelBase/Objects" index="0" instance=ExtResource( 7 )]
+position = Vector2( 32, 8 )
+fixed_pitch_shift = 1.0
+
+[node name="ObjectBun2" parent="LevelBase/Objects" index="1" instance=ExtResource( 7 )]
+position = Vector2( 64, -8 )
+fixed_pitch_shift = 1.25
+
+[node name="ObjectPlant" parent="LevelBase/Objects" index="2" instance=ExtResource( 6 )]
+position = Vector2( 64, 0 )
+
+[node name="ObjectPlant3" parent="LevelBase/Objects" index="3" instance=ExtResource( 6 )]
+position = Vector2( 96, 0 )
+
+[node name="ObjectPlant4" parent="LevelBase/Objects" index="4" instance=ExtResource( 6 )]
+position = Vector2( 112, 0 )
+default_state = 1
+
+[node name="ObjectPlant5" parent="LevelBase/Objects" index="5" instance=ExtResource( 6 )]
+position = Vector2( 128, 0 )
+
+[node name="ObjectPlant2" parent="LevelBase/Objects" index="6" instance=ExtResource( 6 )]
+position = Vector2( 80, 0 )
+default_state = 1
+
+[node name="ObjectBarn" parent="LevelBase/Objects" index="7" instance=ExtResource( 10 )]
+position = Vector2( 58, -69 )
+goods = [ 5, 5 ]
+
+[node name="ObjectWell" parent="LevelBase/Objects" index="8" instance=ExtResource( 8 )]
+position = Vector2( 128, -40 )
+
+[node name="ObjectTree14" parent="LevelBase/Objects" index="9" instance=ExtResource( 4 )]
+position = Vector2( -8, -56 )
+
+[node name="ObjectTree17" parent="LevelBase/Objects" index="10" instance=ExtResource( 4 )]
+position = Vector2( 184, -80 )
+
+[node name="ObjectTree18" parent="LevelBase/Objects" index="11" instance=ExtResource( 4 )]
+position = Vector2( 176, -64 )
+
+[node name="ObjectTree19" parent="LevelBase/Objects" index="12" instance=ExtResource( 4 )]
+position = Vector2( 192, -64 )
+
+[node name="ObjectTree24" parent="LevelBase/Objects" index="13" instance=ExtResource( 4 )]
+position = Vector2( 168, -80 )
+
+[node name="ObjectTree31" parent="LevelBase/Objects" index="14" instance=ExtResource( 4 )]
+position = Vector2( 160, -64 )
+
+[node name="ObjectTree33" parent="LevelBase/Objects" index="15" instance=ExtResource( 4 )]
+position = Vector2( 168, -48 )
+
+[node name="ObjectTree15" parent="LevelBase/Objects" index="16" instance=ExtResource( 4 )]
+position = Vector2( 8, -56 )
+
+[node name="ObjectTree16" parent="LevelBase/Objects" index="17" instance=ExtResource( 4 )]
+position = Vector2( 0, -72 )
+
+[node name="ObjectTree20" parent="LevelBase/Objects" index="18" instance=ExtResource( 4 )]
+position = Vector2( -8, -24 )
+
+[node name="ObjectTree21" parent="LevelBase/Objects" index="19" instance=ExtResource( 4 )]
+position = Vector2( 8, -24 )
+
+[node name="ObjectTree22" parent="LevelBase/Objects" index="20" instance=ExtResource( 4 )]
+position = Vector2( 0, -40 )
+
+[node name="ObjectTree23" parent="LevelBase/Objects" index="21" instance=ExtResource( 4 )]
+position = Vector2( -16, -40 )
+
+[node name="ObjectTree11" parent="LevelBase/Objects" index="22" instance=ExtResource( 4 )]
+position = Vector2( -40, 8 )
+
+[node name="ObjectTree25" parent="LevelBase/Objects" index="23" instance=ExtResource( 4 )]
+position = Vector2( -24, 8 )
+
+[node name="ObjectTree26" parent="LevelBase/Objects" index="24" instance=ExtResource( 4 )]
+position = Vector2( -8, 8 )
+
+[node name="ObjectTree27" parent="LevelBase/Objects" index="25" instance=ExtResource( 4 )]
+position = Vector2( -32, 24 )
+
+[node name="ObjectTree28" parent="LevelBase/Objects" index="26" instance=ExtResource( 4 )]
+position = Vector2( 0, -8 )
+
+[node name="ObjectTree29" parent="LevelBase/Objects" index="27" instance=ExtResource( 4 )]
+position = Vector2( -16, -8 )
+
+[node name="ObjectTree30" parent="LevelBase/Objects" index="28" instance=ExtResource( 4 )]
+position = Vector2( -32, -8 )
+
+[node name="ObjectDoor" parent="LevelBase/Objects" index="29" instance=ExtResource( 3 )]
+position = Vector2( 72, -40 )
+
+[node name="ObjectSleepSpot" parent="LevelBase/Objects" index="30" instance=ExtResource( 9 )]
+position = Vector2( 96, -71 )
+
+[node name="ObjectSleepSpot2" parent="LevelBase/Objects" index="31" instance=ExtResource( 9 )]
+position = Vector2( 96, -55 )
+
+[node name="ObjectSafeSpot" parent="LevelBase/Objects" index="32" instance=ExtResource( 5 )]
+position = Vector2( 48, -16 )
+
+[node name="ObjectSafeSpot3" parent="LevelBase/Objects" index="33" instance=ExtResource( 5 )]
+position = Vector2( 112, -16 )
+
+[node name="ObjectSafeSpot4" parent="LevelBase/Objects" index="34" instance=ExtResource( 5 )]
+position = Vector2( 120, -104 )
+
+[node name="ObjectSafeSpot2" parent="LevelBase/Objects" index="35" instance=ExtResource( 5 )]
+position = Vector2( 40, -112 )
+
+[node name="ObjectFireFighterWaterSpot" parent="LevelBase/Objects" index="36" instance=ExtResource( 11 )]
+position = Vector2( -40, 24 )
+
+[node name="ObjectFireFighterWaterSpot2" parent="LevelBase/Objects" index="37" instance=ExtResource( 11 )]
+position = Vector2( -24, 40 )
+
+[node name="ObjectFireFighterWaterSpot3" parent="LevelBase/Objects" index="38" instance=ExtResource( 11 )]
+position = Vector2( 8, 40 )
+
+[node name="ObjectFireFighterWaterSpot4" parent="LevelBase/Objects" index="39" instance=ExtResource( 11 )]
+position = Vector2( -56, -16 )
+
+[node name="ObjectFireFighterWaterSpot5" parent="LevelBase/Objects" index="40" instance=ExtResource( 11 )]
+position = Vector2( -40, -48 )
+
+[node name="ObjectFireFighterWaterSpot6" parent="LevelBase/Objects" index="41" instance=ExtResource( 11 )]
+position = Vector2( -24, -80 )
+
+[node name="ObjectFireFighterWaterSpot7" parent="LevelBase/Objects" index="42" instance=ExtResource( 11 )]
+position = Vector2( 16, -112 )
+
+[node name="ObjectFireFighterWaterSpot8" parent="LevelBase/Objects" index="43" instance=ExtResource( 11 )]
+position = Vector2( 152, -40 )
+
+[node name="ObjectFireFighterWaterSpot10" parent="LevelBase/Objects" index="44" instance=ExtResource( 11 )]
+position = Vector2( 200, -40 )
+
+[node name="ObjectFireFighterWaterSpot11" parent="LevelBase/Objects" index="45" instance=ExtResource( 11 )]
+position = Vector2( 200, -64 )
+
+[node name="ObjectFireFighterWaterSpot12" parent="LevelBase/Objects" index="46" instance=ExtResource( 11 )]
+position = Vector2( 192, -88 )
+
+[node name="ObjectFireFighterWaterSpot13" parent="LevelBase/Objects" index="47" instance=ExtResource( 11 )]
+position = Vector2( 152, -88 )
+
+[node name="TileMapHouseRoof" parent="LevelBase" index="6"]
+tile_data = PoolIntArray( -458751, 0, 0, -458750, 1, 0, -458749, 1, 0, -458748, 1, 0, -458747, 1, 0, -458746, 1, 0, -458745, 2, 0, -393215, 3, 0, -393214, 4, 0, -393213, 4, 0, -393212, 4, 0, -393211, 4, 0, -393210, 4, 0, -393209, 5, 0, -327679, 6, 0, -327678, 7, 0, -327677, 7, 0, -327676, 7, 0, -327675, 7, 0, -327674, 7, 0, -327673, 8, 0, -262143, 11, 0, -262142, 10, 0, -262141, 10, 0, -262140, 10, 0, -262139, 10, 0, -262138, 10, 0, -262137, 9, 0, -196607, 12, 0, -196606, 13, 0, -196605, 13, 0, -196604, 13, 0, -196603, 13, 0, -196602, 13, 0, -196601, 14, 0 )
+
+[node name="NavigationMap" parent="LevelBase" index="7"]
+visible = false
+tile_data = PoolIntArray( -393215, 1, 0, -393214, 1, 0, -393213, 1, 0, -393212, 1, 0, -393211, 1, 0, -393210, 1, 0, -393209, 1, 0, -327679, 1, 0, -327678, 0, 0, -327677, 0, 0, -327676, 0, 0, -327675, 0, 0, -327674, 0, 0, -327673, 1, 0, -262143, 1, 0, -262142, 0, 0, -262141, 0, 0, -262140, 0, 0, -262139, 0, 0, -262138, 0, 0, -262137, 1, 0, -196607, 1, 0, -196606, 1, 0, -196605, 1, 0, -196604, 2, 0, -196603, 1, 0, -196602, 1, 0, -196601, 1, 0 )
+
+[node name="CollisionShape2D" parent="LevelBase/HouseRoofHideArea" index="0"]
+position = Vector2( -2, -1.5 )
+shape = SubResource( 1 )
+
+[node name="CameraStartPosition" parent="LevelBase" index="10"]
+position = Vector2( 48, -8 )
+
+[editable path="LevelBase"]

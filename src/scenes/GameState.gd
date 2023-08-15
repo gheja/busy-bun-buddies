@@ -9,6 +9,7 @@ var max_level_index = 0
 
 var levels = [
 	"res://scenes/levels/TutorialLevel1.tscn",
+	"res://scenes/levels/TutorialLevel2.tscn",
 	"res://scenes/levels/Level1.tscn"
 ]
 
