@@ -285,7 +285,7 @@ func _on_ButtonObjectives_mouse_entered():
 	set_tooltip("Objectives")
 
 func _on_ButtonStats_mouse_entered():
-	set_tooltip("Stats")
+	set_tooltip("Stock & stats")
 
 func _on_ButtonLevelFinished_mouse_entered():
 	set_tooltip("Level finished")
