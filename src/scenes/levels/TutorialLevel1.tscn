@@ -87,4 +87,10 @@ shape = SubResource( 1 )
 [node name="CameraStartPosition" parent="LevelBase" index="10"]
 position = Vector2( 48, 40 )
 
+[node name="ScrollBoundsTopLeft" parent="LevelBase" index="11"]
+position = Vector2( 16, -56 )
+
+[node name="ScrollBoundsBottomRight" parent="LevelBase" index="12"]
+position = Vector2( 152, 72 )
+
 [editable path="LevelBase"]

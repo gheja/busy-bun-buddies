@@ -18,6 +18,21 @@ func handle_scroll():
 	
 	if scroll_direction != Vector2.ZERO:
 		$Camera2D.position += scroll_direction
+	
+	var sbtl = Lib.get_first_group_member("scroll_bounds_top_left")
+	var sbbr = Lib.get_first_group_member("scroll_bounds_bottom_right")
+	
+	if $Camera2D.global_position.x < sbtl.global_position.x:
+		$Camera2D.global_position.x = sbtl.global_position.x
+	
+	if $Camera2D.global_position.y < sbtl.global_position.y:
+		$Camera2D.global_position.y = sbtl.global_position.y
+		
+	if $Camera2D.global_position.x > sbbr.global_position.x:
+		$Camera2D.global_position.x = sbbr.global_position.x
+	
+	if $Camera2D.global_position.y > sbbr.global_position.y:
+		$Camera2D.global_position.y = sbbr.global_position.y
 
 func handle_bun_inspect():
 	var mouse_position = get_global_mouse_position()
