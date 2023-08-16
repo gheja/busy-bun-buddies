@@ -34,15 +34,15 @@ Check it out here: https://gheja.itch.io/busy-bun-buddies-latest
 
 ![Busy Bun Buddies screenshot](screenshot1_640x640.png)
 
-![Busy Bun Buddies screenshot](screenshot2_640x640.png)
-
-![Busy Bun Buddies screenshot](screenshot3_640x640.png)
-
-![Busy Bun Buddies screenshot](screenshot4_640x640.png)
-
 ![Busy Bun Buddies screenshot](screenshot5_640x640.png)
 
 ![Busy Bun Buddies screenshot](screenshot6_640x640.png)
+
+![Busy Bun Buddies screenshot](screenshot2_640x640.png)
+
+![Busy Bun Buddies screenshot](screenshot4_640x640.png)
+
+![Busy Bun Buddies screenshot](screenshot3_640x640.png)
 
 
 ## Credits
