@@ -25,8 +25,8 @@ func _ready():
 func object_is_below_point(obj: Control, point: Vector2):
 	return Rect2(obj.rect_global_position, obj.rect_size).has_point(point)
 
-func add_scroll_direction(obj: Control, point: Vector2, vector: Vector2):
-	if object_is_below_point(obj, point):
+func add_scroll_direction(obj: Control, point: Vector2, vector: Vector2, ui_action: String):
+	if object_is_below_point(obj, point) or (ui_action and Input.is_action_pressed(ui_action)):
 		scroll_direction += vector
 		obj.visible = true
 	else:
@@ -43,10 +43,10 @@ func process_scroll_direction():
 	if object_is_below_point($MenuButton, point):
 		return
 	
-	add_scroll_direction($ScrollTop,    point, Vector2( 0, -1))
-	add_scroll_direction($ScrollBottom, point, Vector2( 0,  1))
-	add_scroll_direction($ScrollLeft,   point, Vector2(-1,  0))
-	add_scroll_direction($ScrollRight,  point, Vector2( 1,  0))
+	add_scroll_direction($ScrollTop,    point, Vector2( 0, -1), "ui_up")
+	add_scroll_direction($ScrollBottom, point, Vector2( 0,  1), "ui_down")
+	add_scroll_direction($ScrollLeft,   point, Vector2(-1,  0), "ui_left")
+	add_scroll_direction($ScrollRight,  point, Vector2( 1,  0), "ui_right")
 
 func process_mouse_cursor():
 	var pos = get_tree().get_root().get_mouse_position()
