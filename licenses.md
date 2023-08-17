@@ -10,6 +10,126 @@ Link: https://github.com/gheja
 License: MIT License
 
 
+## Additional graphics
+
+Original work author: Gabor Heja
+
+License for original works: MIT License
+
+License for derived works: see the licenses provided by the original authors
+
+Original works:
+  * asset_sources/bun_dot_spritesheet.xcf
+  * asset_sources/button_back.xcf
+  * asset_sources/button_continue.xcf
+  * asset_sources/button_firefighter.xcf
+  * asset_sources/button_job_sprites.xcf
+  * asset_sources/button_level_finished.xcf
+  * asset_sources/button_menu.xcf
+  * asset_sources/button_music_off.xcf
+  * asset_sources/button_music_on.xcf
+  * asset_sources/button_retry.xcf
+  * asset_sources/button_sound_off.xcf
+  * asset_sources/button_sound_on.xcf
+  * asset_sources/button_spritesheet.xcf
+  * asset_sources/collision_tileset.xcf
+  * asset_sources/cursor_inspect.xcf
+  * asset_sources/match_sprite.xcf
+  * asset_sources/misc_dot_sprite.xcf
+  * asset_sources/plant_seed_sprite.xcf
+  * asset_sources/status_fire_spritesheet.xcf
+  * asset_sources/status_sprites.xcf
+  * asset_sources/thinking_spritesheet.xcf
+  * asset_sources/title_screen_v1.xcf
+  * asset_sources/water_drop_sprite.xcf
+  * asset_sources/well_sprite.xcf
+  * src/assets/graphics/title_screen_v1_layer3_01.png
+  * src/assets/graphics/title_screen_v1_layer3_02.png
+  * src/assets/graphics/title_screen_v1_layer3_03.png
+  * src/assets/graphics/title_screen_v1_layer3_04.png
+  * src/assets/graphics/title_screen_v1_layer3_05.png
+  * src/assets/graphics/title_screen_v1_layer3_06.png
+  * src/assets/graphics/title_screen_v1_layer3_07.png
+  * src/assets/graphics/title_screen_v1_layer3_08.png
+  * src/assets/graphics/title_screen_v1_layer3_09.png
+  * src/assets/graphics/title_screen_v1_layer3_10.png
+  * src/assets/graphics/title_screen_v1_layer3_11.png
+  * src/assets/graphics/title_screen_v1_layer3_12.png
+  * src/assets/graphics/title_screen_v1_layer4_01.png
+  * src/assets/graphics/title_screen_v1_layer4_02.png
+  * src/assets/graphics/title_screen_v1_layer4_03.png
+  * src/assets/graphics/bun_dot_spritesheet.png
+  * src/assets/graphics/bun_gauge_empty_sprite.png
+  * src/assets/graphics/bun_gauge_full_sprite.png
+  * src/assets/graphics/bun_gauge_spritesheet.png
+  * src/assets/graphics/button_back.png
+  * src/assets/graphics/button_back_sprite.png
+  * src/assets/graphics/button_continue.png
+  * src/assets/graphics/button_firefighter.png
+  * src/assets/graphics/button_job_farmer_sprite.png
+  * src/assets/graphics/button_job_lumberjack_sprite.png
+  * src/assets/graphics/button_job_none_sprite.png
+  * src/assets/graphics/button_job_sprites.png
+  * src/assets/graphics/button_level_finished.png
+  * src/assets/graphics/button_menu.png
+  * src/assets/graphics/button_minus_sprite.png
+  * src/assets/graphics/button_music_off.png
+  * src/assets/graphics/button_music_on.png
+  * src/assets/graphics/button_objectives.png
+  * src/assets/graphics/button_options.png
+  * src/assets/graphics/button_plus_sprite.png
+  * src/assets/graphics/button_retry.png
+  * src/assets/graphics/button_sound_off.png
+  * src/assets/graphics/button_sound_on.png
+  * src/assets/graphics/button_stock.png
+  * src/assets/graphics/button_take_away_match_sprite.png
+  * src/assets/graphics/collision_tileset.png
+  * src/assets/graphics/cursor_inspect.png
+  * src/assets/graphics/cursor.png
+  * src/assets/graphics/cursor_pointer.png
+  * src/assets/graphics/house_extra_spritesheet.png
+  * src/assets/graphics/match_sprite.png
+  * src/assets/graphics/misc_dot_sprite.png
+  * src/assets/graphics/plant_seed_sprite.png
+  * src/assets/graphics/status_firefighter_bucket_empty_sprite.png
+  * src/assets/graphics/status_firefighter_bucket_full_sprite.png
+  * src/assets/graphics/status_fire_spritesheet.png
+  * src/assets/graphics/status_hungry_sprite.png
+  * src/assets/graphics/status_tired_sprite.png
+  * src/assets/graphics/thinking_spritesheet.png
+  * src/assets/graphics/water_drop_sprite.png
+  * src/assets/graphics/well_sprite.png
+
+Graphics based on others' works:
+  * bun_sleeping_v1_spritesheet.xcf [1]
+  * bun_sleeping_v2_spritesheet.xcf [1]
+  * eating_spritesheet.xcf [1]
+  * house_extra_spritesheet.xcf [1]
+  * logo_tests.xcf [1][2]
+  * sleeping_spritesheet.xcf [1]
+  * tree_stump_burned_spritesheet.xcf [1]
+  * tree_stump_burned_sprite.xcf [1]
+  * flames_spritesheet.xcf [2]
+  * src/assets/graphics/bun_sleeping_spritesheet.png [1]
+  * src/assets/graphics/bun_sleeping_v2_spritesheet.png [1]
+  * src/assets/graphics/eating_spritesheet.png [1]
+  * src/assets/graphics/sleeping_spritesheet.png [1]
+  * src/assets/graphics/title_screen_v1_layer1_01.png [1]
+  * src/assets/graphics/title_screen_v1_layer2_01.png [1]
+  * src/assets/graphics/title_screen_v1_layer2_02.png [1]
+  * src/assets/graphics/title_screen_v1_layer2_03.png [1]
+  * src/assets/graphics/title_screen_v1_layer2_04.png [1]
+  * src/assets/graphics/based on Sprout Lands/crop_sprite.png [1]
+  * src/assets/graphics/based on Sprout Lands/tree_stump_burned_sprite.png [1]
+  * src/assets/graphics/based on Sprout Lands/tree_stump_burned_spritesheet.png [1]
+  * src/assets/graphics/based on Sprout Lands/wood_sprite.png [1]
+  * src/assets/graphics/based on Free  Effect Bullet Impact Explosion 32x32 V1/flames_spritesheet.png [2]
+
+Notes:
+  * [1] based on Cup Nooble  - Sprout Lands Basic pack (see below)
+  * [2] based on bdragon1727.itch.io - Free  Effect Bullet Impact Explosion 32x32 V1 (see below)
+
+
 ## 3rd party assets
 
 
