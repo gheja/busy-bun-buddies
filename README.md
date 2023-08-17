@@ -47,16 +47,18 @@ Check it out here: https://gheja.itch.io/busy-bun-buddies-latest
 
 ## Credits
 
-I decided to go with only publicly available royalty free assets.
+I decided to go with only publicly available royalty free assets, my original assets, and ones derived from the free assets (while complying with their licenses).
 
 For a detailed list of files and the licenses see: [licenses.md](licenses.md)
 
 Gabor Heja - code, additional graphics, sounds
 
-Cup Nooble - graphics ([Sprout Lands Basic pack](https://cupnooble.itch.io/sprout-lands-asset-pack))
+### 3rd party assets used
 
-bdragon1727 - graphics ([Free  Effect Bullet Impact Explosion 32x32 V1](https://bdragon1727.itch.io/free-effect-bullet-impact-explosion-32x32))
+[Sprout Lands Basic pack](https://cupnooble.itch.io/sprout-lands-asset-pack) by Cup Nooble (graphics)
 
-Swaylle / Skar0ps - music ([Café](https://opengameart.org/content/caf%C3%A9))
+[Free Effect Bullet Impact Explosion 32x32 V1](https://bdragon1727.itch.io/free-effect-bullet-impact-explosion-32x32) by bdragon1727 (graphics)
 
-Ten by Twenty - font ([Munro](https://www.fontsquirrel.com/fonts/munro))
+[Café](https://opengameart.org/content/caf%C3%A9) by Swaylle / Skar0ps (music)
+
+[Munro](https://www.fontsquirrel.com/fonts/munro) by Ten by Twenty (font)
