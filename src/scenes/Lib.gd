@@ -108,3 +108,15 @@ func has_seen_this(s):
 func apply_options():
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), not GameState.music_enabled)
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Sounds"), not GameState.sounds_enabled)
+
+func angle_diff(a: float, b: float):
+	return fposmod(a - b + PI, PI * 2) - PI
+
+func angle_near(a: float, target: float):
+	# 0 = right, PI/2 = down, PI = LEFT, -PI/2 = up
+	
+	var diff = angle_diff(a, target)
+	if diff > -PI/3 and diff < PI/3:
+		return true
+	
+	return false

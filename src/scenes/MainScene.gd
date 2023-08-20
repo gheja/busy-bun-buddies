@@ -11,6 +11,10 @@ var matches_found = 0
 var total_matches = 0
 var max_burned_trees = 0
 
+# just the coordinates of the cursor (both mouse and touch), not displayed directly
+var cursor_position = Vector2.ZERO
+var cursor_clicked = false
+
 var tutorial_hints_group = 0
 
 func handle_scroll():
@@ -35,11 +39,10 @@ func handle_scroll():
 		$Camera2D.global_position.y = sbbr.global_position.y
 
 func handle_bun_inspect():
-	var mouse_position = get_global_mouse_position()
 	var bun = null
 	
 	for obj in get_tree().get_nodes_in_group("buns"):
-		if obj.get_rectangle().has_point(mouse_position):
+		if obj.get_rectangle().has_point(cursor_position):
 			bun = obj
 			break
 	
@@ -57,10 +60,15 @@ func update_tooltip():
 		overlay.set_cursor_shape(C.CURSOR_POINTER)
 		overlay.set_tooltip("")
 
-func handle_mouse_click():
+func handle_cursor_click():
+	if not cursor_clicked:
+		return
+	
 	if bun_under_cursor:
 		overlay.show_bun_menu(bun_under_cursor)
 		AudioManager.play_sound(2, bun_under_cursor.pitch_shift, bun_under_cursor.pitch_shift)
+	
+	cursor_clicked = false
 
 func level_finished(reason):
 	print("level_finished() ", reason)
@@ -225,12 +233,19 @@ func on_bun_starving():
 	# to check the lose condition
 	on_stats_changed()
 
+func set_cursor_position(position: Vector2):
+	cursor_position = position + $Camera2D.position - Vector2(64/2, 64/2)
+
+func set_cursor_clicked():
+	cursor_clicked = true
+
 func _process(_delta):
 	if GameState.is_paused():
 		return
 	
 	handle_scroll()
 	handle_bun_inspect()
+	handle_cursor_click()
 	update_firefighter_button()
 	update_tooltip()
 	update_fire_overlay()
@@ -243,9 +258,15 @@ func _ready():
 	load_level(GameState.max_level_index_unlocked)
 
 func _unhandled_input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseMotion:
+		set_cursor_position(event.position)
+	elif event is InputEventMouseButton:
+		# BUG: this somehow catches the touch input as well, although it should
+		# be handled in the OverlayControls. this fires first on bun click
+		# before the touch events fire. so this pops up the menu even if the
+		# player just starts dragging.
 		if event.pressed:
-			handle_mouse_click()
+			set_cursor_clicked()
 
 func _on_WelcomeHintTimer_timeout():
 	overlay.show_hint([ "Welcome to the tiny island of your bun!" ])

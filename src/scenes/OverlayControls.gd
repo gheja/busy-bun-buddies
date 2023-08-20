@@ -2,6 +2,12 @@ extends Control
 
 var scroll_direction = Vector2(0, 0)
 var bun_under_cursor = null
+var touch_available = false
+var touch_was_last_input = false
+var touch_drag_active = false
+var touch_drag_direction = Vector2(0, 0)
+var touch_drag_distance = 0.0
+var touch_click_just_happened = false
 
 var hints_to_show = []
 
@@ -21,12 +27,19 @@ func _ready():
 	$Hint.hide()
 	
 	$BottomBar.hide()
+	
+	if not OS.has_feature("mobile"):
+		# will be displayed on the first touch event anyways
+		$TouchControls.hide()
 
 func object_is_below_point(obj: Control, point: Vector2):
 	return Rect2(obj.rect_global_position, obj.rect_size).has_point(point)
 
-func add_scroll_direction(obj: Control, point: Vector2, vector: Vector2, ui_action: String):
-	if object_is_below_point(obj, point) or (ui_action and Input.is_action_pressed(ui_action)):
+func add_scroll_direction(obj: Control, point: Vector2, vector: Vector2, ui_action: String, target_drag_direction: float):
+	if not touch_was_last_input and (object_is_below_point(obj, point) or (ui_action and Input.is_action_pressed(ui_action))):
+		scroll_direction += vector
+		obj.visible = true
+	elif touch_was_last_input and (touch_drag_distance > 0.33 and Lib.angle_near(touch_drag_direction, target_drag_direction)):
 		scroll_direction += vector
 		obj.visible = true
 	else:
@@ -43,14 +56,18 @@ func process_scroll_direction():
 	if object_is_below_point($MenuButton, point):
 		return
 	
-	add_scroll_direction($ScrollTop,    point, Vector2( 0, -1), "ui_up")
-	add_scroll_direction($ScrollBottom, point, Vector2( 0,  1), "ui_down")
-	add_scroll_direction($ScrollLeft,   point, Vector2(-1,  0), "ui_left")
-	add_scroll_direction($ScrollRight,  point, Vector2( 1,  0), "ui_right")
+	add_scroll_direction($ScrollTop,    point, Vector2( 0, -1), "ui_up",    -PI/2)
+	add_scroll_direction($ScrollBottom, point, Vector2( 0,  1), "ui_down",  PI/2)
+	add_scroll_direction($ScrollLeft,   point, Vector2(-1,  0), "ui_left",  PI)
+	add_scroll_direction($ScrollRight,  point, Vector2( 1,  0), "ui_right", 0)
 
 func process_mouse_cursor():
-	var pos = get_tree().get_root().get_mouse_position()
-	$MouseCursor.set_global_position(pos + Lib.get_camera().position - Vector2(32, 32))
+	$MouseCursor.set_global_position(get_global_mouse_position())
+	
+	if  touch_was_last_input:
+		$MouseCursor.hide()
+	else:
+		$MouseCursor.show()
 	
 func _process(_delta):
 	process_scroll_direction()
@@ -379,3 +396,50 @@ func _on_SoundsEnabled_pressed():
 	Lib.apply_options()
 	update_options_page()
 	button_pressed()
+
+func handle_touch(position: Vector2, drag_event: bool, pressed: bool):
+	if not drag_event:
+		if pressed:
+			$TouchControls.show()
+			$TouchControls.set_position(position - Vector2(12, 12))
+			$TouchControls/SmallCircle.set_position(Vector2.ZERO)
+		else:
+			$TouchControls.set_position(Vector2(2, 38))
+			$TouchControls/SmallCircle.set_position(Vector2.ZERO)
+			touch_drag_direction = 0
+			touch_drag_distance = 0.0
+			if not touch_drag_active:
+				# emulate_click(position)
+				pass
+			touch_drag_active = false
+			return
+	else:
+		touch_drag_active = true
+	
+	$TouchControls/SmallCircle.set_position(position - $TouchControls.rect_position - Vector2(12, 12))
+	
+	touch_drag_direction = float($TouchControls/SmallCircle.rect_position.angle())
+	touch_drag_distance = min(abs($TouchControls/SmallCircle.rect_position.length() / 12), 1.0)
+
+func handle_touch_click():
+	if touch_was_last_input and not touch_drag_active:
+		Lib.get_main_scene().set_cursor_clicked()
+
+func _unhandled_input(event):
+	if event is InputEventMouse or event is InputEventScreenTouch or event is InputEventScreenDrag:
+		Lib.get_main_scene().set_cursor_position(event.position)
+	
+	if event is InputEventScreenTouch:
+		touch_available = true
+		touch_was_last_input = true
+		handle_touch(event.position, false, event.pressed)
+	elif event is InputEventScreenDrag:
+		touch_available = true
+		touch_was_last_input = true
+		handle_touch(event.position, true, true)
+	elif event is InputEventMouse:
+		if event is InputEventMouseButton:
+			# BUG: see note in MainScene _unhandled_input()
+			if touch_was_last_input and not event.pressed:
+				handle_touch_click()
+		touch_was_last_input = false

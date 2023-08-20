@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scenes/OverlayControls.gd" type="Script" id=1]
 [ext_resource path="res://assets/graphics/cursor_pointer.png" type="Texture" id=2]
@@ -24,6 +24,8 @@
 [ext_resource path="res://assets/graphics/button_retry.png" type="Texture" id=22]
 [ext_resource path="res://assets/graphics/button_music_on.png" type="Texture" id=23]
 [ext_resource path="res://assets/graphics/button_sound_on.png" type="Texture" id=24]
+[ext_resource path="res://assets/graphics/touch_controls_big_circle.png" type="Texture" id=25]
+[ext_resource path="res://assets/graphics/touch_controls_small_circle.png" type="Texture" id=26]
 
 [node name="OverlayControls" type="Control"]
 pause_mode = 2
@@ -411,6 +413,26 @@ margin_right = 11.0
 margin_bottom = 11.0
 mouse_filter = 2
 texture = ExtResource( 5 )
+
+[node name="TouchControls" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0.501961 )
+margin_left = 2.0
+margin_top = 38.0
+margin_right = 26.0
+margin_bottom = 62.0
+mouse_filter = 2
+
+[node name="BigCircle" type="TextureRect" parent="TouchControls"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_filter = 2
+texture = ExtResource( 25 )
+
+[node name="SmallCircle" type="TextureRect" parent="TouchControls"]
+margin_right = 24.0
+margin_bottom = 24.0
+mouse_filter = 2
+texture = ExtResource( 26 )
 
 [node name="TooltipHideTimer" type="Timer" parent="."]
 wait_time = 2.0

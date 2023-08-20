@@ -19,3 +19,6 @@ func _unhandled_input(event):
 	elif event is InputEventKey:
 		if event.is_pressed():
 			start_game()
+
+func _ready():
+	start_game()
