@@ -442,7 +442,8 @@ func _unhandled_input(event):
 		handle_touch(event.position, true, true)
 	elif event is InputEventMouse:
 		if event is InputEventMouseButton:
-			# BUG: see note in MainScene _unhandled_input()
 			if touch_was_last_input and not event.pressed:
-				handle_touch_click()
+				# BUG: see note in MainScene _unhandled_input()
+				# handle_touch_click()
+				pass
 		touch_was_last_input = false
