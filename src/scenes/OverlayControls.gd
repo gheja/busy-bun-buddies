@@ -68,7 +68,7 @@ func process_mouse_cursor():
 		$MouseCursor.hide()
 	else:
 		$MouseCursor.show()
-	
+
 func _process(_delta):
 	# see note in MainScene _process()
 	if GameState.paused:

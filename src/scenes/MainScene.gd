@@ -17,26 +17,32 @@ var cursor_clicked = false
 
 var tutorial_hints_group = 0
 
-func handle_scroll():
+var camera_global_position_float = Vector2.ZERO
+
+func handle_scroll(delta):
 	var scroll_direction = overlay.get_scroll_direction()
 	
+	scroll_direction *= delta / 0.016667
+	
 	if scroll_direction != Vector2.ZERO:
-		$Camera2D.position += scroll_direction
+		camera_global_position_float += scroll_direction
 	
 	var sbtl = Lib.get_first_group_member("scroll_bounds_top_left")
 	var sbbr = Lib.get_first_group_member("scroll_bounds_bottom_right")
 	
-	if $Camera2D.global_position.x < sbtl.global_position.x:
-		$Camera2D.global_position.x = sbtl.global_position.x
+	if camera_global_position_float.x < sbtl.global_position.x:
+		camera_global_position_float.x = sbtl.global_position.x
 	
-	if $Camera2D.global_position.y < sbtl.global_position.y:
-		$Camera2D.global_position.y = sbtl.global_position.y
+	if camera_global_position_float.y < sbtl.global_position.y:
+		camera_global_position_float.y = sbtl.global_position.y
 		
-	if $Camera2D.global_position.x > sbbr.global_position.x:
-		$Camera2D.global_position.x = sbbr.global_position.x
+	if camera_global_position_float.x > sbbr.global_position.x:
+		camera_global_position_float.x = sbbr.global_position.x
 	
-	if $Camera2D.global_position.y > sbbr.global_position.y:
-		$Camera2D.global_position.y = sbbr.global_position.y
+	if camera_global_position_float.y > sbbr.global_position.y:
+		camera_global_position_float.y = sbbr.global_position.y
+	
+	$Camera2D.global_position = Vector2(round(camera_global_position_float.x), round(camera_global_position_float.y))
 
 func handle_bun_inspect():
 	var bun = null
@@ -146,7 +152,7 @@ func on_level_loaded():
 		obj.connect("lost_match", self, "on_bun_lost_match")
 		obj.connect("bun_starving", self, "on_bun_starving")
 	
-	$Camera2D.global_position = Lib.get_first_group_member("camera_start_position").global_position
+	camera_global_position_float = Lib.get_first_group_member("camera_start_position").global_position
 	
 	level = $LevelContainer.get_children()[0]
 	level_base = level.get_level_base()
@@ -239,7 +245,7 @@ func set_cursor_position(position: Vector2):
 func set_cursor_clicked():
 	cursor_clicked = true
 
-func _process(_delta):
+func _process(delta):
 	# this must be executed before OverlayControls _process(), but this won't be
 	# called when the game is paused... so hacky solution is to process here
 	# when unpaused and process there when paused
@@ -249,7 +255,7 @@ func _process(_delta):
 	if GameState.is_paused():
 		return
 	
-	handle_scroll()
+	handle_scroll(delta)
 	handle_bun_inspect()
 	handle_cursor_click()
 	update_firefighter_button()
