@@ -70,6 +70,8 @@ func process_mouse_cursor():
 		$MouseCursor.show()
 
 func _process(_delta):
+	$TouchControls.visible = touch_available and not GameState.paused
+	
 	# see note in MainScene _process()
 	if GameState.paused:
 		process_scroll_direction()
@@ -402,7 +404,6 @@ func _on_SoundsEnabled_pressed():
 func handle_touch(position: Vector2, drag_event: bool, pressed: bool):
 	if not drag_event:
 		if pressed:
-			$TouchControls.show()
 			$TouchControls.set_position(position - Vector2(12, 12))
 			$TouchControls/SmallCircle.set_position(Vector2.ZERO)
 		else:
