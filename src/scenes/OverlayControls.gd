@@ -70,8 +70,10 @@ func process_mouse_cursor():
 		$MouseCursor.show()
 	
 func _process(_delta):
-	process_scroll_direction()
-	process_mouse_cursor()
+	# see note in MainScene _process()
+	if GameState.paused:
+		process_scroll_direction()
+		process_mouse_cursor()
 
 func get_scroll_direction():
 	return scroll_direction

@@ -240,6 +240,12 @@ func set_cursor_clicked():
 	cursor_clicked = true
 
 func _process(_delta):
+	# this must be executed before OverlayControls _process(), but this won't be
+	# called when the game is paused... so hacky solution is to process here
+	# when unpaused and process there when paused
+	overlay.process_scroll_direction()
+	overlay.process_mouse_cursor()
+	
 	if GameState.is_paused():
 		return
 	
