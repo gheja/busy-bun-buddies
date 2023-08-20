@@ -19,6 +19,6 @@ func _unhandled_input(event):
 	elif event is InputEventKey:
 		if event.is_pressed():
 			start_game()
-
-func _ready():
-	start_game()
+	
+	# should note here if touch happens so the touch interface could be shown
+	# right away
